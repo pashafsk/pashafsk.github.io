@@ -114,6 +114,8 @@
 			  <td class="pnf"><a href="${symbolUrlPnfTR(symbol)}" target="_blank"> T</a></td>
 			  <td class="pnf"><a href="${symbolUrlPnf1(symbol)}" target="_blank"> 1</a></td>
 			  <td class="pnf"><a href="${symbolUrlPnfATR(symbol)}" target="_blank"> ATR</a></td>
+			  <td class="pnf"><a href="${symbolUrlRenko(symbol)}" target="_blank"> Renko</a></td>
+			  <td class="pnf"><a href="${symbolUrlKagi(symbol)}" target="_blank"> Kagi</a></td>
             </tr>
           `
 
@@ -219,14 +221,14 @@
         
 		//return `https://www.cnbc.com/quotes/?symbol=${symbol}`;
 		
-		return `http://c.stockcharts.com/pnf/chart?c=${symbol},PWTIDANRNO[PA][D][F1!3!!!2!20]&r=2269&pnf=y`;
+		return `http://c.stockcharts.com/pnf/chart?c=${symbol},PWTIDANRBO[PA][D][F1!3!!!2!20]&r=2269&pnf=y`;
 		
       }
 	   function symbolUrlPnf1(symbol) {
         
 		//return `https://www.cnbc.com/quotes/?symbol=${symbol}`;
 		
-		return `http://c.stockcharts.com/pnf/chart?c=${symbol},PWPIDANRNO[PA][D][F1!3!1.0!!2!20]&r=6448&pnf=y`;
+		return `http://c.stockcharts.com/pnf/chart?c=${symbol},PWPIDANRBO[PA][D][F1!3!1.0!!2!20]&r=6448&pnf=y`;
 		
       }
 	  
@@ -234,7 +236,23 @@
         
 		//return `https://www.cnbc.com/quotes/?symbol=${symbol}`;
 		
-		return `http://c.stockcharts.com/pnf/chart?c=${symbol},PWAIDANRNO[PA][D][F1!3!1.0!!2!20]&r=5194&pnf=y`;
+		return `http://c.stockcharts.com/pnf/chart?c=${symbol},PWAIDANRBO[PA][D][F1!3!1.0!!2!20]&r=5194&pnf=y`;
+		
+      }
+	  
+	  	  function symbolUrlRenko(symbol) {
+        
+		//return `https://www.cnbc.com/quotes/?symbol=${symbol}`;
+		
+		return `http://c.stockcharts.com/c-sc/sc?s=${symbol}&p=D&yr=2&mn=0&dy=0&i=p4398564585c&r=1547610432367`;
+		
+      }
+	  
+	    function symbolUrlKagi(symbol) {
+        
+		//return `https://www.cnbc.com/quotes/?symbol=${symbol}`;
+		
+		return `http://c.stockcharts.com/c-sc/sc?s=${symbol}&p=D&b=5&g=2&i=p2766788615c&r=1548907927521`;
 		
       }
 	  
