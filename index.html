@@ -78,7 +78,7 @@
       PORTFOLIOS.forEach((p, i) => addPortfolio(p, i === 0));
       symbols = symbols.filter((s, i) => symbols.indexOf(s) === i);
       updateData('addTitle');
-      setInterval(updateData, REFRESH_SECONDS * 1000);
+      setInterval(updateData, REFRESH_SECONDS * 100);
 
       function addPortfolio(portfolio, includeHeader) {
         let tableHeaderHtml = '';
