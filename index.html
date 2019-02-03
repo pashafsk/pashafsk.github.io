@@ -27,6 +27,10 @@
         width: 12%;
         padding: 2px 4px 2px 0px;
       }
+	   .pnf {
+        width: 12%;
+        padding-left: 10px;
+      }
       .stock-price, .stock-change, .stock-change-pct, .stock-mkt-cap {
         width: 22%;
         text-align: right;
@@ -78,7 +82,7 @@
       PORTFOLIOS.forEach((p, i) => addPortfolio(p, i === 0));
       symbols = symbols.filter((s, i) => symbols.indexOf(s) === i);
       updateData('addTitle');
-      setInterval(updateData, REFRESH_SECONDS * 100);
+      setInterval(updateData, REFRESH_SECONDS * 1000);
 
       function addPortfolio(portfolio, includeHeader) {
         let tableHeaderHtml = '';
@@ -103,11 +107,13 @@
           let html = `
             <tr data-symbol="${symbol}">
               <td class="stock-symbol"><a href="${symbolUrl(symbol)}" target="_blank">${symbol}</a></td>
-			  <td class="stock-symbol"><a href="${symbolUrl(symbol)}" target="_blank">${symbol}</a></td>
-              <td class="stock-price"></td>
+			  <td class="stock-price"></td>
               <td class="stock-change"></td>
               <td class="stock-change-pct"></td>
               <td class="stock-mkt-cap"></td>
+			  <td class="pnf"><a href="${symbolUrlPnfTR(symbol)}" target="_blank"> T</a></td>
+			  <td class="pnf"><a href="${symbolUrlPnf1(symbol)}" target="_blank"> 1</a></td>
+			  <td class="pnf"><a href="${symbolUrlPnfATR(symbol)}" target="_blank"> ATR</a></td>
             </tr>
           `
 
@@ -207,6 +213,32 @@
 		return `http://c.stockcharts.com/c-sc/sc?s=${symbol}&p=D&b=5&g=0&i=0&r=1549153126560`;
 		
       }
+	  
+	  //
+	   function symbolUrlPnfTR(symbol) {
+        
+		//return `https://www.cnbc.com/quotes/?symbol=${symbol}`;
+		
+		return `http://c.stockcharts.com/pnf/chart?c=${symbol},PWTIDANRNO[PA][D][F1!3!!!2!20]&r=2269&pnf=y`;
+		
+      }
+	   function symbolUrlPnf1(symbol) {
+        
+		//return `https://www.cnbc.com/quotes/?symbol=${symbol}`;
+		
+		return `http://c.stockcharts.com/pnf/chart?c=${symbol},PWPIDANRNO[PA][D][F1!3!1.0!!2!20]&r=6448&pnf=y`;
+		
+      }
+	  
+	  function symbolUrlPnfATR(symbol) {
+        
+		//return `https://www.cnbc.com/quotes/?symbol=${symbol}`;
+		
+		return `http://c.stockcharts.com/pnf/chart?c=${symbol},PWAIDANRNO[PA][D][F1!3!1.0!!2!20]&r=5194&pnf=y`;
+		
+      }
+	  
+	  //
 
       function formatQuote(value) {
         let options = {
