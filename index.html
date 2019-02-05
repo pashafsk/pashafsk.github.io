@@ -127,6 +127,7 @@
 			  <td class="pnf"><a href="${symbolUrlPnfATR(symbol)}" target="_blank"> ATR</a></td>
 			  <td class="pnf"><a href="${symbolUrlRenko(symbol)}" target="_blank"> Renko</a></td>
 			  <td class="pnf"><a href="${symbolUrlKagi(symbol)}" target="_blank"> Kagi</a></td>
+			  td class="pnf"><a href="${symbolUrlBB(symbol)}" target="_blank">BB</a></td>
             </tr>
           `
 
@@ -266,6 +267,15 @@
 		return `http://c.stockcharts.com/c-sc/sc?s=${symbol}&p=D&b=5&g=2&i=p2766788615c&r=1548907927521`;
 		
       }
+	  
+	   function symbolUrlBB(symbol) {
+        
+		//return `https://www.cnbc.com/quotes/?symbol=${symbol}`;
+		
+		return ` http://c.stockcharts.com/c-sc/sc?s=${symbol}&p=30&b=5&g=2&i=p74305898060&r=1549337155048`;
+		
+      }
+	 
 	  
 	  //
 
