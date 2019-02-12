@@ -35,13 +35,13 @@
 					 entries = data.feed.entry;
                     
 					$(entries).each(function(index, entry){
-					console.log(entry.gsx$symbol.$t, input.toUpperCase())
+					//console.log(entry.gsx$symbol.$t, input.toUpperCase())
 				//make sure this matches your column labels when you change the source sheet
 					if (entry.gsx$symbol.$t == input.toUpperCase()){
 					
 					    //alert(entry.gsx$pricetarget.$t);
 						$('.notes').html('<b>'+entry.gsx$symbol.$t+'  Trend: '+entry.gsx$trend.$t+' Price Target: '+entry.gsx$pricetarget.$t+' Alert Value: '+ entry.gsx$alertvalue.$t+ ' Alert% : '+ entry.gsx$alertpercentage.$t +'Notes: ' +entry.gsx$comments.$t + ' Last Updated : ' + entry.gsx$date.$t+'</b>' );
-						 console.log(entry.gsx$weekly5ma1weeks.$t);
+						 //console.log(entry.gsx$weekly5ma1weeks.$t);
 						 weekly5maprevious = entry.gsx$weekly5ma1weeks.$t;
 						 var trend = [
 						 [entry.gsx$daily5.$t,"5MA"],
@@ -126,11 +126,11 @@
 
     $(function() {
         var urlParams = new URLSearchParams(window.location.search);
-        console.log(urlParams.toString());
+        //console.log(urlParams.toString());
         var ticker = urlParams.get('tickerSymbol');
         console.log(ticker);
         $('#tickerSymbol').val(ticker);
-        console.log($('#tickerSymbol').val());
+        //console.log($('#tickerSymbol').val());
         getData();
     });
    </script>
