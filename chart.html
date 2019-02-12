@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+   <head >
+      <title>Moving Averages</title>
+      <script src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+	  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	  
+	  <style>
+	  .trend tr:nth-child(even) {background-color: #f2f2f2;}
+	  </style>
+	  
+   </head>
+
+   <body>
+   
+   <input type="text" id="tickerSymbol" />
+   <button>Go!</button>
+    <div class =  "symbol"> </div>
+    <div class = "trend"> </div>
+	<div class = "notes"> </div>
+   
+   <script>
+$("input").change(function(){
+ var input = $('#tickerSymbol').val();
+ $('#tickerSymbol').serialize();
+					 
+  var url = "https://spreadsheets.google.com/feeds/list/1M_VbEIENgfewCAnYK1jrtytm0-CeA6Xw3H7CTEqZwAc/od6/public/values?alt=json"; //this is the part that's changed
+                      
+				$.getJSON(url, function(data) {
+                    var entry = {};
+					 entry = data.feed.entry;
+                    
+					$(entry).each(function(){
+					
+				//make sure this matches your column labels when you change the source sheet
+					if (this.gsx$symbol.$t == input.toUpperCase()){
+					
+					    //alert(this.gsx$pricetarget.$t);
+						$('.notes').html('<b>'+this.gsx$symbol.$t+'  Trend: '+this.gsx$trend.$t+' Price Target: '+this.gsx$pricetarget.$t+' Alert Value: '+ this.gsx$alertvalue.$t+ ' Alert% : '+ this.gsx$alertpercentage.$t +'Notes: ' +this.gsx$comments.$t + ' Last Updated : ' + this.gsx$date.$t+'</b>' );
+						 console.log(this.gsx$weekly5ma1weeks.$t);
+						 weekly5maprevious = this.gsx$weekly5ma1weeks.$t;
+						 var trend = [
+						 [this.gsx$daily5.$t,"5MA"],
+						 [this.gsx$daily10.$t,"10MA"],
+						 [this.gsx$daily20.$t,"20MA"],
+						 [this.gsx$daily50.$t,"50MA"],
+						 [this.gsx$daily100.$t,"100MA"],
+						 [this.gsx$daily200.$t,"200MA"],
+						 [this.gsx$weekly5ma.$t,"Weekly5SMA"],
+						 [this.gsx$weekly10sma.$t,"Weekly10SMA"],
+						 [this.gsx$price.$t,"Current Price"]
+						 
+                                          						 
+						]
+						 
+						 $('.symbol').html('<br><br>'+this.gsx$symbol.$t+'<br><br>');
+						
+						trend.sort();
+						$('.notes').html("");
+						if (this.gsx$weekly5ma.$t > this.gsx$weekly5ma1weeks.$t){
+						
+						$('.notes').append('<font color = "green" size = "6">5ma weekly pointing up</font>' + '(' + this.gsx$weekly5ma1weeks.$t +')' );
+						
+						}
+						else {
+						$('.notes').append('<font color = "red" size = "6">5ma weekly pointing DOWN</font>' + '(' + this.gsx$weekly5ma1weeks.$t +')');
+						}
+						
+						
+						if (this.gsx$weekly10sma.$t > this.gsx$weekly10sma1weeks.$t){
+						
+						$('.notes').append('<br><font color = "green" size = "6">10ma weekly pointing up</font>' + '(' + this.gsx$weekly10sma1weeks.$t +')');
+						
+						}
+						else {
+						$('.notes').append('<br><font color = "red" size = "6">10ma weekly pointing DOWN</font>' + '(' + this.gsx$weekly10sma1weeks.$t +')');
+						}
+						
+						
+						
+							var html = '<table>';
+							html += '<tr>';
+						
+							html += '</tr>';
+							for( var i = 0; i < trend.length; i++) {
+								html += '<tr>';
+								
+								
+							
+								    if(trend[i][1]== 'Current Price'){
+										html += '<td><font color = "red">' + trend[i][1] + '</font></td>';
+										html += '<td><font color = "red">' + trend[i][0]+'</font></td>';
+										html += '</tr>';
+										}
+									
+									else{
+										html += '<td>' + trend[i][1] + '</td>';
+										html += '<td>' + trend[i][0]+'</td>';
+										html += '</tr>';
+									}
+                            
+												 
+							}
+							
+						
+								html += '</table>';
+							 $('.trend').html(html);
+							 
+						
+						
+						
+						}
+						
+					});
+                      
+				});
+			
+  
+});
+
+   
+   </script>
+   
+
+   
+   
+   
+   
+<!--<canvas id="myChart" width="20" height="20"></canvas>
+
+      <script>
+var ctx = document.getElementById("myChart");
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        datasets: [{
+            label: '# of Votes',
+            data: [12, 19, 3, 5, 2, 3],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+		 </script>-->
+
+   </body>
+</html>
