@@ -19,60 +19,65 @@
 	<div class = "notes"> </div>
    
    <script>
-$("input").change(function(){
- var input = $('#tickerSymbol').val();
- $('#tickerSymbol').serialize();
+    var getData = function(){
+        var input = $('#tickerSymbol').val();
+ 
+ 
+ //read the query search string
+ //get on the name to get the value
+ // set the value in tickerSymbol box
+ //click the button 
 					 
-  var url = "https://spreadsheets.google.com/feeds/list/1M_VbEIENgfewCAnYK1jrtytm0-CeA6Xw3H7CTEqZwAc/od6/public/values?alt=json"; //this is the part that's changed
+        var url = "https://spreadsheets.google.com/feeds/list/1M_VbEIENgfewCAnYK1jrtytm0-CeA6Xw3H7CTEqZwAc/od6/public/values?alt=json"; //this is the part that's changed
                       
 				$.getJSON(url, function(data) {
-                    var entry = {};
-					 entry = data.feed.entry;
                     
-					$(entry).each(function(){
-					
+					 entries = data.feed.entry;
+                    
+					$(entries).each(function(index, entry){
+					console.log(entry.gsx$symbol.$t, input.toUpperCase())
 				//make sure this matches your column labels when you change the source sheet
-					if (this.gsx$symbol.$t == input.toUpperCase()){
+					if (entry.gsx$symbol.$t == input.toUpperCase()){
 					
-					    //alert(this.gsx$pricetarget.$t);
-						$('.notes').html('<b>'+this.gsx$symbol.$t+'  Trend: '+this.gsx$trend.$t+' Price Target: '+this.gsx$pricetarget.$t+' Alert Value: '+ this.gsx$alertvalue.$t+ ' Alert% : '+ this.gsx$alertpercentage.$t +'Notes: ' +this.gsx$comments.$t + ' Last Updated : ' + this.gsx$date.$t+'</b>' );
-						 console.log(this.gsx$weekly5ma1weeks.$t);
-						 weekly5maprevious = this.gsx$weekly5ma1weeks.$t;
+					    //alert(entry.gsx$pricetarget.$t);
+						$('.notes').html('<b>'+entry.gsx$symbol.$t+'  Trend: '+entry.gsx$trend.$t+' Price Target: '+entry.gsx$pricetarget.$t+' Alert Value: '+ entry.gsx$alertvalue.$t+ ' Alert% : '+ entry.gsx$alertpercentage.$t +'Notes: ' +entry.gsx$comments.$t + ' Last Updated : ' + entry.gsx$date.$t+'</b>' );
+						 console.log(entry.gsx$weekly5ma1weeks.$t);
+						 weekly5maprevious = entry.gsx$weekly5ma1weeks.$t;
 						 var trend = [
-						 [this.gsx$daily5.$t,"5MA"],
-						 [this.gsx$daily10.$t,"10MA"],
-						 [this.gsx$daily20.$t,"20MA"],
-						 [this.gsx$daily50.$t,"50MA"],
-						 [this.gsx$daily100.$t,"100MA"],
-						 [this.gsx$daily200.$t,"200MA"],
-						 [this.gsx$weekly5ma.$t,"Weekly5SMA"],
-						 [this.gsx$weekly10sma.$t,"Weekly10SMA"],
-						 [this.gsx$price.$t,"Current Price"]
+						 [entry.gsx$daily5.$t,"5MA"],
+						 [entry.gsx$daily10.$t,"10MA"],
+						 [entry.gsx$daily20.$t,"20MA"],
+						 [entry.gsx$daily50.$t,"50MA"],
+						 [entry.gsx$daily100.$t,"100MA"],
+						 [entry.gsx$daily200.$t,"200MA"],
+						 [entry.gsx$weekly5ma.$t,"Weekly5SMA"],
+						 [entry.gsx$weekly10sma.$t,"Weekly10SMA"],
+						 [entry.gsx$price.$t,"Current Price"]
 						 
                                           						 
 						]
 						 
-						 $('.symbol').html('<br><br>'+this.gsx$symbol.$t+'<br><br>');
+						 $('.symbol').html('<br><br>'+entry.gsx$symbol.$t+'<br><br>');
 						
 						trend.sort();
 						$('.notes').html("");
-						if (this.gsx$weekly5ma.$t > this.gsx$weekly5ma1weeks.$t){
+						if (entry.gsx$weekly5ma.$t > entry.gsx$weekly5ma1weeks.$t){
 						
-						$('.notes').append('<font color = "green" size = "6">5ma weekly pointing up</font>' + '(' + this.gsx$weekly5ma1weeks.$t +')' );
-						
-						}
-						else {
-						$('.notes').append('<font color = "red" size = "6">5ma weekly pointing DOWN</font>' + '(' + this.gsx$weekly5ma1weeks.$t +')');
-						}
-						
-						
-						if (this.gsx$weekly10sma.$t > this.gsx$weekly10sma1weeks.$t){
-						
-						$('.notes').append('<br><font color = "green" size = "6">10ma weekly pointing up</font>' + '(' + this.gsx$weekly10sma1weeks.$t +')');
+						$('.notes').append('<font color = "green" size = "6">5ma weekly pointing up</font>' + '(' + entry.gsx$weekly5ma1weeks.$t +')' );
 						
 						}
 						else {
-						$('.notes').append('<br><font color = "red" size = "6">10ma weekly pointing DOWN</font>' + '(' + this.gsx$weekly10sma1weeks.$t +')');
+						$('.notes').append('<font color = "red" size = "6">5ma weekly pointing DOWN</font>' + '(' + entry.gsx$weekly5ma1weeks.$t +')');
+						}
+						
+						
+						if (entry.gsx$weekly10sma.$t > entry.gsx$weekly10sma1weeks.$t){
+						
+						$('.notes').append('<br><font color = "green" size = "6">10ma weekly pointing up</font>' + '(' + entry.gsx$weekly10sma1weeks.$t +')');
+						
+						}
+						else {
+						$('.notes').append('<br><font color = "red" size = "6">10ma weekly pointing DOWN</font>' + '(' + entry.gsx$weekly10sma1weeks.$t +')');
 						}
 						
 						
@@ -115,9 +120,19 @@ $("input").change(function(){
 				});
 			
   
-});
+    }
+    
+    $("input").change(getData);
 
-   
+    $(function() {
+        var urlParams = new URLSearchParams(window.location.search);
+        console.log(urlParams.toString());
+        var ticker = urlParams.get('tickerSymbol');
+        console.log(ticker);
+        $('#tickerSymbol').val(ticker);
+        console.log($('#tickerSymbol').val());
+        getData();
+    });
    </script>
    
 
