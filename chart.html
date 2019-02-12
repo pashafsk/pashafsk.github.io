@@ -21,12 +21,7 @@
    <script>
     var getData = function(){
         var input = $('#tickerSymbol').val();
- 
- 
- //read the query search string
- //get on the name to get the value
- // set the value in tickerSymbol box
- //click the button 
+        var found = false;
 					 
         var url = "https://spreadsheets.google.com/feeds/list/1M_VbEIENgfewCAnYK1jrtytm0-CeA6Xw3H7CTEqZwAc/od6/public/values?alt=json"; //this is the part that's changed
                       
@@ -37,10 +32,10 @@
 					$(entries).each(function(index, entry){
 					//console.log(entry.gsx$symbol.$t, input.toUpperCase())
 				//make sure this matches your column labels when you change the source sheet
-					if (entry.gsx$symbol.$t != input.toUpperCase()){
-                        $('.notes').html('SYMBOL NOT FOUND!!!!');
-                    } else {
-					
+					if (entry.gsx$symbol.$t == input.toUpperCase()) {
+                        
+                        found = true;
+                        
 					    //alert(entry.gsx$pricetarget.$t);
 						$('.notes').html('<b>'+entry.gsx$symbol.$t+'  Trend: '+entry.gsx$trend.$t+' Price Target: '+entry.gsx$pricetarget.$t+' Alert Value: '+ entry.gsx$alertvalue.$t+ ' Alert% : '+ entry.gsx$alertpercentage.$t +'Notes: ' +entry.gsx$comments.$t + ' Last Updated : ' + entry.gsx$date.$t+'</b>' );
 						 //console.log(entry.gsx$weekly5ma1weeks.$t);
@@ -118,7 +113,9 @@
 						}
 						
 					});
-                      
+                   if(found == false) {
+                        $('.notes').html(`SYMBOL NOT FOUND: ${input}`);
+                   }                   
 				});
 			
   
