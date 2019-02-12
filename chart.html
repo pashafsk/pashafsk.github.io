@@ -37,7 +37,9 @@
 					$(entries).each(function(index, entry){
 					//console.log(entry.gsx$symbol.$t, input.toUpperCase())
 				//make sure this matches your column labels when you change the source sheet
-					if (entry.gsx$symbol.$t == input.toUpperCase()){
+					if (entry.gsx$symbol.$t != input.toUpperCase()){
+                        $('.notes').html('SYMBOL NOT FOUND!!!!');
+                    } else {
 					
 					    //alert(entry.gsx$pricetarget.$t);
 						$('.notes').html('<b>'+entry.gsx$symbol.$t+'  Trend: '+entry.gsx$trend.$t+' Price Target: '+entry.gsx$pricetarget.$t+' Alert Value: '+ entry.gsx$alertvalue.$t+ ' Alert% : '+ entry.gsx$alertpercentage.$t +'Notes: ' +entry.gsx$comments.$t + ' Last Updated : ' + entry.gsx$date.$t+'</b>' );
