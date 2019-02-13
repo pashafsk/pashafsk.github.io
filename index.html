@@ -4,7 +4,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <title>Stocks!</title>
-    <link rel="icon" href="https://d3v3cbxkdlyonc.cloudfront.net/stocks/favicon.ico">
+   
+	<link rel="icon" href="favicon.png">
 
     <style>
       body {
@@ -83,7 +84,7 @@
       const BATCH_SIZE = 100;
       const BASE_URL = 'https://api.iextrading.com/1.0/stock/market/batch';
       const FAVICON_SYMBOL = 'SPY';
-      const FAVICON_BASE_URL = 'https://d3v3cbxkdlyonc.cloudfront.net/stocks';
+      const FAVICON_BASE_URL = 'favicon.png';
 
       let symbols = [FAVICON_SYMBOL];
       let containerDiv = document.querySelector('.stocks-container');
@@ -315,13 +316,13 @@
       }
 
       function updateFavicon(quote) {
-        let favicon = document.querySelector('link[rel="icon"]');
+      /*  let favicon = document.querySelector('link[rel="icon"]');
         let path = quote.change < 0 ? 'favicon_down.ico' : 'favicon.ico';
         let href = `${FAVICON_BASE_URL}/${path}`;
 
         if (favicon.getAttribute('href') !== href) {
           favicon.setAttribute('href', href);
-        }
+        }*/
       }
     </script>
   </body>
