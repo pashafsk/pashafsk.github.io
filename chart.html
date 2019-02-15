@@ -6,6 +6,13 @@
 	  
 	  <style>
 	  .trend tr:nth-child(even) {background-color: #f2f2f2;}
+	  .ma tr:nth-child(even) {background-color: gray;}
+	  
+		table, th, td {
+  border: 1px solid black;
+}
+	  
+	 
 	  </style>
 	  
    </head>
@@ -16,6 +23,7 @@
    <button>Go!</button>
     <div class =  "symbol"> </div>
     <div class = "trend"> </div>
+	<div class = "ma"> </div>
 	<div class = "notes"> </div>
    
    <script>
@@ -25,9 +33,141 @@
 		
         var url = "https://spreadsheets.google.com/feeds/list/1M_VbEIENgfewCAnYK1jrtytm0-CeA6Xw3H7CTEqZwAc/od6/public/values?alt=json"; //this is the part that's changed
 		var iex = 'https://api.iextrading.com/1.0/stock/'+input+'/price';
+		var chart = 'https://api.iextrading.com/1.0/stock/'+input+'/chart/3m';
 		
 		$.getJSON(iex, function(data){
 			price = data;
+		});
+		 var value=[];
+		$.getJSON(chart, function(data){
+			$.each(data, function(index, daily){
+			  //  console.log(daily.close);
+				value.push(daily.close);
+							 
+			  })
+			 			 
+			   console.log(value.slice(value.length-7,value.length-2));
+				 
+			  //5ma trend
+			  var x5ma =  value.slice(value.length-5,value.length).reduceRight(getSum);
+			  var y5ma =  value.slice(value.length-6,value.length-1).reduceRight(getSum);
+			  var z5ma =  value.slice(value.length-7,value.length-2).reduceRight(getSum);
+			  
+			  
+			  console.log('5ma trend ' +(z5ma/5).toFixed(2) + ' ' + (y5ma/5).toFixed(2) + ' ' + (x5ma/5).toFixed(2));
+			  //end 5ma trend
+			  //10ma trend
+			  var x10ma =  value.slice(value.length-10,value.length).reduceRight(getSum);
+			  var y10ma =  value.slice(value.length-11,value.length-1).reduceRight(getSum);
+			  var z10ma =  value.slice(value.length-12,value.length-2).reduceRight(getSum);
+			  console.log('10ma trend '+(z10ma/10).toFixed(2) + ' ' + (y10ma/10).toFixed(2) + ' ' + (x10ma/10).toFixed(2));
+			  //end 10ma trend
+			  //20ma trend
+			  var x20ma =  value.slice(value.length-20,value.length).reduceRight(getSum);
+			  var y20ma =  value.slice(value.length-21,value.length-1).reduceRight(getSum);
+			  var z20ma =  value.slice(value.length-22,value.length-2).reduceRight(getSum);
+			  console.log('20ma trend '+(z20ma/20).toFixed(2) + ' ' + (y20ma/20).toFixed(2) + ' ' + (x20ma/20).toFixed(2));
+			  //end 20ma trend
+			  //50ma trend
+			  var x50ma =  value.slice(value.length-50,value.length).reduceRight(getSum);
+			  var y50ma =  value.slice(value.length-51,value.length-1).reduceRight(getSum);
+			  var z50ma =  value.slice(value.length-52,value.length-2).reduceRight(getSum);
+			  console.log('50ma trend '+(z50ma/50).toFixed(2) + ' ' + (y50ma/50).toFixed(2) + ' ' + (x50ma/50).toFixed(2));
+			  //end 50ma trend
+			  
+			  var table = '<table>';
+			    //table += '<tr>';
+				//table += '<tr><td>' + '5ma trend ' +(z5ma/5).toFixed(2) + ' ' + (y5ma/5).toFixed(2) + ' ' + (x5ma/5).toFixed(2)+ '</td></tr>';
+				table +='<tr>';
+				if(z5ma > y5ma) {
+				   console.log("yes");
+					table += '<td> 5SMA </td><td>'+ (z5ma/5).toFixed(2) + '</td>' + '<td>' + (y5ma/5).toFixed(2) + '</td>';
+				}
+				else{
+					table += '<td> 5SMA </td><td>'+ (z5ma/5).toFixed(2) + '</td>' + '<td>' + (y5ma/5).toFixed(2) + '</td>';
+				}
+				if(y5ma > x5ma){
+					table +=  '<td>' + (x5ma/5).toFixed(2) + '</td>';
+				}
+				else{
+					table +=  '<td>' + (x5ma/5).toFixed(2) + '</td>';
+				}
+				 table += '</tr>';
+				//
+							table +='<tr>';
+				if(z10ma > y10ma) {
+				   console.log("yes");
+					table += '<td> 10SMA </td><td>'+ (z10ma/5).toFixed(2) + '</td>' + '<td>' + (y10ma/5).toFixed(2) + '</td>';
+				}
+				else{
+					table += '<td> 10SMA </td><td>'+ (z10ma/5).toFixed(2) + '</td>' + '<td>' + (y10ma/5).toFixed(2) + '</td>';
+				}
+				if(y10ma > x10ma){
+					table +=  '<td>' + (x10ma/5).toFixed(2) + '</td>';
+				}
+				else{
+					table +=  '<td>' + (x10ma/5).toFixed(2) + '</td>';
+				}
+				 table += '</tr>';
+				//
+							table +='<tr>';
+				if(z20ma > y20ma) {
+				   console.log("yes");
+					table += '<td> 20SMA </td><td>'+ (z20ma/5).toFixed(2) + '</td>' + '<td>' + (y20ma/5).toFixed(2) + '</td>';
+				}
+				else{
+					table += '<td> 20SMA </td><td>'+ (z20ma/5).toFixed(2) + '</td>' + '<td>' + (y20ma/5).toFixed(2) + '</td>';
+				}
+				if(y20ma > x20ma){
+					table +=  '<td>' + (x20ma/5).toFixed(2) + '</td>';
+				}
+				else{
+					table +=  '<td>' + (x20ma/5).toFixed(2) + '</td>';
+				}
+				 table += '</tr>';
+				//
+							table +='<tr>';
+				if(z50ma > y50ma) {
+				   console.log("yes");
+					table += '<td> 50 SMA </td><td>'+ (z50ma/5).toFixed(2) + '</td>' + '<td>' + (y50ma/5).toFixed(2) + '</td>';
+				}
+				else{
+					table += '<td> 50 SMA </td><td>'+ (z50ma/5).toFixed(2) + '</td>' + '<td>' + (y50ma/5).toFixed(2) + '</td>';
+				}
+				if(y50ma > x50ma){
+					table +=  '<td>' + (x50ma/5).toFixed(2) + '</td>';
+				}
+				else{
+					table +=  '<td>' + (x50ma/5).toFixed(2) + '</td>';
+				}
+				 table += '</tr>';
+				//
+				
+				
+				
+				
+				
+				 
+				
+				
+			  
+			 
+			  table += '</table>';
+			  $('.ma').html(table);
+			
+			  
+			   
+			   
+			function getSum(total, num) {
+			         return total+num;
+				
+				}
+			
+					
+			
+			
+			
+			
 		});
 		                      
 				$.getJSON(url, function(data) {
@@ -132,7 +272,7 @@
         var urlParams = new URLSearchParams(window.location.search);
         //console.log(urlParams.toString());
         var ticker = urlParams.get('tickerSymbol');
-        console.log(ticker);
+        //console.log(ticker);
         $('#tickerSymbol').val(ticker);
         //console.log($('#tickerSymbol').val());
         getData();
