@@ -52,7 +52,7 @@
 			  var x5ma =  value.slice(value.length-5,value.length).reduceRight(getSum);
 			  var y5ma =  value.slice(value.length-6,value.length-1).reduceRight(getSum);
 			  var z5ma =  value.slice(value.length-7,value.length-2).reduceRight(getSum);
-               var Today5 =  value.slice(value.length-4,value.length).reduceRight(getSum);
+              var Today5 =  value.slice(value.length-4,value.length).reduceRight(getSum);
               //console.log('price'+ price);
               Today5 =((Today5+price)/5).toFixed(2);
 			  
@@ -73,7 +73,7 @@
 			  var x20ma =  value.slice(value.length-20,value.length).reduceRight(getSum);
 			  var y20ma =  value.slice(value.length-21,value.length-1).reduceRight(getSum);
 			  var z20ma =  value.slice(value.length-22,value.length-2).reduceRight(getSum);
-               var Today20 =  value.slice(value.length-19,value.length).reduceRight(getSum);
+              var Today20 =  value.slice(value.length-19,value.length).reduceRight(getSum);
               //console.log('price'+ price);
               Today20 =((Today20+price)/20).toFixed(2);
 			  //console.log('20ma trend '+(z20ma/20).toFixed(2) + ' ' + (y20ma/20).toFixed(2) + ' ' + (x20ma/20).toFixed(2));
@@ -82,7 +82,7 @@
 			  var x50ma =  value.slice(value.length-50,value.length).reduceRight(getSum);
 			  var y50ma =  value.slice(value.length-51,value.length-1).reduceRight(getSum);
 			  var z50ma =  value.slice(value.length-52,value.length-2).reduceRight(getSum);
-               var Today50 =  value.slice(value.length-49,value.length).reduceRight(getSum);
+              var Today50 =  value.slice(value.length-49,value.length).reduceRight(getSum);
               //console.log('price'+ price);
               Today50 =((Today50+price)/50).toFixed(2);
 			  //console.log('50ma trend '+(z50ma/50).toFixed(2) + ' ' + (y50ma/50).toFixed(2) + ' ' + (x50ma/50).toFixed(2));
@@ -281,7 +281,7 @@
     }
     
     $("input").change(getData);
-
+    $(window).bind("load", function() {
     $(function() {
         var urlParams = new URLSearchParams(window.location.search);
         //console.log(urlParams.toString());
@@ -291,7 +291,7 @@
         //console.log($('#tickerSymbol').val());
         getData();
     });
-	
+	});
 
 	
    </script>
