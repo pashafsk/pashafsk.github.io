@@ -31,10 +31,21 @@
         var input = $('#tickerSymbol').val();
         var found = false;
         var iex = 'https://api.iextrading.com/1.0/stock/'+input+'/price';
-        $.getJSON(iex, function(data){
+        /*$.getJSON(iex, function(data){
 			price = data;
             return price;
-		});
+		});*/
+        $.ajax({ 
+            url: iex, 
+            dataType: 'json', 
+            async: false, 
+            success: function(data){ 
+              price = data;
+            } 
+           });
+ 
+        
+        
 		
         var url = "https://spreadsheets.google.com/feeds/list/1M_VbEIENgfewCAnYK1jrtytm0-CeA6Xw3H7CTEqZwAc/od6/public/values?alt=json"; //this is the part that's changed
 		
