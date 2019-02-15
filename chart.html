@@ -52,6 +52,9 @@
 			  var x5ma =  value.slice(value.length-5,value.length).reduceRight(getSum);
 			  var y5ma =  value.slice(value.length-6,value.length-1).reduceRight(getSum);
 			  var z5ma =  value.slice(value.length-7,value.length-2).reduceRight(getSum);
+               var Today5 =  value.slice(value.length-4,value.length).reduceRight(getSum);
+              //console.log('price'+ price);
+              Today5 =((Today5+price)/5).toFixed(2);
 			  
 			  
 			  //console.log('5ma trend ' +(z5ma/5).toFixed(2) + ' ' + (y5ma/5).toFixed(2) + ' ' + (x5ma/5).toFixed(2));
@@ -60,18 +63,28 @@
 			  var x10ma =  value.slice(value.length-10,value.length).reduceRight(getSum);
 			  var y10ma =  value.slice(value.length-11,value.length-1).reduceRight(getSum);
 			  var z10ma =  value.slice(value.length-12,value.length-2).reduceRight(getSum);
-			  console.log('10ma trend '+(z10ma/10).toFixed(2) + ' ' + (y10ma/10).toFixed(2) + ' ' + (x10ma/10).toFixed(2));
+              var Today10 =  value.slice(value.length-9,value.length).reduceRight(getSum);
+              //console.log('price'+ price);
+              Today10 =((Today10+price)/10).toFixed(2);
+              
+			  //console.log('10ma trend '+(z10ma/10).toFixed(2) + ' ' + (y10ma/10).toFixed(2) + ' ' + (x10ma/10).toFixed(2));
 			  //end 10ma trend
 			  //20ma trend
 			  var x20ma =  value.slice(value.length-20,value.length).reduceRight(getSum);
 			  var y20ma =  value.slice(value.length-21,value.length-1).reduceRight(getSum);
 			  var z20ma =  value.slice(value.length-22,value.length-2).reduceRight(getSum);
+               var Today20 =  value.slice(value.length-19,value.length).reduceRight(getSum);
+              //console.log('price'+ price);
+              Today20 =((Today20+price)/20).toFixed(2);
 			  //console.log('20ma trend '+(z20ma/20).toFixed(2) + ' ' + (y20ma/20).toFixed(2) + ' ' + (x20ma/20).toFixed(2));
 			  //end 20ma trend
 			  //50ma trend
 			  var x50ma =  value.slice(value.length-50,value.length).reduceRight(getSum);
 			  var y50ma =  value.slice(value.length-51,value.length-1).reduceRight(getSum);
 			  var z50ma =  value.slice(value.length-52,value.length-2).reduceRight(getSum);
+               var Today50 =  value.slice(value.length-49,value.length).reduceRight(getSum);
+              //console.log('price'+ price);
+              Today50 =((Today50+price)/50).toFixed(2);
 			  //console.log('50ma trend '+(z50ma/50).toFixed(2) + ' ' + (y50ma/50).toFixed(2) + ' ' + (x50ma/50).toFixed(2));
 			  //end 50ma trend
 			  
@@ -80,33 +93,32 @@
 				//table += '<tr><td>' + '5ma trend ' +(z5ma/5).toFixed(2) + ' ' + (y5ma/5).toFixed(2) + ' ' + (x5ma/5).toFixed(2)+ '</td></tr>';
 				table +='<tr>';
 				if(z5ma > y5ma) {
-				   console.log("yes");
-					table += '<td> 5SMA </td><td>'+ (z5ma/5).toFixed(2) + '</td>' + '<td>' + (y5ma/5).toFixed(2) + '</td>';
+				   	table += '<td> 5SMA </td><td>'+ (z5ma/5).toFixed(2) + '</td>' + '<td>' + (y5ma/5).toFixed(2) + '</td>';
 				}
 				else{
 					table += '<td> 5SMA </td><td>'+ (z5ma/5).toFixed(2) + '</td>' + '<td>' + (y5ma/5).toFixed(2) + '</td>';
 				}
 				if(y5ma > x5ma){
-					table +=  '<td>' + (x5ma/5).toFixed(2) + '</td>';
+					table +=  '<td>' + (x5ma/5).toFixed(2) + '</td>'+ '<td>'+ Today5 + '</td>';
 				}
 				else{
-					table +=  '<td>' + (x5ma/5).toFixed(2) + '</td>';
+					table +=  '<td>' + (x5ma/5).toFixed(2) + '</td>'+ '<td>'+ Today5 + '</td>';
 				}
 				 table += '</tr>';
 				//
 							table +='<tr>';
 				if(z10ma > y10ma) {
 				   console.log("yes");
-					table += '<td> 10SMA </td><td>'+ (z10ma/10).toFixed(2) + '</td>' + '<td>' + (y10ma/10).toFixed(2) + '</td>';
+					table += '<td> 10SMA </td><td>'+ (z10ma/10).toFixed(2) + '</td>' + '<td>' + (y10ma/10).toFixed(2) ;
 				}
 				else{
-					table += '<td> 10SMA </td><td>'+ (z10ma/10).toFixed(2) + '</td>' + '<td>' + (y10ma/10).toFixed(2) + '</td>';
+					table += '<td> 10SMA </td><td>'+ (z10ma/10).toFixed(2) + '</td>' + '<td>' + (y10ma/10).toFixed(2) ;
 				}
 				if(y10ma > x10ma){
-					table +=  '<td>' + (x10ma/10).toFixed(2) + '</td>';
+					table +=  '<td>' + (x10ma/10).toFixed(2) + '</td>'+ '<td>'+ Today10 + '</td>';
 				}
 				else{
-					table +=  '<td>' + (x10ma/10).toFixed(2) + '</td>';
+					table +=  '<td>' + (x10ma/10).toFixed(2) + '</td>'+ '<td>'+ Today10 + '</td>';
 				}
 				 table += '</tr>';
 				//
@@ -119,10 +131,10 @@
 					table += '<td> 20SMA </td><td>'+ (z20ma/20).toFixed(2) + '</td>' + '<td>' + (y20ma/20).toFixed(2) + '</td>';
 				}
 				if(y20ma > x20ma){
-					table +=  '<td>' + (x20ma/20).toFixed(2) + '</td>';
+					table +=  '<td>' + (x20ma/20).toFixed(2) + '</td>'+ '<td>'+ Today20 + '</td>';
 				}
 				else{
-					table +=  '<td>' + (x20ma/20).toFixed(2) + '</td>';
+					table +=  '<td>' + (x20ma/20).toFixed(2) + '</td>'+ '<td>'+ Today20 + '</td>';
 				}
 				 table += '</tr>';
 				//
@@ -135,10 +147,10 @@
 					table += '<td> 50 SMA </td><td>'+ (z50ma/50).toFixed(2) + '</td>' + '<td>' + (y50ma/50).toFixed(2) + '</td>';
 				}
 				if(y50ma > x50ma){
-					table +=  '<td>' + (x50ma/50).toFixed(2) + '</td>';
+					table +=  '<td>' + (x50ma/50).toFixed(2) + '</td>'+ '<td>'+ Today50 + '</td>';
 				}
 				else{
-					table +=  '<td>' + (x50ma/50).toFixed(2) + '</td>';
+					table +=  '<td>' + (x50ma/50).toFixed(2) + '</td>'+ '<td>'+ Today50 + '</td>';
 				}
 				 table += '</tr>';
 				//
