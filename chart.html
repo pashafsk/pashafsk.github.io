@@ -41,7 +41,7 @@
             } 
            });
   
-        var chart = 'https://api.iextrading.com/1.0/stock/'+input+'/chart/3m';
+        var chart = 'https://api.iextrading.com/1.0/stock/'+input+'/chart/1y';
 		
 		
 		 var value=[];
@@ -52,8 +52,7 @@
 							 
 			  })
 			 			 
-			   console.log(value.slice(value.length-7,value.length-2));
-				 
+			  				 
 			  //5ma trend
 			  var x5ma =  value.slice(value.length-5,value.length).reduceRight(getSum);
 			  var y5ma =  value.slice(value.length-6,value.length-1).reduceRight(getSum);
@@ -88,6 +87,12 @@
               //console.log('price'+ price);
               Today50 =((Today50+price)/50).toFixed(2);
 			  //end 50ma trend
+			  
+			  //100 and 200 ma calc
+			  var x100ma =  value.slice(value.length-100,value.length).reduceRight(getSum);
+			  var x200ma =  value.slice(value.length-200,value.length).reduceRight(getSum);
+			  console.log('100 dma is ' + (x100ma/100).toFixed(2) + ' 200 dma is ' + (x200ma/200).toFixed(2));
+			  //end 100 and 200 ma calc
 			  
 			  //create table of trend
 			  var table = '<table>';
