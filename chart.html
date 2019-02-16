@@ -31,10 +31,7 @@
         var input = $('#tickerSymbol').val();
         var found = false;
         var iex = 'https://api.iextrading.com/1.0/stock/'+input+'/price';
-        /*$.getJSON(iex, function(data){
-			price = data;
-            return price;
-		});*/
+  
         $.ajax({ 
             url: iex, 
             dataType: 'json', 
@@ -43,13 +40,8 @@
               price = data;
             } 
            });
- 
-        
-        
-		
-        var url = "https://spreadsheets.google.com/feeds/list/1M_VbEIENgfewCAnYK1jrtytm0-CeA6Xw3H7CTEqZwAc/od6/public/values?alt=json"; //this is the part that's changed
-		
-		var chart = 'https://api.iextrading.com/1.0/stock/'+input+'/chart/3m';
+  
+        var chart = 'https://api.iextrading.com/1.0/stock/'+input+'/chart/3m';
 		
 		
 		 var value=[];
@@ -69,20 +61,16 @@
               var Today5 =  value.slice(value.length-4,value.length).reduceRight(getSum);
               //console.log('price'+ price);
               Today5 =((Today5+price)/5).toFixed(2);
-			  
-			  
-			  //console.log('5ma trend ' +(z5ma/5).toFixed(2) + ' ' + (y5ma/5).toFixed(2) + ' ' + (x5ma/5).toFixed(2));
 			  //end 5ma trend
+			  
 			  //10ma trend
 			  var x10ma =  value.slice(value.length-10,value.length).reduceRight(getSum);
 			  var y10ma =  value.slice(value.length-11,value.length-1).reduceRight(getSum);
 			  var z10ma =  value.slice(value.length-12,value.length-2).reduceRight(getSum);
               var Today10 =  value.slice(value.length-9,value.length).reduceRight(getSum);
-              //console.log('price'+ price);
               Today10 =((Today10+price)/10).toFixed(2);
-              
-			  //console.log('10ma trend '+(z10ma/10).toFixed(2) + ' ' + (y10ma/10).toFixed(2) + ' ' + (x10ma/10).toFixed(2));
-			  //end 10ma trend
+              //end 10ma trend
+			  
 			  //20ma trend
 			  var x20ma =  value.slice(value.length-20,value.length).reduceRight(getSum);
 			  var y20ma =  value.slice(value.length-21,value.length-1).reduceRight(getSum);
@@ -90,8 +78,8 @@
               var Today20 =  value.slice(value.length-19,value.length).reduceRight(getSum);
               //console.log('price'+ price);
               Today20 =((Today20+price)/20).toFixed(2);
-			  //console.log('20ma trend '+(z20ma/20).toFixed(2) + ' ' + (y20ma/20).toFixed(2) + ' ' + (x20ma/20).toFixed(2));
 			  //end 20ma trend
+			  
 			  //50ma trend
 			  var x50ma =  value.slice(value.length-50,value.length).reduceRight(getSum);
 			  var y50ma =  value.slice(value.length-51,value.length-1).reduceRight(getSum);
@@ -99,9 +87,9 @@
               var Today50 =  value.slice(value.length-49,value.length).reduceRight(getSum);
               //console.log('price'+ price);
               Today50 =((Today50+price)/50).toFixed(2);
-			  //console.log('50ma trend '+(z50ma/50).toFixed(2) + ' ' + (y50ma/50).toFixed(2) + ' ' + (x50ma/50).toFixed(2));
 			  //end 50ma trend
 			  
+			  //create table of trend
 			  var table = '<table>';
                table += '<th>MovingAverage</th><th>2days</th><th>yesterday</th><th>today</th><th>current</th>';
               
@@ -169,42 +157,27 @@
 					table +=  '<td>' + (x50ma/50).toFixed(2) + '</td>'+ '<td>'+ Today50 + '</td>';
 				}
 				 table += '</tr>';
-				//
-				
-				
-				
-				
-				
-				 
-				
-				
-			  
-			 
-			  table += '</table>';
-			  $('.ma').html(table);
-			
+				table += '</table>';
+				$('.ma').html(table);
+			 //end table of trend
 			  
 			   
 			   
 			function getSum(total, num) {
 			         return total+num;
-				
 				}
-			
-					
-			
-			
-			
-			
-		});
-		                      
+			});
+		        var url = "https://spreadsheets.google.com/feeds/list/1M_VbEIENgfewCAnYK1jrtytm0-CeA6Xw3H7CTEqZwAc/od6/public/values?alt=json"; //googlesheet start         
+				
 				$.getJSON(url, function(data) {
+				  
                     
 					 entries = data.feed.entry;
                     
 					$(entries).each(function(index, entry){
-					//console.log(entry.gsx$symbol.$t, input.toUpperCase())
-				//make sure this matches your column labels when you change the source sheet
+					
+				
+					
 					if (entry.gsx$symbol.$t == input.toUpperCase()) {
                         
                         found = true;
@@ -295,7 +268,7 @@
     }
     
     $("input").change(getData);
-    $(window).bind("load", function() {
+    
     $(function() {
         var urlParams = new URLSearchParams(window.location.search);
         //console.log(urlParams.toString());
@@ -305,57 +278,10 @@
         //console.log($('#tickerSymbol').val());
         getData();
     });
-	});
+	
 
 	
    </script>
-   
-
-   
-   
-   
-   
-<!--<canvas id="myChart" width="20" height="20"></canvas>
-
-      <script>
-var ctx = document.getElementById("myChart");
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                }
-            }]
-        }
-    }
-});
-		 </script>-->
-
+ 
    </body>
 </html>
