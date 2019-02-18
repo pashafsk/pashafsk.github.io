@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+	<style>
+		table, th, td {
+  border: 1px solid black;
+}
+ .trend tr:nth-child(even) {background-color: #f2f2f2;}
+	</style>
+  </head>
+
+	<body>
+	   <input type="text" id="tickerSymbol" placeholder="Enter Symbol..."/>
+	   <select>
+		  <option value="1550793600">2019-02-22</option>
+		  <option value="1551398400">2019-03-01</option>
+		  <option value="1552003200">2019-03-08</option>
+		  <option value="1552608000">2019-03-15(opex)</option>
+		  <option value="1553212800">2019-03-22</option>
+		  <option value="1553817600">2019-03-29</option>
+		  <option value="1555545600">2019-04-18</option>
+		  <option value="1561075200">2019-06-21</option>
+		  <option value="1563494400">2019-07-19</option>
+		  <option value="1573776000">2019-11-15</option>
+		  <option value="1579219200">2020-01-17</option>
+		  <option value="1610668800">2021-01-15</option>
+		</select>
+  
+	    
+	<div class = "trend"> </div>
+	
+	<div class = quoteData></div>
+		<script>
+		
+		   
+		var getOptionData = function(){
+			var input = $('#tickerSymbol').val();
+			var  select = $(":selected").val();
+			console.log(select);
+			 var apiResult = document.getElementById("quoteData"),
+				getQuoteURL = 'https://cors.io?https://query1.finance.yahoo.com/v7/finance/options/'+input+'?date='+ select;
+				 var html = '<table><th>Symbol</th><th>type</th><th>Expiration</th><th>Strike</th><th>openInterest</th><th>volume</th>';
+				$.ajax({
+					type: "GET",
+					//crossDomain: true,
+					dataType: "json",
+					url: getQuoteURL,
+					data: {
+						
+					},
+					success: function(data) {
+					    //console.log(data);
+						var result = data.optionChain.result;
+						//console.log(result);
+					  
+							$(result).each(function(index, entry){
+							    var marketprice = entry.quote.regularMarketPrice;
+								//console.log(entry.expirationDates);
+								//console.log(entry.quote);
+								//console.log(entry.options);
+								
+							    $(entry.options).each(function(index, optionchain){
+								    //console.log(optionchain.calls);
+								   
+											$(optionchain.calls).each(function(index, callvalues){
+												//console.log(callvalues);
+												
+												if (callvalues.strike > 0.9*marketprice && callvalues.openInterest>500) {
+												var exp = new Date(callvalues.expiration*1000);
+												html+='<tr>';
+											    html += '<td>' + callvalues.contractSymbol + '</td>';
+												html += '<td>' + 'calls'+ '</td>';
+												html += '<td>' + exp 	+'</td>';
+												html += '<td>' + callvalues.strike 	+'</td>';
+												html += '<td>' + callvalues.openInterest+'</td>';
+												html += '<td>' + callvalues.volume 	+'</td>';
+												html+='</tr>';
+												
+												
+												 }
+												
+												  
+											});
+												html+='<tr><td>---</td><td>---</td><td>----</td><td>----<td>----</td><td>---</td></tr>';
+												 $('.trend').html(html);
+									        
+											$(optionchain.puts).each(function(index, putvalues){
+												//console.log(putvalues);
+												
+												if (putvalues.strike < 0.9* marketprice && putvalues.openInterest>500) {
+												var exp = new Date(putvalues.expiration*1000);
+												html += '<tr>';
+											    html += '<td>' + putvalues.contractSymbol + '</td>';
+												html += '<td>' + 'puts'+ '</td>';
+												html += '<td>' + exp	+'</td>';
+												html += '<td>' + putvalues.strike 	+'</td>';
+												html += '<td>' + putvalues.openInterest+'</td>';
+												html += '<td>' + putvalues.volume 	+'</td>';									
+												html += '</tr>';
+												
+												 
+												 }
+												 $('.trend').html(html);
+											});
+									
+									
+									
+									
+									//console.log(calls.puts);
+								 
+							});//entry.options
+								 
+							});
+						
+						html+='</table>';
+						
+					},
+					error: function() {
+						console.log('Something went wrong!');
+					}
+				});
+			}
+			
+			    $("input").change(getOptionData);
+				$("select").change(getOptionData);
+			
+			    $(function() {
+					var urlParams = new URLSearchParams(window.location.search);
+					//console.log(urlParams.toString());
+					var ticker = urlParams.get('tickerSymbol');
+					//console.log(ticker);
+					$('#tickerSymbol').val(ticker);
+					//console.log($('#tickerSymbol').val());
+					getOptionData();
+				});
+	
+	
+				
+										
+		</script>  
+	</body>
+</html>

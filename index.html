@@ -129,6 +129,7 @@
 			  <td class="pnf"><a href="${symbolUrlRenko(symbol)}" target="_blank"> Renko</a></td>
 			  <td class="pnf"><a href="${symbolUrlKagi(symbol)}" target="_blank"> Kagi</a></td>
 			  <td class="pnf"><a href="${symbolUrlBB(symbol)}" target="_blank">BB</a></td>
+			  <td class="pnf"><a href="${symbolUrlOption(symbol)}" target="_blank">Options</a></td>
             </tr>
           `
 
@@ -282,6 +283,13 @@
 		//return `https://www.cnbc.com/quotes/?symbol=${symbol}`;
 		
 		return `./chart.html?tickerSymbol=${symbol}`;
+		
+      }
+	     function symbolUrlOption(symbol) {
+        
+		//return `https://www.cnbc.com/quotes/?symbol=${symbol}`;
+		
+		return `./barchart.html?tickerSymbol=${symbol}`;
 		
       }
 	  //
