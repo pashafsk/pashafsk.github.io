@@ -28,7 +28,7 @@
 		  <option value="1610668800">2021-01-15</option>
 		</select>
   
-	    
+	<div class = "price"> </div>    
 	<div class = "trend"> </div>
 	
 	<div class = quoteData></div>
@@ -58,6 +58,7 @@
 					  
 							$(result).each(function(index, entry){
 							    var marketprice = entry.quote.regularMarketPrice;
+								$('.price').html('<br> <b>Current Price: ' + marketprice + '</b>');
 								//console.log(entry.expirationDates);
 								//console.log(entry.quote);
 								//console.log(entry.options);
