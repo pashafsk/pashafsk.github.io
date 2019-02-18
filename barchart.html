@@ -42,7 +42,7 @@
 			 var apiResult = document.getElementById("quoteData"),
 				getQuoteURL = 'https://cors.io?https://query1.finance.yahoo.com/v7/finance/options/'+input+'?date='+ select;
 				 var html = "<br><b>Options >500 OI above or below strike price</b></br>";
-				  html += '<table><th>Symbol</th><th>type</th><th>Expiration</th><th>Strike</th><th>openInterest</th><th>volume</th>';
+				  html += '<table><th>Symbol</th><th>type</th><th>Strike</th><th>openInterest</th><th>volume</th><th>Expiration</th>';
 				$.ajax({
 					type: "GET",
 					//crossDomain: true,
@@ -74,10 +74,10 @@
 												html+='<tr>';
 											    html += '<td>' + callvalues.contractSymbol + '</td>';
 												html += '<td>' + 'calls'+ '</td>';
-												html += '<td>' + exp 	+'</td>';
 												html += '<td>' + callvalues.strike 	+'</td>';
 												html += '<td>' + callvalues.openInterest+'</td>';
 												html += '<td>' + callvalues.volume 	+'</td>';
+                                                html += '<td>' + exp 	+'</td>';
 												html+='</tr>';
 												
 												
@@ -96,10 +96,10 @@
 												html += '<tr>';
 											    html += '<td>' + putvalues.contractSymbol + '</td>';
 												html += '<td>' + 'puts'+ '</td>';
-												html += '<td>' + exp	+'</td>';
 												html += '<td>' + putvalues.strike 	+'</td>';
 												html += '<td>' + putvalues.openInterest+'</td>';
-												html += '<td>' + putvalues.volume 	+'</td>';									
+												html += '<td>' + putvalues.volume 	+'</td>';	
+                                                html += '<td>' + exp	+'</td>';                                                
 												html += '</tr>';
 												
 												 
