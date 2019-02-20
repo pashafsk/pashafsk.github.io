@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <title>Stocks!</title>
@@ -28,11 +29,17 @@
         width: 12%;
         padding: 2px 4px 2px 0px;
       }
+	    .stock-ah {
+        width: 12%;
+		text-align: right;
+		text-decoration:underline;
+        padding: 2px 4px 2px 0px;
+      }
 	   .pnf {
         width: 12%;
         padding-left: 10px;
       }
-      .stock-price, .stock-change, .stock-change-pct, .stock-mkt-cap ,.stock-ah {
+      .stock-price, .stock-change, .stock-change-pct, .stock-mkt-cap {
         width: 22%;
         text-align: right;
         padding: 2px 4px;
@@ -49,13 +56,22 @@
       }
       summary:hover { cursor: pointer; }
       summary::-webkit-details-marker { display: none; }
+	  
+	  .index {
+			font-size: larger;
+			font-weight: bold;
+		}
+	  
+	  
     </style>
   </head>
 
   <body>
   <br>
+    <div class="index" ></div>
    <p class="updated-timestamp"></p>
     <div class="stocks-container"></div>
+  
 
     <script>
       'use strict';
@@ -89,11 +105,16 @@
       let symbols = [FAVICON_SYMBOL];
       let containerDiv = document.querySelector('.stocks-container');
       let updatedDiv = document.querySelector('.updated-timestamp');
+	  
+	  
 
       PORTFOLIOS.forEach((p, i) => addPortfolio(p, i === 0));
       symbols = symbols.filter((s, i) => symbols.indexOf(s) === i);
       updateData('addTitle');
       setInterval(updateData, REFRESH_SECONDS * 1000);
+	  
+	  
+	  
 
       function addPortfolio(portfolio, includeHeader) {
         let tableHeaderHtml = '';
@@ -152,13 +173,23 @@
 
       function updateData(addTitle) {
         let numberOfBatches = Math.ceil(symbols.length / BATCH_SIZE);
-
+		jQuery('.index').html('');
+		updateIndex(encodeURI("^spx"));
+		updateIndex(encodeURI("ES=F"));
+		updateIndex(encodeURI("^DJI"))
+        updateIndex(encodeURI("^NDX"));
+		
+		 
+		 
         for (let i = 0; i < numberOfBatches; i++) {
           let symbolsBatch = symbols.slice(i * BATCH_SIZE, (i + 1) * BATCH_SIZE);
           updateDataForBatch(symbolsBatch, addTitle);
+
         }
 
         updatedDiv.innerHTML = `Data updated at ${(new Date()).toLocaleString()}`;
+		
+		
       }
 
       function updateDataForBatch(symbols, addTitle) {
@@ -212,6 +243,7 @@
             if (symbol === FAVICON_SYMBOL) {
               updateFavicon(data.quote);
             }
+
           });
         });
       }
@@ -339,20 +371,38 @@
           favicon.setAttribute('href', href);
         }*/
       }
-	  
-	  function updateIndex(){
-	      var iex = 'https://api.iextrading.com/1.0/stock/'+input+'/price';
+	
+	 
+	  function updateIndex(quote){
+	      
+		  
+		  var index = 'https://cors.io?https://query1.finance.yahoo.com/v7/finance/options/'+quote;
   
-        $.ajax({ 
-            url: iex, 
-            dataType: 'json', 
-            async: false, 
-            success: function(data){ 
-              price = data;
-            } 
-           });
-  
-        var chart = 'https://api.iextrading.com/1.0/stock/'+input+'/chart/1y';
+       	$.ajax({
+					type: "GET",
+					//crossDomain: true,
+					dataType: "json",
+					url: index,
+					data: {
+						
+					},
+					success: function(data) {
+					 var result = data.optionChain.result;
+					 
+					   $(result).each(function(index, entry){
+					       
+						   
+						   $('.index').append(entry.quote.symbol + ' ' +entry.quote.regularMarketPrice + ' ');
+						   
+						   });
+					 
+					   
+						
+					},
+					error: function() {
+						console.log('Something went wrong!');
+					}
+				});
 		
 	  
 	  
