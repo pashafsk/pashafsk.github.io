@@ -32,7 +32,7 @@
         width: 12%;
         padding-left: 10px;
       }
-      .stock-price, .stock-change, .stock-change-pct, .stock-mkt-cap {
+      .stock-price, .stock-change, .stock-change-pct, .stock-mkt-cap ,.stock-ah {
         width: 22%;
         text-align: right;
         padding: 2px 4px;
@@ -103,9 +103,10 @@
               <tr>
                 <th></th>
                 <th class="stock-price">Last</th>
-                <th class="stock-change">Change</th>
+				<th class="stock-change">Change</th>
                 <th class="stock-change-pct">Change%</th>
                 <th class="stock-mkt-cap">Mkt Cap</th>
+				<th class="stock-ah">AfHr</th>
               </tr>
             </thead>
           `
@@ -119,9 +120,10 @@
             <tr data-symbol="${symbol}">
               <td class="stock-symbol"><a href="${symbolUrl(symbol)}" target="_blank">${symbol}</a></td>
 			  <td class="stock-price"></td>
-              <td class="stock-change"></td>
+			  <td class="stock-change"></td>
               <td class="stock-change-pct"></td>
               <td class="stock-mkt-cap"></td>
+			  <td class="stock-ah"></td>
 			  <td class="pnf"><a href="${symbolMA(symbol)}" target="_blank">${symbol}</a></td>
 			  <td class="pnf"><a href="${symbolUrlPnfTR(symbol)}" target="_blank"> T</a></td>
 			  <td class="pnf"><a href="${symbolUrlPnf1(symbol)}" target="_blank"> 1</a></td>
@@ -160,7 +162,7 @@
       }
 
       function updateDataForBatch(symbols, addTitle) {
-        let filters = ['latestPrice', 'change', 'changePercent', 'marketCap'];
+        let filters = ['latestPrice', 'change', 'changePercent', 'marketCap','extendedPrice'];
         if (addTitle) filters.push('companyName');
         let url = `${BASE_URL}?types=quote&symbols=${symbols.join(',')}&filter=${filters.join(',')}`;
 
@@ -170,6 +172,7 @@
             if (typeof(data) === 'undefined') return;
 
             let formattedPrice = formatQuote(data.quote.latestPrice);
+			let ahPrice = formatQuote(data.quote.extendedPrice);
             let formattedChange = data.quote.change.toLocaleString('en', {'minimumFractionDigits': 2});
             let formattedChangePercent = (data.quote.changePercent * 100).toFixed(1) + '%';
             let formattedMarketCap = formatMarketCap(data.quote.marketCap);
@@ -178,6 +181,10 @@
 
             document.querySelectorAll(`[data-symbol="${symbol}"] .stock-price`).forEach(e => {
               e.innerHTML = formattedPrice;
+              e.setAttribute('style', `background-color: rgba(${rgbColor}, ${rgbOpacity})`);
+            });
+			  document.querySelectorAll(`[data-symbol="${symbol}"] .stock-ah`).forEach(e => {
+              e.innerHTML = ahPrice;
               e.setAttribute('style', `background-color: rgba(${rgbColor}, ${rgbOpacity})`);
             });
 
@@ -332,6 +339,26 @@
           favicon.setAttribute('href', href);
         }*/
       }
+	  
+	  function updateIndex(){
+	      var iex = 'https://api.iextrading.com/1.0/stock/'+input+'/price';
+  
+        $.ajax({ 
+            url: iex, 
+            dataType: 'json', 
+            async: false, 
+            success: function(data){ 
+              price = data;
+            } 
+           });
+  
+        var chart = 'https://api.iextrading.com/1.0/stock/'+input+'/chart/1y';
+		
+	  
+	  
+	  }
+	  
+	  
     </script>
   </body>
 </html>
