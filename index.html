@@ -173,11 +173,11 @@
 
       function updateData(addTitle) {
         let numberOfBatches = Math.ceil(symbols.length / BATCH_SIZE);
-		jQuery('.index').html('');
-		updateIndex(encodeURI("^spx"));
+		//jQuery('.index').html('');
+		//updateIndex(encodeURI("^spx"));
 		updateIndex(encodeURI("ES=F"));
-		updateIndex(encodeURI("^DJI"))
-        updateIndex(encodeURI("^NDX"));
+		//updateIndex(encodeURI("^DJI"))
+        //updateIndex(encodeURI("^NDX"));
 		
 		 
 		 
@@ -392,7 +392,7 @@
 					   $(result).each(function(index, entry){
 					       
 						   
-						   $('.index').append(entry.quote.symbol + ' ' +entry.quote.regularMarketPrice + ' ');
+						   $('.index').html(entry.quote.symbol + ' ' +entry.quote.regularMarketPrice + ' ');
 						   
 						   });
 					 
