@@ -173,11 +173,13 @@
 
       function updateData(addTitle) {
         let numberOfBatches = Math.ceil(symbols.length / BATCH_SIZE);
-		//jQuery('.index').html('');
-		updateIndex(encodeURI("^spx"));
-		//updateIndex(encodeURI("ES=F"));
-		//updateIndex(encodeURI("^DJI"))
-        //updateIndex(encodeURI("^NDX"));
+		$('.index').empty();
+		updateIndex(encodeURI("^SPX"));
+		updateIndex(encodeURI("ES=F"));
+		updateIndex(encodeURI("^DJI"))
+        updateIndex(encodeURI("^NDX"));
+		
+		
 		
 		 
 		 
@@ -373,6 +375,15 @@
       }
 	
 	 
+	 
+	function senddata(x){
+	
+	      $('.index').append(x);
+			  
+			
+		}
+	 
+	 
 	  function updateIndex(quote){
 	      
 		  
@@ -390,12 +401,11 @@
 					 var result = data.optionChain.result;
 					 
 					   $(result).each(function(index, entry){
-					       
-						   
-						   $('.index').html(entry.quote.symbol + ' ' +entry.quote.regularMarketPrice + ' ( ' + entry.quote.regularMarketChange.toFixed(2) +')');
-						   
+					        
+						   //$('.index').html(entry.quote.symbol + ' ' +entry.quote.regularMarketPrice + ' ( ' + entry.quote.regularMarketChange.toFixed(2) +')');
+						   senddata(entry.quote.symbol + ' ' +entry.quote.regularMarketPrice + ' ( ' + entry.quote.regularMarketChange.toFixed(2) +')');
 						   });
-					 
+					  
 					   
 						
 					},
@@ -403,9 +413,7 @@
 						console.log('Something went wrong!');
 					}
 				});
-		
-	  
-	  
+			
 	  }
 	  
 	  
