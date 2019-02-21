@@ -55,7 +55,7 @@
     </style>
 
     <script type='text/javascript' src='https://ajax.aspnetcdn.com/ajax/knockout/knockout-3.4.2.js'></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'
 </head>
@@ -141,22 +141,22 @@ width = "400"></iframe>
             self.prevDate = ko.observable(self.getWeekday(self.currentDate().clone().subtract(1, 'days')));
 
             self.queryStrings1 = ko.observableArray([
-                "https://c.stockcharts.com/c-sc/sc?s=_{tickerSymbol}&p=D&b=5&g=1&i=p6792933477c&r=1547917550508",
+                "http://c.stockcharts.com/c-sc/sc?s=_{tickerSymbol}&p=D&b=5&g=1&i=p6792933477c&r=1547917550508",
 				"http://c.stockcharts.com/c-sc/sc?s=_{tickerSymbol}&p=30&b=5&g=2&i=p3502731037c&r=1549587644143",
-                "https://c.stockcharts.com/c-sc/sc?s=_{tickerSymbol}&p=W&b=5&g=2&i=p1921549190c&r=1548398738916",
-                "https://c.stockcharts.com/c-sc/sc?s=_{tickerSymbol}&p=W&b=5&g=2&i=p4597056426c&r=1548398896890",
-                "https://c.stockcharts.com/c-sc/sc?s=_{tickerSymbol}&p=D&b=5&g=1&i=p8194948846c&r=1547615940766",
-                "https://c.stockcharts.com/c-sc/sc?s=_{tickerSymbol}&p=D&b=5&g=1&i=p5016641587c&r=1547142826032",
-                "https://c.stockcharts.com/c-sc/sc?s=_{tickerSymbol}&p=D&yr=2&mn=0&dy=0&i=p4398564585c&r=1547610432367",
-                "https://c.stockcharts.com/c-sc/sc?s=_{tickerSymbol}&p=D&b=5&g=2&i=p2766788615c&r=1548907927521"
+                "http://c.stockcharts.com/c-sc/sc?s=_{tickerSymbol}&p=W&b=5&g=2&i=p1921549190c&r=1548398738916",
+                "http://c.stockcharts.com/c-sc/sc?s=_{tickerSymbol}&p=W&b=5&g=2&i=p4597056426c&r=1548398896890",
+                "http://c.stockcharts.com/c-sc/sc?s=_{tickerSymbol}&p=D&b=5&g=1&i=p8194948846c&r=1547615940766",
+                "http://c.stockcharts.com/c-sc/sc?s=_{tickerSymbol}&p=D&b=5&g=1&i=p5016641587c&r=1547142826032",
+                "http://c.stockcharts.com/c-sc/sc?s=_{tickerSymbol}&p=D&yr=2&mn=0&dy=0&i=p4398564585c&r=1547610432367",
+                "http://c.stockcharts.com/c-sc/sc?s=_{tickerSymbol}&p=D&b=5&g=2&i=p2766788615c&r=1548907927521"
 
 
             ]);
 
             self.queryStrings2 = ko.observableArray([
-                "https://c.stockcharts.com/pnf/chart?c=_{tickerSymbol},PWTIDANRBO[PA][D{date}][F1!3!!!2!20]&r=2113&pnf=y",
-                "https://c.stockcharts.com/pnf/chart?c=_{tickerSymbol},PWPIDANRBO[PA][D{date}][F1!3!1.0!!2!20]&r=8447&pnf=y",
-                "https://c.stockcharts.com/pnf/chart?c=_{tickerSymbol},PWAIFANRBO[PA][D{date}][F1!3!1.0!!2!20]&r=9909&pnf=y"
+                "http://c.stockcharts.com/pnf/chart?c=_{tickerSymbol},PWTIDANRBO[PA][D{date}][F1!3!!!2!20]&r=2113&pnf=y",
+                "http://c.stockcharts.com/pnf/chart?c=_{tickerSymbol},PWPIDANRBO[PA][D{date}][F1!3!1.0!!2!20]&r=8447&pnf=y",
+                "http://c.stockcharts.com/pnf/chart?c=_{tickerSymbol},PWAIFANRBO[PA][D{date}][F1!3!1.0!!2!20]&r=9909&pnf=y"
             ]);
 
             self.queryStrings1Computed = ko.observableArray();
