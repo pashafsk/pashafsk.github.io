@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+	
+	font-family: 
+	font-family: 'Sofia';font-size: 22px;
+        .container {
+            position: relative;
+        }
+        
+        .topleft {
+            position: absolute;
+            top: 8px;
+            left: 16px;
+            font-size: 18px;
+        }
+        
+        div.notes {
+			text-align: center;
+			float: left;
+			
+			
+			
+		} 
+			
+		div.mypanel2 {
+			text-align: right;
+			
+			
+		} 
+		div.mypanel{
+		 background-color: lightgreen;
+		 width: 300px;
+		 float: left;
+		 //border: 2px solid green;
+		 //padding: 2px;
+		 //margin: 2px;
+		}
+		div.daily{
+		 background-color: lightgrey;
+		 width: 300px;
+		 float: right;
+		 // border: 2px solid green;
+		//padding: 2px;
+		//margin: 2px;
+		}
+		div.trend{
+		float: right;
+		}
+		
+		
+.trend tr:nth-child(even) {background-color: #f2f2f2;}
+    </style>
+
+    <script type='text/javascript' src='http://ajax.aspnetcdn.com/ajax/knockout/knockout-3.4.2.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'
+</head>
+
+<body>
+    <br>
+
+    <!--<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRB1RPUSrpDZWAR9XQA4IfU84gyy20ZLUtA-EgqJsRJOOe70GWszBv2XyH0Bpk5lNgctcF2-F4s4zEO/pubhtml?gid=0&amp;single=true&amp;widget=true&amp;headers=false" align="right"
+width = "400"></iframe>
+ <!--   <p>Ticker Symbol: <input data-bind="value: tickerSymbol" /></p> -->
+    <select class="target" data-bind="options: ['','$spx','$INDU','$NDX','%5EESH19','$rut','VXXB','AAP','AAPL','ADBE','AMD','AMZN','ATVI','BA','BABA','BAC','BIDU','BIIB',
+                              'CELG','CHK','CMG','CRM','DWDP','DXY','FB','FDX','HD','GOOGL','GOLD','GS','IBM','IWM','ISRG','JNJ','JPM','LRCX',
+							  'MSFT','MMM','MU','NEM','NFLX','NKE','NOC','NOW','NTES','NVDA','PANW','PYPL','ROKU','SBUX','SPY','SQ','TEAM','TLT',
+							  'TSLA','TSM','TWLO','TWTR','UAA','UNH','UTX','VIX','WMT','XLNX','XOM','$FVX','$TNX','$TYX','TGT','BSV','USOIL'], value: tickerSymbol,
+							  valueAllowUnset: true" />
+    <p>Ticker Symbol: <input class="target" data-bind="value: tickerSymbol" /></p>
+    <!-- iex -->
+    
+
+    
+	
+	
+	<table>
+	<tr>
+		<td><div class="mypanel"></div></td>
+		<td><div class="daily"></div></td>
+	</tr>
+    <tr>
+		<td><div class="notes"></div></td>
+		<td><div class="trend"></div></td>
+	</tr>
+	 <tr>
+		<td><div class="mypanel2"></div></td>
+		<td><div class="placeholder"></div></td>
+	</tr>
+
+</table>
+	
+	
+	
+	
+	
+    <!-- end iex -->
+
+    <!--<div style='font-weight:bold; margin-bottom:10px'>
+        <span>Today's Date: <span data-bind="text: todaysDate().format('YYYYMMDD') "></span></span>
+        <span>Current Stock Date: <span data-bind="text: currentDate().format('YYYYMMDD') "></span></span>
+        <span>Prev Stock Date: <span data-bind="text: prevDate().format('YYYYMMDD')"></span></span>
+    </div>-->
+
+    <div data-bind="if: tickerSymbol() !== undefined" class="container">
+        <!-- ko foreach: computedQuery1() -->
+        <img height="auto" width="auto" data-bind="attr: {src: $data }"></img>
+        <!-- /ko -->
+    </div>
+
+    <div data-bind="if: tickerSymbol() !== undefined" class="container">
+        <!-- ko foreach: computedQuery2() -->
+        <img data-bind="attr: {src: $data }"></img>
+        <!-- /ko -->
+    </div>
+
+    <script>
+        var ViewModel = function() {
+            var self = this;
+
+            self.tickerSymbol = ko.observable();
+
+
+
+
+            self.getWeekday = function(momentDate) {
+                var returnDate = momentDate.clone();
+                console.log(momentDate.format("YYYYMMDD"));
+                while (returnDate.day() == 0 || returnDate.day() == 6) {
+                    returnDate = returnDate.subtract(1, 'days');
+                }
+                return returnDate;
+            };
+
+            self.todaysDate = ko.observable(moment());
+            self.currentDate = ko.observable(self.getWeekday(self.todaysDate().clone()));
+            self.prevDate = ko.observable(self.getWeekday(self.currentDate().clone().subtract(1, 'days')));
+
+            self.queryStrings1 = ko.observableArray([
+                "https://c.stockcharts.com/c-sc/sc?s=_{tickerSymbol}&p=D&b=5&g=1&i=p6792933477c&r=1547917550508",
+				"http://c.stockcharts.com/c-sc/sc?s=_{tickerSymbol}&p=30&b=5&g=2&i=p3502731037c&r=1549587644143",
+                "https://c.stockcharts.com/c-sc/sc?s=_{tickerSymbol}&p=W&b=5&g=2&i=p1921549190c&r=1548398738916",
+                "https://c.stockcharts.com/c-sc/sc?s=_{tickerSymbol}&p=W&b=5&g=2&i=p4597056426c&r=1548398896890",
+                "https://c.stockcharts.com/c-sc/sc?s=_{tickerSymbol}&p=D&b=5&g=1&i=p8194948846c&r=1547615940766",
+                "https://c.stockcharts.com/c-sc/sc?s=_{tickerSymbol}&p=D&b=5&g=1&i=p5016641587c&r=1547142826032",
+                "https://c.stockcharts.com/c-sc/sc?s=_{tickerSymbol}&p=D&yr=2&mn=0&dy=0&i=p4398564585c&r=1547610432367",
+                "https://c.stockcharts.com/c-sc/sc?s=_{tickerSymbol}&p=D&b=5&g=2&i=p2766788615c&r=1548907927521"
+
+
+            ]);
+
+            self.queryStrings2 = ko.observableArray([
+                "https://c.stockcharts.com/pnf/chart?c=_{tickerSymbol},PWTIDANRBO[PA][D{date}][F1!3!!!2!20]&r=2113&pnf=y",
+                "https://c.stockcharts.com/pnf/chart?c=_{tickerSymbol},PWPIDANRBO[PA][D{date}][F1!3!1.0!!2!20]&r=8447&pnf=y",
+                "https://c.stockcharts.com/pnf/chart?c=_{tickerSymbol},PWAIFANRBO[PA][D{date}][F1!3!1.0!!2!20]&r=9909&pnf=y"
+            ]);
+
+            self.queryStrings1Computed = ko.observableArray();
+            self.queryStrings2Computed = ko.observableArray();
+
+            self.computedQuery1 = ko.computed(function() {
+                var ticker = self.tickerSymbol();
+                self.queryStrings1Computed.removeAll();
+                self.queryStrings1().map(function(x) {
+                    var base = x.replace("{tickerSymbol}", ticker);
+                    self.queryStrings1Computed.push(base);
+                });
+                return self.queryStrings1Computed;
+            }, this);
+
+            self.computedQuery2 = ko.computed(function() {
+                var ticker = self.tickerSymbol();
+                self.queryStrings2Computed.removeAll();
+                self.queryStrings2().map(function(x) {
+                    var base = x.replace("{tickerSymbol}", ticker);
+                    self.queryStrings2Computed.push(base.replace("{date}", self.currentDate().format("YYYYMMDD")));
+                    self.queryStrings2Computed.push(base.replace("{date}", self.prevDate().format("YYYYMMDD")));
+                });
+                return self.queryStrings2Computed;
+            }, this);
+
+            /* start iex*/
+
+            $(".target").change(function() {
+                 //subscribe to tickerSymbol
+                self.tickerSymbol.subscribe(function(stock) {
+
+                    $.getJSON('https://api.iextrading.com/1.0/stock/' + stock + '/previous', function(data) {
+                           VWAP = parseInt(data.vwap);
+
+                    });
+                    //
+                    $.getJSON('https://api.iextrading.com/1.0/stock/' + stock + '/quote', function(data) {
+					
+					    price = data.latestPrice;
+                        var text = `<b>Stock</b>: ${data.symbol}
+									            Open: ${data.open}
+												high: ${data.high}
+												Low: ${data.low}
+									            <font color="red">Price: ${data.latestPrice}</font>
+												<font color="blue">AH Price: ${data.extendedPrice}</font>
+												<font color="red"><b>change: ${data.change}</b></font>
+												%:<b> ${Math.round(data.changePercent*100)}</b>
+												Vol: ${data.latestVolume}`
+
+						
+
+                        $(".mypanel").html(text);
+						
+                    });
+
+                    $.getJSON('https://api.iextrading.com/1.0/stock/' + stock + '/stats', function(data) {
+                        var text = 				   `<b>High52:</b> ${data.week52high}
+													<b>Low52:</b> ${data.week52low}
+													<b>Mov50:</b> ${data.day50MovingAvg}
+													<b>Mov200:</b> ${data.day200MovingAvg}`
+
+
+                        $(".daily").html(text);
+                    });
+                    $.getJSON('https://api.iextrading.com/1.0/stock/' + stock + '/stats', function(data) {
+                        var text = `<font color="red"><b>Ex-Dividend Date: ${data.exDividendDate}</b></font>
+													shortInterest: ${data.shortInterest}
+													shortDate: ${data.shortDate}`
+
+
+                        $(".mypanel2").html(text);
+                    });
+
+			// start google sheet
+			   
+			   
+			
+				var url = "https://spreadsheets.google.com/feeds/list/1M_VbEIENgfewCAnYK1jrtytm0-CeA6Xw3H7CTEqZwAc/od6/public/values?alt=json"; //this is the part that's changed
+                      
+				$.getJSON(url, function(data) {
+                    var entry = {};
+					 entry = data.feed.entry;
+                    
+					$(entry).each(function(){
+					   
+				//make sure this matches your column labels when you change the source sheet
+					if (this.gsx$symbol.$t == stock.toUpperCase()){
+					
+					    //alert(this.gsx$pricetarget.$t);
+						$('.notes').html('<b>'+this.gsx$symbol.$t+'  Trend: '+this.gsx$trend.$t+' Price Target: '+this.gsx$pricetarget.$t+' Alert Value: '+ this.gsx$alertvalue.$t+ ' Alert% : '+ this.gsx$alertpercentage.$t +'Notes: ' +this.gsx$comments.$t + ' Last Updated : ' + this.gsx$date.$t+'</b>' );
+						 console.log(this.gsx$weekly5ma1weeks.$t);
+						 weekly5maprevious = this.gsx$weekly5ma1weeks.$t;
+						 var trend = [
+						 [this.gsx$daily5.$t,"5MA"],
+						 [this.gsx$daily10.$t,"10MA"],
+						 [this.gsx$daily20.$t,"20MA"],
+						 [this.gsx$daily50.$t,"50MA"],
+						 [this.gsx$daily100.$t,"100MA"],
+						 [this.gsx$daily200.$t,"200MA"],
+						 [this.gsx$weekly5ma.$t,"Weekly5SMA"],
+						 [this.gsx$weekly10sma.$t,"Weekly10SMA"],
+                         [price,"Current Price"],
+						 [VWAP,"VWAP"]
+                          						 
+						 
+						 ]
+						 
+						
+						trend.sort();
+						$('.notes').html("");
+						if (this.gsx$weekly5ma.$t > this.gsx$weekly5ma1weeks.$t){
+						
+						$('.notes').append('<font color = "green" size = "6">5ma weekly pointing up</font>' + '(' + this.gsx$weekly5ma1weeks.$t +')' );
+						
+						}
+						else {
+						$('.notes').append('<font color = "red" size = "6">5ma weekly pointing DOWN</font>' + '(' + this.gsx$weekly5ma1weeks.$t +')');
+						}
+						
+						
+						if (this.gsx$weekly10sma.$t > this.gsx$weekly10sma1weeks.$t){
+						
+						$('.notes').append('<br><font color = "green" size = "6">10ma weekly pointing up</font>' + '(' + this.gsx$weekly10sma1weeks.$t +')');
+						
+						}
+						else {
+						$('.notes').append('<br><font color = "red" size = "6">10ma weekly pointing DOWN</font>' + '(' + this.gsx$weekly10sma1weeks.$t +')');
+						}
+						
+							var html = '<table>';
+							html += '<tr>';
+						
+							html += '</tr>';
+							for( var i = 0; i < trend.length; i++) {
+								html += '<tr>';
+								
+								
+							
+								    if(trend[i][1]== 'Current Price'){
+										html += '<td><font color = "red">' + trend[i][1] + '</font></td>';
+										html += '<td><font color = "red">' + trend[i][0]+'</font></td>';
+										html += '</tr>';
+										}
+									
+									else{
+										html += '<td>' + trend[i][1] + '</td>';
+										html += '<td>' + trend[i][0]+'</td>';
+										html += '</tr>';
+									}
+                            
+												 
+							}
+							
+						
+								html += '</table>';
+							 $('.trend').html(html);
+							 
+						
+						
+						
+						}
+						
+					});
+                      
+				});
+			
+			//end googlesheet
+
+                });
+				
+				
+          
+
+
+            });// end subscribe to tickerSymbol
+            /*end iex*/
+			
+
+			
+			
+			
+			
+        };
+
+        ko.applyBindings(new ViewModel());
+    </script>
+</body>
+
+</html>
