@@ -57,9 +57,31 @@
       summary:hover { cursor: pointer; }
       summary::-webkit-details-marker { display: none; }
 	  
-	  .index {
+	  .index1 {
 			font-size: larger;
 			font-weight: bold;
+			float: left;
+		}
+		.index2 {
+			font-size: larger;
+			font-weight: bold;
+			float: left;
+		}
+		.index3 {
+			font-size: larger;
+			font-weight: bold;
+			float: left;
+		}
+		.index4 {
+			font-size: larger;
+			font-weight: bold;
+			float: left;
+		}
+	  
+		  .index5 {
+			font-size: larger;
+			font-weight: bold;
+			float: left;
 		}
 	  
 	  
@@ -68,7 +90,11 @@
 
   <body>
   <br>
-    <div class="index" ></div>
+    <div class="index1" ></div>
+	<div class="index2" ></div>
+	<div class="index3" ></div>
+	<div class="index4" ></div>
+    <br>
    <p class="updated-timestamp"></p>
     <div class="stocks-container"></div>
   
@@ -159,6 +185,7 @@
           return html;
         }).join('');
 
+
         let portfolioDiv = document.createElement('div');
 
         portfolioDiv.innerHTML = `
@@ -173,15 +200,13 @@
 
       function updateData(addTitle) {
         let numberOfBatches = Math.ceil(symbols.length / BATCH_SIZE);
-		//$('.index').empty();
-		//updateIndex(encodeURI("^SPX"));
-		updateIndex(encodeURI("ES=F"));
-		//updateIndex(encodeURI("^DJI"))
-        //updateIndex(encodeURI("^NDX"));
 		
-		
-		
-		 
+		updateIndex1();
+        updateIndex2();
+		updateIndex3();
+		updateIndex4();
+	
+ 
 		 
         for (let i = 0; i < numberOfBatches; i++) {
           let symbolsBatch = symbols.slice(i * BATCH_SIZE, (i + 1) * BATCH_SIZE);
@@ -378,10 +403,10 @@
 
 	 
 	 
-	  function updateIndex(quote){
+	 	  function updateIndex1(){
 	      
 		  
-		  var index = 'https://cors.io?https://query1.finance.yahoo.com/v7/finance/options/'+quote;
+		  var index = 'https://cors.io?https://query1.finance.yahoo.com/v7/finance/options/'+encodeURI("^DJI");
   
        	$.ajax({
 					type: "GET",
@@ -396,7 +421,102 @@
 					 
 					   $(result).each(function(index, entry){
 					        
-						   $('.index').html(entry.quote.symbol + ' ' +entry.quote.regularMarketPrice + ' ( ' + entry.quote.regularMarketChange.toFixed(2) +')');
+						   $('.index1').html(entry.quote.symbol + ' ' +entry.quote.regularMarketPrice + ' ( ' + entry.quote.regularMarketChange.toFixed(2) +')||');
+						  
+						   });
+					  
+					   
+						
+					},
+					error: function() {
+						console.log('Something went wrong!');
+					}
+				});
+			
+	  }
+	  function updateIndex2(){
+	      
+		  
+		  var index = 'https://cors.io?https://query1.finance.yahoo.com/v7/finance/options/'+encodeURI("^SPX");
+  
+       	$.ajax({
+					type: "GET",
+					//crossDomain: true,
+					dataType: "json",
+					url: index,
+					data: {
+						
+					},
+					success: function(data) {
+					 var result = data.optionChain.result;
+					 
+					   $(result).each(function(index, entry){
+					        
+						   $('.index2').html(entry.quote.symbol + ' ' +entry.quote.regularMarketPrice + ' ( ' + entry.quote.regularMarketChange.toFixed(2) +')||');
+						  
+						   });
+					  
+					   
+						
+					},
+					error: function() {
+						console.log('Something went wrong!');
+					}
+				});
+			
+	  }
+	  
+	  function updateIndex3(){
+	      
+		  
+		  var index = 'https://cors.io?https://query1.finance.yahoo.com/v7/finance/options/'+encodeURI("^NDX");
+  
+       	$.ajax({
+					type: "GET",
+					//crossDomain: true,
+					dataType: "json",
+					url: index,
+					data: {
+						
+					},
+					success: function(data) {
+					 var result = data.optionChain.result;
+					 
+					   $(result).each(function(index, entry){
+					        
+						   $('.index3').html(entry.quote.symbol + ' ' +entry.quote.regularMarketPrice + ' ( ' + entry.quote.regularMarketChange.toFixed(2) +')||');
+						  
+						   });
+					  
+					   
+						
+					},
+					error: function() {
+						console.log('Something went wrong!');
+					}
+				});
+			
+	  }
+	  
+	  	  function updateIndex4(){
+	      
+		  
+		  var index = 'https://cors.io?https://query1.finance.yahoo.com/v7/finance/options/'+encodeURI("ES=F");
+  
+       	$.ajax({
+					type: "GET",
+					//crossDomain: true,
+					dataType: "json",
+					url: index,
+					data: {
+						
+					},
+					success: function(data) {
+					 var result = data.optionChain.result;
+					 
+					   $(result).each(function(index, entry){
+					        
+						   $('.index4').html(entry.quote.symbol + ' ' +entry.quote.regularMarketPrice + ' ( ' + entry.quote.regularMarketChange.toFixed(2) +')||');
 						  
 						   });
 					  
