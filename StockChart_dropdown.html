@@ -344,15 +344,6 @@ width = "400"></iframe>
 
         ko.applyBindings(new ViewModel());
 		
-	
-    $(function() {
-        var urlParams = new URLSearchParams(window.location.search);
-        console.log(urlParams.toString());
-        var tickerSymbol1 = urlParams.get('tickerSymbol');
-		console.log(tickerSymbol1);
-
-        ko.applyBindings(new ViewModel(tickerSymbol1));
-    });	
 		
     </script>
 </body>
