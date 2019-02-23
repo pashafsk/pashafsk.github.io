@@ -184,9 +184,10 @@
 				
 				
 				$('.notes').empty();
+				$('.notes').append(entry.gsx$symbol.$t+':');
 				if (entry.gsx$weekly5ma.$t > entry.gsx$weekly5ma1weeks.$t){
 				       
-					   $('.notes').append(entry.gsx$symbol.$t+':');
+					   
 						
 						$('.notes').append('<font color = "green" size = "6">5ma weekly pointing up</font>' + '(' + entry.gsx$weekly5ma1weeks.$t +')' );
 						
