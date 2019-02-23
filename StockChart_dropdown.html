@@ -343,6 +343,16 @@ width = "400"></iframe>
         };
 
         ko.applyBindings(new ViewModel());
+		
+	
+    $(function() {
+        var urlParams = new URLSearchParams(window.location.search);
+        console.log(urlParams.toString());
+        var tickerSymbol = urlParams.get('tickerSymbol');
+
+        ko.applyBindings(new ViewModel());
+    });	
+		
     </script>
 </body>
 
