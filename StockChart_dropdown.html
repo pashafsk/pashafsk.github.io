@@ -86,7 +86,7 @@ width = "400"></iframe>
     
 	
 	
-	<table>
+<table>
 	<tr>
 		<td><div class="mypanel"></div></td>
 		<td><div class="daily"></div></td>
@@ -200,10 +200,7 @@ width = "400"></iframe>
                  //subscribe to tickerSymbol
                 self.tickerSymbol.subscribe(function(stock) {
 
-                    $.getJSON('https://api.iextrading.com/1.0/stock/' + stock + '/previous', function(data) {
-                           VWAP = parseInt(data.vwap);
 
-                    });
                     //
                     $.getJSON('https://api.iextrading.com/1.0/stock/' + stock + '/quote', function(data) {
 					
@@ -264,6 +261,10 @@ width = "400"></iframe>
 		function getData(stock){
 		 var input = stock;
         var found = false;
+		    $.getJSON('https://api.iextrading.com/1.0/stock/' + stock + '/previous', function(data) {
+                           VWAP = parseInt(data.vwap);
+
+                    });
         var iex = 'https://api.iextrading.com/1.0/stock/'+input+'/price';
   
         $.ajax({ 
@@ -388,7 +389,8 @@ width = "400"></iframe>
 						 //[entry.gsx$weekly10sma.$t,"Weekly10SMA"],
 						 [price,"Current Price"],
 						 [(x5wma/5).toFixed(2),"Weekly5SMA"],
-						 [(y10wma/10).toFixed(2),"Weekly10SMA"]
+						 [(y10wma/10).toFixed(2),"Weekly10SMA"],
+						 [VWAP,"VWAP"]
                                           						 
 						]
 					

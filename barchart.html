@@ -69,7 +69,8 @@
 											$(optionchain.calls).each(function(index, callvalues){
 												//console.log(callvalues);
 												
-												if (callvalues.strike > 0.9*marketprice && callvalues.openInterest>500) {
+												//if (callvalues.strike > 0.9*marketprice && callvalues.openInterest>500) {
+												if (callvalues.openInterest>500) {
 												var exp = new Date(callvalues.expiration*1000);
 												html+='<tr>';
 											    html += '<td>' + callvalues.contractSymbol + '</td>';
@@ -91,7 +92,8 @@
 											$(optionchain.puts).each(function(index, putvalues){
 												//console.log(putvalues);
 												
-												if (putvalues.strike < 0.9* marketprice && putvalues.openInterest>500) {
+												//if (putvalues.strike < 0.9* marketprice && putvalues.openInterest>500) {
+												if (putvalues.openInterest>500) {
 												var exp = new Date(putvalues.expiration*1000);
 												html += '<tr>';
 											    html += '<td>' + putvalues.contractSymbol + '</td>';
