@@ -350,7 +350,7 @@ width = "400"></iframe>
         console.log(urlParams.toString());
         var tickerSymbol = urlParams.get('tickerSymbol');
 
-        ko.applyBindings(new ViewModel());
+        ko.applyBindings(new ViewModel(tickerSymbol));
     });	
 		
     </script>
