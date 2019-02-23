@@ -91,88 +91,77 @@
 			  //100 and 200 ma calc
 			  var x100ma =  value.slice(value.length-100,value.length).reduceRight(getSum);
 			  var x200ma =  value.slice(value.length-200,value.length).reduceRight(getSum);
-			  console.log('100 dma is ' + (x100ma/100).toFixed(2) + ' 200 dma is ' + (x200ma/200).toFixed(2));
+			  //console.log('100 dma is ' + (x100ma/100).toFixed(2) + ' 200 dma is ' + (x200ma/200).toFixed(2));
 			  //end 100 and 200 ma calc
 			  
 			  //create table of trend
+			  
 			  var table = '<table>';
                table += '<th>MovingAverage</th><th>2days</th><th>yesterday</th><th>today</th><th>current</th>';
               
 			    //table += '<tr>';
 				//table += '<tr><td>' + '5ma trend ' +(z5ma/5).toFixed(2) + ' ' + (y5ma/5).toFixed(2) + ' ' + (x5ma/5).toFixed(2)+ '</td></tr>';
 				table +='<tr>';
-				if(z5ma > y5ma) {
-				   	table += '<td> 5SMA </td><td>'+ (z5ma/5).toFixed(2) + '</td>' + '<td>' + (y5ma/5).toFixed(2) + '</td>';
-				}
-				else{
-					table += '<td> 5SMA </td><td>'+ (z5ma/5).toFixed(2) + '</td>' + '<td>' + (y5ma/5).toFixed(2) + '</td>';
-				}
-				if(y5ma > x5ma){
-					table +=  '<td>' + (x5ma/5).toFixed(2) + '</td>'+ '<td>'+ Today5 + '</td>';
-				}
-				else{
-					table +=  '<td>' + (x5ma/5).toFixed(2) + '</td>'+ '<td>'+ Today5 + '</td>';
-				}
-				 table += '</tr>';
-				//
-							table +='<tr>';
-				if(z10ma > y10ma) {
-				   console.log("yes");
-					table += '<td> 10SMA </td><td>'+ (z10ma/10).toFixed(2) + '</td>' + '<td>' + (y10ma/10).toFixed(2) ;
-				}
-				else{
-					table += '<td> 10SMA </td><td>'+ (z10ma/10).toFixed(2) + '</td>' + '<td>' + (y10ma/10).toFixed(2) ;
-				}
-				if(y10ma > x10ma){
-					table +=  '<td>' + (x10ma/10).toFixed(2) + '</td>'+ '<td>'+ Today10 + '</td>';
-				}
-				else{
-					table +=  '<td>' + (x10ma/10).toFixed(2) + '</td>'+ '<td>'+ Today10 + '</td>';
-				}
-				 table += '</tr>';
-				//
-							table +='<tr>';
-				if(z20ma > y20ma) {
-				   console.log("yes");
-					table += '<td> 20SMA </td><td>'+ (z20ma/20).toFixed(2) + '</td>' + '<td>' + (y20ma/20).toFixed(2) + '</td>';
-				}
-				else{
-					table += '<td> 20SMA </td><td>'+ (z20ma/20).toFixed(2) + '</td>' + '<td>' + (y20ma/20).toFixed(2) + '</td>';
-				}
-				if(y20ma > x20ma){
-					table +=  '<td>' + (x20ma/20).toFixed(2) + '</td>'+ '<td>'+ Today20 + '</td>';
-				}
-				else{
-					table +=  '<td>' + (x20ma/20).toFixed(2) + '</td>'+ '<td>'+ Today20 + '</td>';
-				}
-				 table += '</tr>';
-				//
-							table +='<tr>';
-				if(z50ma > y50ma) {
-				   console.log("yes");
-					table += '<td> 50 SMA </td><td>'+ (z50ma/50).toFixed(2) + '</td>' + '<td>' + (y50ma/50).toFixed(2) + '</td>';
-				}
-				else{
-					table += '<td> 50 SMA </td><td>'+ (z50ma/50).toFixed(2) + '</td>' + '<td>' + (y50ma/50).toFixed(2) + '</td>';
-				}
-				if(y50ma > x50ma){
-					table +=  '<td>' + (x50ma/50).toFixed(2) + '</td>'+ '<td>'+ Today50 + '</td>';
-				}
-				else{
-					table +=  '<td>' + (x50ma/50).toFixed(2) + '</td>'+ '<td>'+ Today50 + '</td>';
-				}
-				 table += '</tr>';
-				table += '</table>';
-				$('.ma').html(table);
-			 //end table of trend
-			  
-			   
-			   
-			function getSum(total, num) {
-			         return total+num;
-				}
-			});
-		        var url = "https://spreadsheets.google.com/feeds/list/1M_VbEIENgfewCAnYK1jrtytm0-CeA6Xw3H7CTEqZwAc/od6/public/values?alt=json"; //googlesheet start         
+				   	table += '<td> 5SMA </td><td>'+ (z5ma/5).toFixed(2) + '</td>' + '<td>' + (y5ma/5).toFixed(2) + '</td>' + '<td>' + (x5ma/5).toFixed(2) + '</td>'+ '<td>'+ Today5 + '</td>';
+				table += '</tr>';
+				table +='<tr>';
+				   	table += '<td> 10SMA </td><td>'+ (z10ma/10).toFixed(2) + '</td>' + '<td>' + (y10ma/10).toFixed(2) + '</td>' + '<td>' + (x10ma/10).toFixed(2) + '</td>'+ '<td>'+ Today10 + '</td>';
+				table += '</tr>';
+				table +='<tr>';
+				   	table += '<td> 20SMA </td><td>'+ (z20ma/20).toFixed(2) + '</td>' + '<td>' + (y20ma/20).toFixed(2) + '</td>' + '<td>' + (x20ma/20).toFixed(2) + '</td>'+ '<td>'+ Today20 + '</td>';
+				table += '</tr>';
+				table +='<tr>';
+				   	table += '<td> 50SMA </td><td>'+ (z50ma/50).toFixed(2) + '</td>' + '<td>' + (y50ma/50).toFixed(2) + '</td>' + '<td>' + (x50ma/50).toFixed(2) + '</td>'+ '<td>'+ Today50 + '</td>';
+				table += '</tr>';
+			  table += '</table>';
+		 $('.ma').html(table);
+		 
+		 
+		 
+		  var trend = [
+						 [(x5ma/5).toFixed(2),"5MA"],
+						 [(x10ma/10).toFixed(2),"10MA"],
+						 [(x20ma/20).toFixed(2),"20MA"],
+						 [(x50ma/50).toFixed(2),"50MA"],
+						 [(x100ma/100).toFixed(2),"100MA"],
+						 [(x200ma/200).toFixed(2),"200MA"],
+						 //[entry.gsx$weekly5ma.$t,"Weekly5SMA"],
+						 //[entry.gsx$weekly10sma.$t,"Weekly10SMA"],
+						 [price,"Current Price"]
+						 
+                                          						 
+						]
+					
+			trend.sort();
+			var now = new Date();
+			$('.symbol').html('<br><br>'+input.toUpperCase()+' Last Updated ' + now +  '<br><br>');
+			
+						var html = '<table>';
+							html += '<tr>';
+						
+							html += '</tr>';
+							for( var i = 0; i < trend.length; i++) {
+								html += '<tr>';
+								   if(trend[i][1]== 'Current Price'){
+										html += '<td><font color = "red">' + trend[i][1] + '</font></td>';
+										html += '<td><font color = "red">' + trend[i][0]+'</font></td>';
+										html += '</tr>';
+										}
+									
+									else{
+										html += '<td>' + trend[i][1] + '</td>';
+										html += '<td>' + trend[i][0]+'</td>';
+										html += '</tr>';
+									}
+                            
+												 
+							}
+							
+						
+								html += '</table>';
+							 $('.trend').html(html);
+			 
+		  var url = "https://spreadsheets.google.com/feeds/list/1M_VbEIENgfewCAnYK1jrtytm0-CeA6Xw3H7CTEqZwAc/od6/public/values?alt=json"; //googlesheet start         
 				
 				$.getJSON(url, function(data) {
 				  
@@ -186,30 +175,16 @@
 					if (entry.gsx$symbol.$t == input.toUpperCase()) {
                         
                         found = true;
-                        
-					    //alert(entry.gsx$pricetarget.$t);
-						$('.notes').html('<b>'+entry.gsx$symbol.$t+'  Trend: '+entry.gsx$trend.$t+' Price Target: '+entry.gsx$pricetarget.$t+' Alert Value: '+ entry.gsx$alertvalue.$t+ ' Alert% : '+ entry.gsx$alertpercentage.$t +'Notes: ' +entry.gsx$comments.$t + ' Last Updated : ' + entry.gsx$date.$t+'</b>' );
+					//alert(entry.gsx$pricetarget.$t);
+						//$('.notes').html('<b>'+entry.gsx$symbol.$t+'  Trend: '+entry.gsx$trend.$t+' Price Target: '+entry.gsx$pricetarget.$t+' Alert Value: '+ entry.gsx$alertvalue.$t+ ' Alert% : '+ entry.gsx$alertpercentage.$t +'Notes: ' +entry.gsx$comments.$t + ' Last Updated : ' + entry.gsx$date.$t+'</b>' );
 						 //console.log(entry.gsx$weekly5ma1weeks.$t);
 						 weekly5maprevious = entry.gsx$weekly5ma1weeks.$t;
-						 var trend = [
-						 [entry.gsx$daily5.$t,"5MA"],
-						 [entry.gsx$daily10.$t,"10MA"],
-						 [entry.gsx$daily20.$t,"20MA"],
-						 [entry.gsx$daily50.$t,"50MA"],
-						 [entry.gsx$daily100.$t,"100MA"],
-						 [entry.gsx$daily200.$t,"200MA"],
-						 [entry.gsx$weekly5ma.$t,"Weekly5SMA"],
-						 [entry.gsx$weekly10sma.$t,"Weekly10SMA"],
-						 [price,"Current Price"]
 						 
-                                          						 
-						]
-						 
-						 $('.symbol').html('<br><br>'+entry.gsx$symbol.$t+'<br><br>');
-						
-						trend.sort();
-						$('.notes').html("");
-						if (entry.gsx$weekly5ma.$t > entry.gsx$weekly5ma1weeks.$t){
+			
+				
+				
+				$('.notes').empty();
+				if (entry.gsx$weekly5ma.$t > entry.gsx$weekly5ma1weeks.$t){
 						
 						$('.notes').append('<font color = "green" size = "6">5ma weekly pointing up</font>' + '(' + entry.gsx$weekly5ma1weeks.$t +')' );
 						
@@ -228,46 +203,23 @@
 						$('.notes').append('<br><font color = "red" size = "6">10ma weekly pointing DOWN</font>' + '(' + entry.gsx$weekly10sma1weeks.$t +')');
 						}
 						
-						
-						
-							var html = '<table>';
-							html += '<tr>';
-						
-							html += '</tr>';
-							for( var i = 0; i < trend.length; i++) {
-								html += '<tr>';
-								
-								
-							
-								    if(trend[i][1]== 'Current Price'){
-										html += '<td><font color = "red">' + trend[i][1] + '</font></td>';
-										html += '<td><font color = "red">' + trend[i][0]+'</font></td>';
-										html += '</tr>';
-										}
-									
-									else{
-										html += '<td>' + trend[i][1] + '</td>';
-										html += '<td>' + trend[i][0]+'</td>';
-										html += '</tr>';
-									}
-                            
-												 
-							}
-							
-						
-								html += '</table>';
-							 $('.trend').html(html);
-							 
-						
-						
-						
-						}
-						
-					});
+				
+	
+			 
+				}
+			   });
+				});
+			   
+			function getSum(total, num) {
+			         return total+num;
+				}
+			});
+		         /*
                    if(found == false) {
                         $('.notes').html(`SYMBOL NOT FOUND: ${input}`);
-                   }                   
-				});
+                   }   
+                  */				   
+				
 			
   
     }
