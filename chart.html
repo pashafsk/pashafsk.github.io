@@ -45,14 +45,20 @@
 		
 		
 		 var value=[];
+		 var weekly=[];
+		 
 		$.getJSON(chart, function(data){
 			$.each(data, function(index, daily){
 			  //  console.log(daily.close);
 				value.push(daily.close);
-							 
-			  })
-			 			 
-			  				 
+				   // console.log(daily.date);
+					var d = new Date(daily.date);
+					//console.log(d +'day is'+ d.getDay());
+				if (d.getDay() == 4){
+					weekly.push(daily.close);
+					}
+				})
+			 			  				 
 			  //5ma trend
 			  var x5ma =  value.slice(value.length-5,value.length).reduceRight(getSum);
 			  var y5ma =  value.slice(value.length-6,value.length-1).reduceRight(getSum);
@@ -94,9 +100,22 @@
 			  //console.log('100 dma is ' + (x100ma/100).toFixed(2) + ' 200 dma is ' + (x200ma/200).toFixed(2));
 			  //end 100 and 200 ma calc
 			  
+			  //weekly 5ma
+			  var x5wma =  weekly.slice(weekly.length-5,weekly.length).reduceRight(getSum);
+			  var y5wma =  weekly.slice(weekly.length-6,weekly.length-1).reduceRight(getSum);
+			  var z5wma =  weekly.slice(weekly.length-7,weekly.length-2).reduceRight(getSum);
+              //var Today5 =  value.slice(value.length-4,value.length).reduceRight(getSum);
+              //console.log('price'+ price);
+              //Today5 =((Today5+price)/5).toFixed(2);
+			  //weekly 10 sam
+			  
+			  var x10wma =  weekly.slice(weekly.length-10,weekly.length).reduceRight(getSum);
+			  var y10wma =  weekly.slice(weekly.length-11,weekly.length-1).reduceRight(getSum);
+			  var z10wma =  weekly.slice(weekly.length-12,weekly.length-2).reduceRight(getSum);
+			  
 			  //create table of trend
 			  
-			  var table = '<table>';
+			  var table = '<br><table>';
                table += '<th>MovingAverage</th><th>2days</th><th>yesterday</th><th>today</th><th>current</th>';
               
 			    //table += '<tr>';
@@ -113,6 +132,12 @@
 				table +='<tr>';
 				   	table += '<td> 50SMA </td><td>'+ (z50ma/50).toFixed(2) + '</td>' + '<td>' + (y50ma/50).toFixed(2) + '</td>' + '<td>' + (x50ma/50).toFixed(2) + '</td>'+ '<td>'+ Today50 + '</td>';
 				table += '</tr>';
+				table +='<tr>';
+				   	table += '<td> Weekly5 </td><td>'+ (z5wma/5).toFixed(2) + '</td>' + '<td>' + (y5wma/5).toFixed(2) + '</td>' + '<td>' + (x5wma/5).toFixed(2) + '</td>'+ '<td>'+ '' + '</td>';
+				table += '</tr>';
+				table +='<tr>';
+				   	table += '<td> Weekly10 </td><td>'+ (z10wma/10).toFixed(2) + '</td>' + '<td>' + (y10wma/10).toFixed(2) + '</td>' + '<td>' + (x10wma/10).toFixed(2) + '</td>'+ '<td>'+ '' + '</td>';
+				table += '</tr>';
 			  table += '</table>';
 		 $('.ma').html(table);
 		 
@@ -127,8 +152,9 @@
 						 [(x200ma/200).toFixed(2),"200MA"],
 						 //[entry.gsx$weekly5ma.$t,"Weekly5SMA"],
 						 //[entry.gsx$weekly10sma.$t,"Weekly10SMA"],
-						 [price,"Current Price"]
-						 
+						 [price,"Current Price"],
+						 [(x5wma/5).toFixed(2),"Weekly5SMA"],
+						 [(y10wma/10).toFixed(2),"Weekly10SMA"]
                                           						 
 						]
 					
@@ -160,72 +186,30 @@
 						
 								html += '</table>';
 							 $('.trend').html(html);
-			 
-		  var url = "https://spreadsheets.google.com/feeds/list/1M_VbEIENgfewCAnYK1jrtytm0-CeA6Xw3H7CTEqZwAc/od6/public/values?alt=json"; //googlesheet start         
-				
-				$.getJSON(url, function(data) {
-				  
-                    
-					 entries = data.feed.entry;
-                    
-					$(entries).each(function(index, entry){
+							 $('.notes').empty();
+				if (x5wma> y5wma){
+				       	  $('.notes').append('<font color = "green" size = "6">5ma weekly pointing up</font>' + '(' + (y5wma/5).toFixed(2)+')' );
+						}
+						else {
+						$('.notes').append('<font color = "red" size = "6">5ma weekly pointing DOWN</font>' + '(' + (y5wma/5).toFixed(2) +')');
+						}
+											
+				if (x10wma > y10wma){
+						  $('.notes').append('<br><font color = "green" size = "6">10ma weekly pointing up</font>' + '(' + (y10wma/10).toFixed(2) +')');
+						}
+						else {
+						$('.notes').append('<br><font color = "red" size = "6">10ma weekly pointing DOWN</font>' + '(' + (y10wma/10).toFixed(2) +')');
+						}
 					
-				
-					
-					if (entry.gsx$symbol.$t == input.toUpperCase()) {
-                        
-                        found = true;
-					//alert(entry.gsx$pricetarget.$t);
-						//$('.notes').html('<b>'+entry.gsx$symbol.$t+'  Trend: '+entry.gsx$trend.$t+' Price Target: '+entry.gsx$pricetarget.$t+' Alert Value: '+ entry.gsx$alertvalue.$t+ ' Alert% : '+ entry.gsx$alertpercentage.$t +'Notes: ' +entry.gsx$comments.$t + ' Last Updated : ' + entry.gsx$date.$t+'</b>' );
-						 //console.log(entry.gsx$weekly5ma1weeks.$t);
-						 weekly5maprevious = entry.gsx$weekly5ma1weeks.$t;
-						 
+						
 			
-				
-				
-				$('.notes').empty();
-				$('.notes').append(entry.gsx$symbol.$t+':');
-				if (entry.gsx$weekly5ma.$t > entry.gsx$weekly5ma1weeks.$t){
-				       
-					   
-						
-						$('.notes').append('<font color = "green" size = "6">5ma weekly pointing up</font>' + '(' + entry.gsx$weekly5ma1weeks.$t +')' );
-						
-						}
-						else {
-						$('.notes').append('<font color = "red" size = "6">5ma weekly pointing DOWN</font>' + '(' + entry.gsx$weekly5ma1weeks.$t +')');
-						}
-						
-						
-						if (entry.gsx$weekly10sma.$t > entry.gsx$weekly10sma1weeks.$t){
-						
-						$('.notes').append('<br><font color = "green" size = "6">10ma weekly pointing up</font>' + '(' + entry.gsx$weekly10sma1weeks.$t +')');
-						
-						}
-						else {
-						$('.notes').append('<br><font color = "red" size = "6">10ma weekly pointing DOWN</font>' + '(' + entry.gsx$weekly10sma1weeks.$t +')');
-						}
-						
-				
-	
-			 
-				}
-			   });
-				});
 			   
 			function getSum(total, num) {
 			         return total+num;
 				}
-			});
-		         /*
-                   if(found == false) {
-                        $('.notes').html(`SYMBOL NOT FOUND: ${input}`);
-                   }   
-                  */				   
-				
-			
-  
-    }
+
+		});        				    
+    }//getdata
     
     $("input").change(getData);
     
