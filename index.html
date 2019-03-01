@@ -94,6 +94,7 @@
 	<div class="index2" ></div>
 	<div class="index3" ></div>
 	<div class="index4" ></div>
+	<div class="index5" ></div>
     <br>
    <p class="updated-timestamp"></p>
    <a href="./StockChart_dropdown.html" target = "_blank">Research</a>
@@ -206,7 +207,7 @@
         updateIndex2();
 		updateIndex3();
 		updateIndex4();
-	
+	    updateIndex5();
  
 		 
         for (let i = 0; i < numberOfBatches; i++) {
@@ -518,6 +519,37 @@
 					   $(result).each(function(index, entry){
 					        
 						   $('.index4').html(entry.quote.symbol + ' ' +entry.quote.regularMarketPrice + ' ( ' + entry.quote.regularMarketChange.toFixed(2) +')||');
+						  
+						   });
+					  
+					   
+						
+					},
+					error: function() {
+						console.log('Something went wrong!');
+					}
+				});
+			
+	  }
+	  	  	  function updateIndex5(){
+	      
+		  
+		  var index = 'https://cors.io?https://query1.finance.yahoo.com/v7/finance/options/'+encodeURI("USDJPY=X");
+  
+       	$.ajax({
+					type: "GET",
+					//crossDomain: true,
+					dataType: "json",
+					url: index,
+					data: {
+						
+					},
+					success: function(data) {
+					 var result = data.optionChain.result;
+					 
+					   $(result).each(function(index, entry){
+					        
+						   $('.index5').html(entry.quote.symbol + ' ' +entry.quote.regularMarketPrice + ' ( ' + entry.quote.regularMarketChange.toFixed(2) +')||');
 						  
 						   });
 					  
