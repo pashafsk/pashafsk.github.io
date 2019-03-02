@@ -204,20 +204,20 @@
 				
 							 
 				if (x5wma> y5wma){
-				       	  $('.notes').append('<font color = "green" size = "6">5ma weekly pointing up</font>' + '(' + (y5wma/5).toFixed(2)+')' );
+				       	  $('.notes').append('<font color = "green" size = "4">5ma weekly pointing up</font>' + '(' + (y5wma/5).toFixed(2)+')' );
 						}
 						else {
-						$('.notes').append('<font color = "red" size = "6">5ma weekly pointing DOWN</font>' + '(' + (y5wma/5).toFixed(2) +')');
+						$('.notes').append('<font color = "red" size = "4">5ma weekly pointing DOWN</font>' + '(' + (y5wma/5).toFixed(2) +')');
 						}
 											
 				if (x10wma > y10wma){
-						  $('.notes').append('<br><font color = "green" size = "6">10ma weekly pointing up</font>' + '(' + (y10wma/10).toFixed(2) +')');
+						  $('.notes').append('<br><font color = "green" size = "4">10ma weekly pointing up</font>' + '(' + (y10wma/10).toFixed(2) +')');
 						}
 						else {
-						$('.notes').append('<br><font color = "red" size = "6">10ma weekly pointing DOWN</font>' + '(' + (y10wma/10).toFixed(2) +')');
+						$('.notes').append('<br><font color = "red" size = "4">10ma weekly pointing DOWN</font>' + '(' + (y10wma/10).toFixed(2) +')');
 						}
 
-				  $('.notes').append('<br><font color = "orange" size = "6">Days Range:  ' + low +'-'+ high+'</font>('+Math.abs(high-low).toFixed(2)+')');
+				  $('.notes').append('<br><font color = "orange" size = "4">Days Range:  ' + low +'-'+ high+'</font>('+Math.abs(high-low).toFixed(2)+')');
 				
 			atrCalc(input,value[value.length-2]);			
 			
@@ -232,15 +232,18 @@
 				$.getJSON(url, function(data){
 
 					 var lastRefreshed = data['Meta Data']['3: Last Refreshed'];
-				     atr = data['Technical Analysis: ATR'][lastRefreshed]['ATR'];
+				     atr = parseFloat(data['Technical Analysis: ATR'][lastRefreshed]['ATR']);
 				     
 				     //console.log(atr);
-				     $('.notes').append('<br><font color = "orange" size = "6">ATR Range:  '+ (parseFloat(previous)-parseFloat(atr)).toFixed(2)+'-'+ 
-				     	(parseFloat(previous)+parseFloat(atr)).toFixed(2)+'</font>('+ atr +')');
+				     $('.notes').append('<br><font color = "orange" size = "4">ATR Range:  '+ (parseFloat(previous)-parseFloat(atr)).toFixed(2)+'-'+ 
+				     	(parseFloat(previous)+parseFloat(atr)).toFixed(2)+'</font>('+ atr.toFixed(2) +')');
+				     $('.notes').append('<br><font color = "orange" size = "4">Tommorow:  ' + parseFloat(price-atr).toFixed(2) +'-'+ 
+				     	parseFloat(price+atr).toFixed(2)+'</font>');
+
 
 				    });
 				
-
+			
 
 				
 			}
