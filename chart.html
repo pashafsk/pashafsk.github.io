@@ -39,10 +39,14 @@
             success: function(data){ 
               price = data.latestPrice;
               high = data.high;
-              low = data.low;
+              low = data.low;   
             } 
            });
-  
+
+		
+       
+  		
+        
         var chart = 'https://api.iextrading.com/1.0/stock/'+input+'/chart/1y';
 		
 		
@@ -121,7 +125,7 @@
 			  
 			  //create table of trend
 			  
-			  var table = '<br><table>';
+			   var table = '<br><table>';
                table += '<th>MovingAverage</th><th>2days</th><th>yesterday</th><th>today</th><th>current</th>';
               
 			    //table += '<tr>';
@@ -170,7 +174,7 @@
 			trend.sort();
 			var now = new Date();
 			$('.symbol').html('<br><br>'+input.toUpperCase()+ '('+ low +'-'+ high +')' + ' Last Updated ' + now +  '<br><br>');
-			
+
 						var html = '<table>';
 							html += '<tr>';
 						
@@ -194,8 +198,11 @@
 							
 						
 								html += '</table>';
-							 $('.trend').html(html);
-							 $('.notes').empty();
+				 $('.trend').html(html);
+
+				 $('.notes').empty();
+				
+							 
 				if (x5wma> y5wma){
 				       	  $('.notes').append('<font color = "green" size = "6">5ma weekly pointing up</font>' + '(' + (y5wma/5).toFixed(2)+')' );
 						}
@@ -209,6 +216,8 @@
 						else {
 						$('.notes').append('<br><font color = "red" size = "6">10ma weekly pointing DOWN</font>' + '(' + (y10wma/10).toFixed(2) +')');
 						}
+
+				  $('.notes').append('<br><font color = "orange" size = "6">Days Range:  ' + low +'-'+ high+'</font>('+Math.abs(high-low).toFixed(2)+')');
 				
 			atrCalc(input,value[value.length-2]);			
 			
@@ -226,7 +235,7 @@
 				     atr = data['Technical Analysis: ATR'][lastRefreshed]['ATR'];
 				     
 				     //console.log(atr);
-				     $('.notes').append('<br><font color = "orange" size = "6">Range:  '+ (parseFloat(previous)-parseFloat(atr)).toFixed(2)+'-'+ 
+				     $('.notes').append('<br><font color = "orange" size = "6">ATR Range:  '+ (parseFloat(previous)-parseFloat(atr)).toFixed(2)+'-'+ 
 				     	(parseFloat(previous)+parseFloat(atr)).toFixed(2)+'</font>('+ atr +')');
 
 				    });
