@@ -208,12 +208,31 @@
 						$('.notes').append('<br><font color = "red" size = "6">10ma weekly pointing DOWN</font>' + '(' + (y10wma/10).toFixed(2) +')');
 						}
 				
-						
+			atrCalc(input,value[value.length-2]);			
 			
 			   
 			function getSum(total, num) {
 			         return total+num;
 				}
+			function atrCalc(symbol,previous){
+				
+				var url = 'https://www.alphavantage.co/query?function=ATR&symbol='+symbol+'&interval=daily&time_period=14&apikey=KTG44DCA9F9HHRL5';
+                var atr;
+				$.getJSON(url, function(data){
+
+					 var lastRefreshed = data['Meta Data']['3: Last Refreshed'];
+				     atr = data['Technical Analysis: ATR'][lastRefreshed]['ATR'];
+				     
+				     //console.log(atr);
+				     $('.notes').append('<br><font color = "orange" size = "6">Range:  '+ (parseFloat(previous)-parseFloat(atr)).toFixed(2)+'-'+ 
+				     	(parseFloat(previous)+parseFloat(atr)).toFixed(2))+'</font>';
+
+				    });
+				
+
+
+				
+			}
 
 		});        				    
     }//getdata
