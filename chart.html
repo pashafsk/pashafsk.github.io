@@ -30,14 +30,16 @@
     var getData = function(){
         var input = $('#tickerSymbol').val();
         var found = false;
-        var iex = 'https://api.iextrading.com/1.0/stock/'+input+'/price';
+        var iex = 'https://api.iextrading.com/1.0/stock/'+input+'/quote';
   
         $.ajax({ 
             url: iex, 
             dataType: 'json', 
             async: false, 
             success: function(data){ 
-              price = data;
+              price = data.latestPrice;
+              high = data.high;
+              low = data.low;
             } 
            });
   
@@ -167,7 +169,7 @@
 					
 			trend.sort();
 			var now = new Date();
-			$('.symbol').html('<br><br>'+input.toUpperCase()+' Last Updated ' + now +  '<br><br>');
+			$('.symbol').html('<br><br>'+input.toUpperCase()+ '('+ low +'-'+ high +')' + ' Last Updated ' + now +  '<br><br>');
 			
 						var html = '<table>';
 							html += '<tr>';
