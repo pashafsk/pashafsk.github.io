@@ -2,6 +2,16 @@
 <html>
 
 <head>
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-31375082-1"></script>
+	<script>
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag(){dataLayer.push(arguments);}
+		  gtag('js', new Date());
+
+		  gtag('config', 'UA-31375082-1');
+	</script>
+
     <style>
 	
 	font-family: 
@@ -18,12 +28,13 @@
         }
         
         div.notes {
-			text-align: center;
+			text-align: left;
 			float: left;
-			
-			
-			
 		} 
+		 div.atr {
+			text-align: right;
+			float: right;
+		}
 			
 		div.mypanel2 {
 			text-align: left;
@@ -53,9 +64,9 @@
 		float: left;
 		padding: 2px;
 		}
-table, th {
-  border: 1px solid black;
-}
+		table, th {
+		  border: 1px solid black;
+		}
 		
 		
 .trend tr:nth-child(even) {background-color: #f2f2f2;}
@@ -101,6 +112,7 @@ width = "400"></iframe>
 	</tr>
 	<tr>
 		<td><div class="notes"></div></td>
+		<td><div class="atr"></div></td>
 	</tr>
 
 </table>
@@ -428,26 +440,49 @@ width = "400"></iframe>
 								html += '</table>';
 							 $('.trend').html(html);
 							 $('.notes').empty();
+				atrCalc(input,value[value.length-2]);
 				if (x5wma> y5wma){
-				       	  $('.notes').append('<font color = "green" size = "6">5ma weekly pointing up</font>' + '(' + (y5wma/5).toFixed(2)+')' );
+				       	  $('.notes').append('<font color = "green" size = "4">5ma weekly pointing up</font>' + '(' + (y5wma/5).toFixed(2)+')' );
 						}
 						else {
-						$('.notes').append('<font color = "red" size = "6">5ma weekly pointing DOWN</font>' + '(' + (y5wma/5).toFixed(2) +')');
+						$('.notes').append('<font color = "red" size = "4">5ma weekly pointing DOWN</font>' + '(' + (y5wma/5).toFixed(2) +')');
 						}
 											
 				if (x10wma > y10wma){
-						  $('.notes').append('<br><font color = "green" size = "6">10ma weekly pointing up</font>' + '(' + (y10wma/10).toFixed(2) +')');
+						  $('.notes').append('<br><font color = "green" size = "4">10ma weekly pointing up</font>' + '(' + (y10wma/10).toFixed(2) +')');
 						}
 						else {
-						$('.notes').append('<br><font color = "red" size = "6">10ma weekly pointing DOWN</font>' + '(' + (y10wma/10).toFixed(2) +')');
+						$('.notes').append('<br><font color = "red" size = "4">10ma weekly pointing DOWN</font>' + '(' + (y10wma/10).toFixed(2) +')');
 						}
 					
-						
+							
 			
 			   
 			function getSum(total, num) {
 			         return total+num;
 				}
+			function atrCalc(symbol,previous){
+				 
+				
+				var url = 'https://www.alphavantage.co/query?function=ATR&symbol='+symbol+'&interval=daily&time_period=14&apikey=KTG44DCA9F9HHRL5';
+                var atr;
+				$.getJSON(url, function(data){
+
+					 var lastRefreshed = data['Meta Data']['3: Last Refreshed'];
+				     atr = parseFloat(data['Technical Analysis: ATR'][lastRefreshed]['ATR']);
+				     
+				     //console.log(atr);
+				     $('.atr').html('<br><font color = "orange" size = "4">ATR Range:  '+ (parseFloat(previous)-parseFloat(atr)).toFixed(2)+'-'+ 
+				     	(parseFloat(previous)+parseFloat(atr)).toFixed(2)+'</font>('+ atr.toFixed(2) +')'+'<br><font color = "orange" size = "4">Tommorow:  ' + parseFloat(price-atr).toFixed(2) +'-'+ parseFloat(price+atr).toFixed(2)+'</font>');
+				     
+
+
+				    });
+				
+			
+
+				
+			}	
 
 		});
 		
