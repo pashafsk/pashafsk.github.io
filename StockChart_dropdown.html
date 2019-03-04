@@ -205,15 +205,17 @@ width = "400"></iframe>
                     $.getJSON('https://api.iextrading.com/1.0/stock/' + stock + '/quote', function(data) {
 					
 					    price = data.latestPrice;
-                        var text = `<b>Stock</b>: ${data.symbol}
-									            Open: ${data.open}
-												high: ${data.high}
-												Low: ${data.low}
-									            <font color="red">Price: ${data.latestPrice}</font>
-												<font color="blue">AH Price: ${data.extendedPrice}</font>
-												<font color="red"><b>change: ${data.change}</b></font>
-												%:<b> ${Math.round(data.changePercent*100)}</b>
-												Vol: ${data.latestVolume}`
+					    var text = `<b>Stock</b>: ${data.symbol}
+									 	Open: ${data.open}
+										high: ${data.high}
+										Low: ${data.low}
+							            <font color="red">Price: ${data.latestPrice}</font>
+										<font color="blue">AH Price: ${data.extendedPrice}</font>
+										<font color="red"><b>change: ${data.change}</b></font>
+										%:<b> ${Math.round(data.changePercent*100)}</b>
+										Vol: ${data.latestVolume}
+										<a href=./barchart.html?tickerSymbol=${data.symbol} target =_blank >Options</a>
+										<a href=./chart.html?tickerSymbol=${data.symbol} target = _blank>chart</a>`
 
 						
 
