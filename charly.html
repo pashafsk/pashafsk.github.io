@@ -1,0 +1,63 @@
+<head>
+ <!-- Include Plotly.js -->
+ <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+ <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+  <div id="myDiv">
+    <!-- Plotly chart will be drawn inside this DIV -->
+  </div>
+  <script>
+//get stock data
+
+//calculate 10 day moving average last value
+// calculate 20 day ma
+// calculate 50 day ma
+//calculate 100 day ma
+//calculate 200 day ma
+//calcualte ATR ( - and +)
+//Render on chart 
+
+//
+var chart = 'https://api.iextrading.com/1.0/stock/amzn/chart/1m';
+
+var value=[];
+var date=[];
+
+
+$.getJSON(chart, function(data){
+  $.each(data,function(index, daily){
+   value.push(daily.close);
+   date.push(daily.date);
+
+ })
+  console.log(value[value.length-1]);
+  console.log(date);
+
+
+
+
+  //for ( i = 0 ; i <=10; i++){
+    var trace1 = {
+     y: [value[value.length-1],value[value.length-2],value[value.length-3],value[value.length-4],value[value.length-5]],
+     x: [date[date.length-1],date[date.length-2],date[date.length-3],date[date.length-4],date[date.length-5]],
+      type: 'scatter',
+      mode:'lines'
+    };
+  //}
+    var trace2 = {
+     y: [1690,1690,1690,1690,1690],
+     x: [date[date.length-1],date[date.length-2],date[date.length-3],date[date.length-4],date[date.length-5]],
+      type: 'scatter',
+      mode:'lines'
+    };
+
+var layout = {"yaxis":{"title":"Price","showgrid":false,"side":"left"},"yaxis2":{"title":"Price","showgrid":false,"side":"right","overlaying":"y"},"xaxis":{"type":"date","title":"Date","nticks":30,"tickangle":45,"showgrid":false},"title":"Amzn price","width":1600.0,"height":750.0};
+
+
+  var data = [trace1,trace2];
+
+  Plotly.newPlot('myDiv', data,layout);
+})
+</script>
+</body>
