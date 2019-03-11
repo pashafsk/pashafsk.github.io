@@ -19,45 +19,46 @@
 //Render on chart 
 
 //
-var chart = 'https://api.iextrading.com/1.0/stock/amzn/chart/1m';
+var chart = 'https://api.iextrading.com/1.0/stock/aapl/chart/3m';
 
 var value=[];
 var date=[];
+var close=[];
+var high=[];
+var low=[];
+var open=[];
 
 
 $.getJSON(chart, function(data){
   $.each(data,function(index, daily){
    value.push(daily.close);
    date.push(daily.date);
-
+   close.push(daily.close);
+   high.push(high.close);
+   low.push(low.close);
+   open.push(open.close);
  })
   console.log(value[value.length-1]);
   console.log(date);
 
-
-
-
-  //for ( i = 0 ; i <=10; i++){
-    var trace1 = {
-     y: [value[value.length-1],value[value.length-2],value[value.length-3],value[value.length-4],value[value.length-5]],
-     x: [date[date.length-1],date[date.length-2],date[date.length-3],date[date.length-4],date[date.length-5]],
-      type: 'scatter',
-      mode:'lines'
-    };
-  //}
-    var trace2 = {
-     y: [1690,1690,1690,1690,1690],
-     x: [date[date.length-1],date[date.length-2],date[date.length-3],date[date.length-4],date[date.length-5]],
+  var trace1 = {
+     y: value,
+     x: date,
       type: 'scatter',
       mode:'lines'
     };
 
+ 
 var layout = {"yaxis":{"title":"Price","showgrid":false,"side":"left"},"yaxis2":{"title":"Price","showgrid":false,"side":"right","overlaying":"y"},"xaxis":{"type":"date","title":"Date","nticks":30,"tickangle":45,"showgrid":false},"title":"Amzn price","width":1600.0,"height":750.0};
 
 
-  var data = [trace1,trace2];
+  var data = [trace1];
 
   Plotly.newPlot('myDiv', data,layout);
+
+//candlestick
+
+
 })
 </script>
 </body>
