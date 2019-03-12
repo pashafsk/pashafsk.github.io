@@ -38,23 +38,45 @@ $.getJSON(chart, function(data){
    low.push(low.close);
    open.push(open.close);
  })
-  console.log(value[value.length-1]);
-  console.log(date);
 
-  var trace1 = {
-     y: value,
-     x: date,
-      type: 'scatter',
-      mode:'lines'
-    };
+
+  ma10 = currentMa(10);
+  ma20 = currentMa(20);
+  ma50 = currentMa(50);
+  ma100 = currentMa(100);
+  console.log(ma10,ma20,ma50,ma100);
+
+  function currentMa(n){
+    return (value.slice(value.length-n,value.length).reduce(getSum)/n).toFixed(2);
+
+  }
+
+
+
+  function getSum(total, num) {
+   total = total+num;
+   return total;
+
+ }
+
+ var trace1 = {
+   y: value,
+   x: date,
+   type: 'scatter',
+   mode:'lines'
+ };
+
 
  
-var layout = {"yaxis":{"title":"Price","showgrid":false,"side":"left"},"yaxis2":{"title":"Price","showgrid":false,"side":"right","overlaying":"y"},"xaxis":{"type":"date","title":"Date","nticks":30,"tickangle":45,"showgrid":false},"title":"Amzn price","width":1600.0,"height":750.0};
+ var layout = {"yaxis":{"title":"Price","showgrid":false,"side":"left"},"yaxis2":{"title":"Price","showgrid":false,"side":"right","overlaying":"y"},"xaxis":{"type":"date","title":"Date","nticks":30,"tickangle":45,"showgrid":false},"title":"AAPL price","width":1600.0,"height":750.0};
+//
 
 
-  var data = [trace1];
+///
 
-  Plotly.newPlot('myDiv', data,layout);
+ var data = [trace1];
+
+ Plotly.newPlot('myDiv', data,layout);
 
 //candlestick
 
