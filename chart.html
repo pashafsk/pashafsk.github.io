@@ -29,6 +29,9 @@
 	<div class = "notes"> </div>
 
 	<script>
+		var value=[];
+		var weekly=[];
+		var date =[];
 		var getData = function(){
 			var input = $('#tickerSymbol').val();
 			var found = false;
@@ -42,7 +45,8 @@
 					price = data.latestPrice;
 					high = data.high;
 					low = data.low;
-					today=data.date;   
+					today=data.date;  
+
 				} 
 			});
 
@@ -53,9 +57,7 @@
 			var chart = 'https://api.iextrading.com/1.0/stock/'+input+'/chart/1y';
 
 
-			var value=[];
-			var weekly=[];
-			var date =[];
+
 
 			$.getJSON(chart, function(data){
 				$.each(data, function(index, daily){
@@ -69,6 +71,8 @@
 						weekly.push(daily.close);
 					}
 				})
+				value.push(price);
+				date.push(today);
 				console.log(value);
 			  //5ma trend
 			  var x5ma =  value.slice(value.length-5,value.length).reduceRight(getSum);
