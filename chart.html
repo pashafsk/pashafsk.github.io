@@ -71,9 +71,15 @@
 						weekly.push(daily.close);
 					}
 				})
-				value.push(price);
-				date.push(today);
-				console.log(value);
+				if(price!=value[value.length-1])
+				{
+					value.push(price);
+					date.push(today);
+
+				}
+				
+				
+				
 			  //5ma trend
 			  var x5ma =  value.slice(value.length-5,value.length).reduceRight(getSum);
 			  var y5ma =  value.slice(value.length-6,value.length-1).reduceRight(getSum);
