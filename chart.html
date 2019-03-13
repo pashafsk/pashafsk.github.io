@@ -273,40 +273,40 @@
    y: [ma10,ma10,ma10,ma10,ma10],
    x: date.slice(date.length-5,date.length),
    type: 'scatter',
-   mode:'markers',
+   mode:'lines',
    name:'10day'
  };
   var x20 = {
    y: [ma20,ma20,ma20,ma20,ma20],
    x: date.slice(date.length-5,date.length),
    type: 'scatter',
-   mode:'markers',
+   mode:'lines',
    name:'20day'
  };
    var x50 = {
    y: [ma50,ma50,ma50,ma50,ma50],
    x: date.slice(date.length-5,date.length),
    type: 'scatter',
-   mode:'markers',
+   mode:'lines',
    name: '50day'
  };
    var x100 = {
    y: [ma100,ma100,ma100,ma100,ma100],
    x: date.slice(date.length-5,date.length),
    type: 'scatter',
-   mode:'markers',
+   mode:'lines',
    name:'100day'
  };
    var x200 = {
    y: [ma200,ma200,ma200,ma200,ma200],
    x: date.slice(date.length-5,date.length),
    type: 'scatter',
-   mode:'markers',
+   mode:'lines',
    name:'200day'
  };
 
  
- var layout = {"yaxis":{"title":"Price","showgrid":false,"side":"left"},"yaxis2":{"title":"Price","showgrid":false,"side":"right","overlaying":"y"},"xaxis":{"type":"date","title":"Date","nticks":30,"tickangle":45,"showgrid":false},"title": symbol + ' price',"width":800.0,"height":600.0};
+ var layout = {"yaxis":{"title":"Price","showgrid":false,"side":"left"},"yaxis2":{"title":"Price","showgrid":false,"side":"right","overlaying":"y"},"xaxis":{"type":"date","title":"Date","nticks":30,"tickangle":45,"showgrid":false},"title": symbol + ' price',"width":900.0,"height":400.0};
 
  var data = [trace1,x10,x20,x50,x100,x200];
 
