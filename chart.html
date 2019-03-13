@@ -1,75 +1,80 @@
 <!DOCTYPE html>
-   <head >
-      <title>Moving Averages</title>
-      <script src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-	  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-	  
-	  <style>
-	  .trend tr:nth-child(even) {background-color: #f2f2f2;}
-	  .ma tr:nth-child(even) {background-color: lightgreen;}
-	  
-		table, th, td {
-  border: 1px solid black;
-}
-	  
-	 
-	  </style>
-	  
-   </head>
+<head >
+	<title>Moving Averages</title>
+	<script src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
-   <body>
-   
-   <input type="text" id="tickerSymbol" />
-   <button>Go!</button>
-    <div class =  "symbol"> </div>
-    <div class = "trend"> </div>
+	<style>
+	.trend tr:nth-child(even) {background-color: #f2f2f2;}
+	.ma tr:nth-child(even) {background-color: lightgreen;}
+
+	table, th, td {
+		border: 1px solid black;
+	}
+
+
+</style>
+
+</head>
+
+<body>
+
+	<input type="text" id="tickerSymbol" />
+	<button>Go!</button>
+	<div id="myDiv"></div>
+	<div class =  "symbol"> </div>
+	<div class = "trend"> </div>
 	<div class = "ma"> </div>
 	<div class = "notes"> </div>
-   
-   <script>
-    var getData = function(){
-        var input = $('#tickerSymbol').val();
-        var found = false;
-        var iex = 'https://api.iextrading.com/1.0/stock/'+input+'/quote';
-  
-        $.ajax({ 
-            url: iex, 
-            dataType: 'json', 
-            async: false, 
-            success: function(data){ 
-              price = data.latestPrice;
-              high = data.high;
-              low = data.low;   
-            } 
-           });
 
-		
-       
-  		
-        
-        var chart = 'https://api.iextrading.com/1.0/stock/'+input+'/chart/1y';
-		
-		
-		 var value=[];
-		 var weekly=[];
-		 
-		$.getJSON(chart, function(data){
-			$.each(data, function(index, daily){
+	<script>
+		var getData = function(){
+			var input = $('#tickerSymbol').val();
+			var found = false;
+			var iex = 'https://api.iextrading.com/1.0/stock/'+input+'/quote';
+			
+			$.ajax({ 
+				url: iex, 
+				dataType: 'json', 
+				async: false, 
+				success: function(data){ 
+					price = data.latestPrice;
+					high = data.high;
+					low = data.low;
+					today=data.date;   
+				} 
+			});
+
+
+
+
+
+			var chart = 'https://api.iextrading.com/1.0/stock/'+input+'/chart/1y';
+
+
+			var value=[];
+			var weekly=[];
+			var date =[];
+
+			$.getJSON(chart, function(data){
+				$.each(data, function(index, daily){
 			  //  console.log(daily.close);
-				value.push(daily.close);
+			  value.push(daily.close);
 				   // console.log(daily.date);
-					var d = new Date(daily.date);
+				   date.push(daily.date);
+				   var d = new Date(daily.date);
 					//console.log(d +'day is'+ d.getDay());
-				if (d.getDay() == 4){
-					weekly.push(daily.close);
+					if (d.getDay() == 4){
+						weekly.push(daily.close);
 					}
 				})
-			 			  				 
+				console.log(value);
 			  //5ma trend
 			  var x5ma =  value.slice(value.length-5,value.length).reduceRight(getSum);
 			  var y5ma =  value.slice(value.length-6,value.length-1).reduceRight(getSum);
 			  var z5ma =  value.slice(value.length-7,value.length-2).reduceRight(getSum);
-              var Today5 =  value.slice(value.length-4,value.length).reduceRight(getSum);
+			  var Today5 =  value.slice(value.length-4,value.length).reduceRight(getSum);
               //console.log('price'+ price);
               Today5 =((Today5+price)/5).toFixed(2);
 			  //end 5ma trend
@@ -78,15 +83,15 @@
 			  var x10ma =  value.slice(value.length-10,value.length).reduceRight(getSum);
 			  var y10ma =  value.slice(value.length-11,value.length-1).reduceRight(getSum);
 			  var z10ma =  value.slice(value.length-12,value.length-2).reduceRight(getSum);
-              var Today10 =  value.slice(value.length-9,value.length).reduceRight(getSum);
-              Today10 =((Today10+price)/10).toFixed(2);
+			  var Today10 =  value.slice(value.length-9,value.length).reduceRight(getSum);
+			  Today10 =((Today10+price)/10).toFixed(2);
               //end 10ma trend
-			  
+
 			  //20ma trend
 			  var x20ma =  value.slice(value.length-20,value.length).reduceRight(getSum);
 			  var y20ma =  value.slice(value.length-21,value.length-1).reduceRight(getSum);
 			  var z20ma =  value.slice(value.length-22,value.length-2).reduceRight(getSum);
-              var Today20 =  value.slice(value.length-19,value.length).reduceRight(getSum);
+			  var Today20 =  value.slice(value.length-19,value.length).reduceRight(getSum);
               //console.log('price'+ price);
               Today20 =((Today20+price)/20).toFixed(2);
 			  //end 20ma trend
@@ -95,7 +100,7 @@
 			  var x50ma =  value.slice(value.length-50,value.length).reduceRight(getSum);
 			  var y50ma =  value.slice(value.length-51,value.length-1).reduceRight(getSum);
 			  var z50ma =  value.slice(value.length-52,value.length-2).reduceRight(getSum);
-              var Today50 =  value.slice(value.length-49,value.length).reduceRight(getSum);
+			  var Today50 =  value.slice(value.length-49,value.length).reduceRight(getSum);
               //console.log('price'+ price);
               Today50 =((Today50+price)/50).toFixed(2);
 			  //end 50ma trend
@@ -122,118 +127,118 @@
 
 			  //var rgbColor = data.quote.changePercent > 0 ? '0,255,0' : '255,0,0';
               //var  rgbOpacity = Math.min(Math.abs(data.quote.changePercent) * 20, 1);
-			  
+
 			  //create table of trend
 			  
-			   var table = '<br><table>';
-               table += '<th>MovingAverage</th><th>2days</th><th>yesterday</th><th>today</th><th>current</th>';
-              
+			  var table = '<br><table>';
+			  table += '<th>MovingAverage</th><th>2days</th><th>yesterday</th><th>today</th><th>current</th>';
+
 			    //table += '<tr>';
 				//table += '<tr><td>' + '5ma trend ' +(z5ma/5).toFixed(2) + ' ' + (y5ma/5).toFixed(2) + ' ' + (x5ma/5).toFixed(2)+ '</td></tr>';
 				table +='<tr>';
-				   	table += '<td> 5SMA </td><td>'+ (z5ma/5).toFixed(2) + '</td>' + '<td>' + (y5ma/5).toFixed(2) + '</td>' + '<td>' + (x5ma/5).toFixed(2) + '</td>'+ '<td>'+ Today5 + '</td>';
+				table += '<td> 5SMA </td><td>'+ (z5ma/5).toFixed(2) + '</td>' + '<td>' + (y5ma/5).toFixed(2) + '</td>' + '<td>' + (x5ma/5).toFixed(2) + '</td>'+ '<td>'+ Today5 + '</td>';
 				table += '</tr>';
 				table +='<tr>';
-				   	table += '<td> 10SMA </td><td>'+ (z10ma/10).toFixed(2) + '</td>' + '<td>' + (y10ma/10).toFixed(2) + '</td>' + '<td>' + (x10ma/10).toFixed(2) + '</td>'+ '<td>'+ Today10 + '</td>';
+				table += '<td> 10SMA </td><td>'+ (z10ma/10).toFixed(2) + '</td>' + '<td>' + (y10ma/10).toFixed(2) + '</td>' + '<td>' + (x10ma/10).toFixed(2) + '</td>'+ '<td>'+ Today10 + '</td>';
 				table += '</tr>';
 				table +='<tr>';
-				   	table += '<td> 20SMA </td><td>'+ (z20ma/20).toFixed(2) + '</td>' + '<td>' + (y20ma/20).toFixed(2) + '</td>' + '<td>' + (x20ma/20).toFixed(2) + '</td>'+ '<td>'+ Today20 + '</td>';
+				table += '<td> 20SMA </td><td>'+ (z20ma/20).toFixed(2) + '</td>' + '<td>' + (y20ma/20).toFixed(2) + '</td>' + '<td>' + (x20ma/20).toFixed(2) + '</td>'+ '<td>'+ Today20 + '</td>';
 				table += '</tr>';
 				table +='<tr>';
-				   	table += '<td> Price </td><td>'+ value[value.length-3]+ '</td>' + '<td>' + value[value.length-2] + '</td>' + '<td>' + value[value.length-1] + '</td>'+ '<td>'+ price + '</td>';
+				table += '<td> Price </td><td>'+ value[value.length-3]+ '</td>' + '<td>' + value[value.length-2] + '</td>' + '<td>' + value[value.length-1] + '</td>'+ '<td>'+ price + '</td>';
 				table += '</tr>';
 				table +='<tr>';
-				   	table += '<td> 50SMA </td><td>'+ (z50ma/50).toFixed(2) + '</td>' + '<td>' + (y50ma/50).toFixed(2) + '</td>' + '<td>' + (x50ma/50).toFixed(2) + '</td>'+ '<td>'+ Today50 + '</td>';
+				table += '<td> 50SMA </td><td>'+ (z50ma/50).toFixed(2) + '</td>' + '<td>' + (y50ma/50).toFixed(2) + '</td>' + '<td>' + (x50ma/50).toFixed(2) + '</td>'+ '<td>'+ Today50 + '</td>';
 				table += '</tr>';
 				table +='<tr>';
-				   	table += '<td> Weekly5 </td><td>'+ (z5wma/5).toFixed(2) + '</td>' + '<td>' + (y5wma/5).toFixed(2) + '</td>' + '<td>' + (x5wma/5).toFixed(2) + '</td>'+ '<td>'+ '' + '</td>';
+				table += '<td> Weekly5 </td><td>'+ (z5wma/5).toFixed(2) + '</td>' + '<td>' + (y5wma/5).toFixed(2) + '</td>' + '<td>' + (x5wma/5).toFixed(2) + '</td>'+ '<td>'+ '' + '</td>';
 				table += '</tr>';
 				table +='<tr>';
-				   	table += '<td> Weekly10 </td><td>'+ (z10wma/10).toFixed(2) + '</td>' + '<td>' + (y10wma/10).toFixed(2) + '</td>' + '<td>' + (x10wma/10).toFixed(2) + '</td>'+ '<td>'+ '' + '</td>';
+				table += '<td> Weekly10 </td><td>'+ (z10wma/10).toFixed(2) + '</td>' + '<td>' + (y10wma/10).toFixed(2) + '</td>' + '<td>' + (x10wma/10).toFixed(2) + '</td>'+ '<td>'+ '' + '</td>';
 				table += '</tr>';
-			  table += '</table>';
-		 $('.ma').html(table);
-		 
-		 
-		 
-		  var trend = [
-						 [(x5ma/5).toFixed(2),"5MA"],
-						 [(x10ma/10).toFixed(2),"10MA"],
-						 [(x20ma/20).toFixed(2),"20MA"],
-						 [(x50ma/50).toFixed(2),"50MA"],
-						 [(x100ma/100).toFixed(2),"100MA"],
-						 [(x200ma/200).toFixed(2),"200MA"],
+				table += '</table>';
+				$('.ma').html(table);
+
+
+
+				var trend = [
+				[(x5ma/5).toFixed(2),"5MA"],
+				[(x10ma/10).toFixed(2),"10MA"],
+				[(x20ma/20).toFixed(2),"20MA"],
+				[(x50ma/50).toFixed(2),"50MA"],
+				[(x100ma/100).toFixed(2),"100MA"],
+				[(x200ma/200).toFixed(2),"200MA"],
 						 //[entry.gsx$weekly5ma.$t,"Weekly5SMA"],
 						 //[entry.gsx$weekly10sma.$t,"Weekly10SMA"],
 						 [price,"Current Price"],
 						 [(x5wma/5).toFixed(2),"Weekly5SMA"],
 						 [(y10wma/10).toFixed(2),"Weekly10SMA"]
-                                          						 
-						]
-					
-			trend.sort();
-			var now = new Date();
-			$('.symbol').html('<br><br>'+input.toUpperCase()+ '('+ low +'-'+ high +')' + ' Last Updated ' + now +  '<br><br>');
 
-						var html = '<table>';
-							html += '<tr>';
-						
-							html += '</tr>';
-							for( var i = 0; i < trend.length; i++) {
-								html += '<tr>';
-								   if(trend[i][1]== 'Current Price'){
-										html += '<td><font color = "red">' + trend[i][1] + '</font></td>';
-										html += '<td><font color = "red">' + trend[i][0]+'</font></td>';
-										html += '</tr>';
-										}
-									
-									else{
-										html += '<td>' + trend[i][1] + '</td>';
-										html += '<td>' + trend[i][0]+'</td>';
-										html += '</tr>';
-									}
-                            
-												 
-							}
-							
-						
-								html += '</table>';
-				 $('.trend').html(html);
+						 ]
 
-				 $('.notes').empty();
-				
-							 
-				if (x5wma> y5wma){
-				       	  $('.notes').append('<font color = "green" size = "4">5ma weekly pointing up</font>' + '(' + (y5wma/5).toFixed(2)+')' );
-						}
-						else {
-						$('.notes').append('<font color = "red" size = "4">5ma weekly pointing DOWN</font>' + '(' + (y5wma/5).toFixed(2) +')');
-						}
-											
-				if (x10wma > y10wma){
-						  $('.notes').append('<br><font color = "green" size = "4">10ma weekly pointing up</font>' + '(' + (y10wma/10).toFixed(2) +')');
-						}
-						else {
-						$('.notes').append('<br><font color = "red" size = "4">10ma weekly pointing DOWN</font>' + '(' + (y10wma/10).toFixed(2) +')');
-						}
+						 trend.sort();
+						 var now = new Date();
+						 $('.symbol').html('<br><br>'+input.toUpperCase()+ '('+ low +'-'+ high +')' + ' Last Updated ' + now +  '<br><br>');
 
-				  $('.notes').append('<br><font color = "orange" size = "4">Days Range:  ' + low +'-'+ high+'</font>('+Math.abs(high-low).toFixed(2)+')');
-				
-			atrCalc(input,value[value.length-2]);			
-			
-			   
-			function getSum(total, num) {
-			         return total+num;
-				}
-			function atrCalc(symbol,previous){
-				
-				var url = 'https://www.alphavantage.co/query?function=ATR&symbol='+symbol+'&interval=daily&time_period=20&apikey=KTG44DCA9F9HHRL5';
-                var atr;
-				$.getJSON(url, function(data){
+						 var html = '<table>';
+						 html += '<tr>';
 
-					 var lastRefreshed = data['Meta Data']['3: Last Refreshed'];
-				     atr = parseFloat(data['Technical Analysis: ATR'][lastRefreshed]['ATR']);
-				     
+						 html += '</tr>';
+						 for( var i = 0; i < trend.length; i++) {
+						 	html += '<tr>';
+						 	if(trend[i][1]== 'Current Price'){
+						 		html += '<td><font color = "red">' + trend[i][1] + '</font></td>';
+						 		html += '<td><font color = "red">' + trend[i][0]+'</font></td>';
+						 		html += '</tr>';
+						 	}
+
+						 	else{
+						 		html += '<td>' + trend[i][1] + '</td>';
+						 		html += '<td>' + trend[i][0]+'</td>';
+						 		html += '</tr>';
+						 	}
+
+
+						 }
+
+
+						 html += '</table>';
+						 $('.trend').html(html);
+
+						 $('.notes').empty();
+
+
+						 if (x5wma> y5wma){
+						 	$('.notes').append('<font color = "green" size = "4">5ma weekly pointing up</font>' + '(' + (y5wma/5).toFixed(2)+')' );
+						 }
+						 else {
+						 	$('.notes').append('<font color = "red" size = "4">5ma weekly pointing DOWN</font>' + '(' + (y5wma/5).toFixed(2) +')');
+						 }
+
+						 if (x10wma > y10wma){
+						 	$('.notes').append('<br><font color = "green" size = "4">10ma weekly pointing up</font>' + '(' + (y10wma/10).toFixed(2) +')');
+						 }
+						 else {
+						 	$('.notes').append('<br><font color = "red" size = "4">10ma weekly pointing DOWN</font>' + '(' + (y10wma/10).toFixed(2) +')');
+						 }
+
+						 $('.notes').append('<br><font color = "orange" size = "4">Days Range:  ' + low +'-'+ high+'</font>('+Math.abs(high-low).toFixed(2)+')');
+
+						 atrCalc(input,value[value.length-2]);			
+
+
+						 function getSum(total, num) {
+						 	return total+num;
+						 }
+						 function atrCalc(symbol,previous){
+
+						 	var url = 'https://www.alphavantage.co/query?function=ATR&symbol='+symbol+'&interval=daily&time_period=20&apikey=KTG44DCA9F9HHRL5';
+						 	var atr;
+						 	$.getJSON(url, function(data){
+
+						 		var lastRefreshed = data['Meta Data']['3: Last Refreshed'];
+						 		atr = parseFloat(data['Technical Analysis: ATR'][lastRefreshed]['ATR']);
+
 				     //console.log(atr);
 				     $('.notes').append('<br><font color = "orange" size = "4">ATR Range:  '+ (parseFloat(previous)-parseFloat(atr)).toFixed(2)+'-'+ 
 				     	(parseFloat(previous)+parseFloat(atr)).toFixed(2)+'</font>('+ atr.toFixed(2) +')');
@@ -241,9 +246,74 @@
 				     	parseFloat(price+atr).toFixed(2)+'</font>');
 
 
-				    });
+				 });
+				//build chart 
+
+				ma10 = currentMa(10);
+				ma20 = currentMa(20);
+				ma50 = currentMa(50);
+				ma100 = currentMa(100);
+				ma200 = currentMa(200);
+
+
+				function currentMa(n){
+					return (value.slice(value.length-n,value.length).reduce(getSum)/n).toFixed(2);
+
+				}
+
+				var trace1 = {
+  y: value.slice(value.length-20,value.length),
+   x: date.slice(date.length-20,date.length),
+   type: 'scatter',
+   mode:'lines',
+   name:'Price'
+
+ };
+  var x10 = {
+   y: [ma10,ma10,ma10,ma10,ma10],
+   x: date.slice(date.length-5,date.length),
+   type: 'scatter',
+   mode:'markers',
+   name:'10day'
+ };
+  var x20 = {
+   y: [ma20,ma20,ma20,ma20,ma20],
+   x: date.slice(date.length-5,date.length),
+   type: 'scatter',
+   mode:'markers',
+   name:'20day'
+ };
+   var x50 = {
+   y: [ma50,ma50,ma50,ma50,ma50],
+   x: date.slice(date.length-5,date.length),
+   type: 'scatter',
+   mode:'markers',
+   name: '50day'
+ };
+   var x100 = {
+   y: [ma100,ma100,ma100,ma100,ma100],
+   x: date.slice(date.length-5,date.length),
+   type: 'scatter',
+   mode:'markers',
+   name:'100day'
+ };
+   var x200 = {
+   y: [ma200,ma200,ma200,ma200,ma200],
+   x: date.slice(date.length-5,date.length),
+   type: 'scatter',
+   mode:'markers',
+   name:'200day'
+ };
+
+ 
+ var layout = {"yaxis":{"title":"Price","showgrid":false,"side":"left"},"yaxis2":{"title":"Price","showgrid":false,"side":"right","overlaying":"y"},"xaxis":{"type":"date","title":"Date","nticks":30,"tickangle":45,"showgrid":false},"title": symbol + ' price',"width":800.0,"height":600.0};
+
+ var data = [trace1,x10,x20,x50,x100,x200];
+
+ Plotly.newPlot('myDiv', data,layout);
+				//end chart 
 				
-			
+
 
 				
 			}
@@ -254,7 +324,7 @@
     $("input").change(getData);
     
     $(function() {
-        var urlParams = new URLSearchParams(window.location.search);
+    	var urlParams = new URLSearchParams(window.location.search);
         //console.log(urlParams.toString());
         var ticker = urlParams.get('tickerSymbol');
         //console.log(ticker);
@@ -262,10 +332,11 @@
         //console.log($('#tickerSymbol').val());
         getData();
     });
-	
 
-	
-   </script>
- 
-   </body>
+
+
+
+</script>
+
+</body>
 </html>

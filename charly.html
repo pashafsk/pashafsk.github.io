@@ -5,7 +5,6 @@
 </head>
 <body>
   <div id="myDiv">
-    <!-- Plotly chart will be drawn inside this DIV -->
   </div>
   <script>
 //get stock data
@@ -19,7 +18,11 @@
 //Render on chart 
 
 //
-var chart = 'https://api.iextrading.com/1.0/stock/aapl/chart/3m';
+
+chart('amd');
+
+function chart(symbol){
+var chart = 'https://api.iextrading.com/1.0/stock/'+symbol+'/chart/1y';
 
 var value=[];
 var date=[];
@@ -44,6 +47,7 @@ $.getJSON(chart, function(data){
   ma20 = currentMa(20);
   ma50 = currentMa(50);
   ma100 = currentMa(100);
+  ma200 = currentMa(200);
   console.log(ma10,ma20,ma50,ma100);
 
   function currentMa(n){
@@ -51,7 +55,7 @@ $.getJSON(chart, function(data){
 
   }
 
-
+console.log();
 
   function getSum(total, num) {
    total = total+num;
@@ -60,27 +64,56 @@ $.getJSON(chart, function(data){
  }
 
  var trace1 = {
-   y: value,
-   x: date,
+  y: value.slice(value.length-20,value.length),
+   x: date.slice(date.length-20,date.length),
    type: 'scatter',
-   mode:'lines'
+   mode:'lines',
+   name:'Price'
+
+ };
+  var x10 = {
+   y: [ma10,ma10,ma10,ma10,ma10],
+   x: date.slice(date.length-5,date.length),
+   type: 'scatter',
+   mode:'markers',
+   name:'10day'
+ };
+  var x20 = {
+   y: [ma20,ma20,ma20,ma20,ma20],
+   x: date.slice(date.length-5,date.length),
+   type: 'scatter',
+   mode:'markers',
+   name:'20day'
+ };
+   var x50 = {
+   y: [ma50,ma50,ma50,ma50,ma50],
+   x: date.slice(date.length-5,date.length),
+   type: 'scatter',
+   mode:'lines',
+   name: '50day'
+ };
+   var x100 = {
+   y: [ma100,ma100,ma100,ma100,ma100],
+   x: date.slice(date.length-5,date.length),
+   type: 'scatter',
+   mode:'markers',
+   name:'100day'
+ };
+   var x200 = {
+   y: [ma200,ma200,ma200,ma200,ma200],
+   x: date.slice(date.length-5,date.length),
+   type: 'scatter',
+   mode:'markers',
+   name:'200day'
  };
 
-
  
- var layout = {"yaxis":{"title":"Price","showgrid":false,"side":"left"},"yaxis2":{"title":"Price","showgrid":false,"side":"right","overlaying":"y"},"xaxis":{"type":"date","title":"Date","nticks":30,"tickangle":45,"showgrid":false},"title":"AAPL price","width":1600.0,"height":750.0};
-//
+ var layout = {"yaxis":{"title":"Price","showgrid":false,"side":"left"},"yaxis2":{"title":"Price","showgrid":false,"side":"right","overlaying":"y"},"xaxis":{"type":"date","title":"Date","nticks":30,"tickangle":45,"showgrid":false},"title": symbol + ' price',"width":800.0,"height":600.0};
 
-
-///
-
- var data = [trace1];
+ var data = [trace1,x10,x20,x50,x100,x200];
 
  Plotly.newPlot('myDiv', data,layout);
-
-//candlestick
-
-
 })
+}
 </script>
 </body>
