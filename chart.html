@@ -9,9 +9,6 @@
 	.trend tr:nth-child(even) {background-color: #f2f2f2;}
 	.ma tr:nth-child(even) {background-color: lightgreen;}
 
-	table, th, td {
-		border: 1px solid black;
-	}
 
 
 </style>
@@ -22,11 +19,28 @@
 
 	<input type="text" id="tickerSymbol" />
 	<button>Go!</button>
-	<div id="myDiv"></div>
-	<div class =  "symbol"> </div>
-	<div class = "trend"> </div>
-	<div class = "ma"> </div>
-	<div class = "notes"> </div>
+<div class="symbol"></div>
+
+<table>
+	<tr>
+		<td><div id="myDiv"></div></td>
+		<td><div class = "notes"></div></td>
+	</tr>
+	<tr>
+		<td><div class="ma"></div></td>
+		<td><div class="trend"></div></td>
+		
+	</tr>
+
+</table>
+
+
+
+
+
+
+
+
 
 	<script>
 		var value=[];
