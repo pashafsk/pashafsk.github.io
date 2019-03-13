@@ -59,12 +59,11 @@
 					price = data.latestPrice;
 					high = data.high;
 					low = data.low;
-					today=data.date;  
-
+				
 				} 
 			});
 
-
+              
 
 
 
@@ -88,10 +87,10 @@
 				if(price!=value[value.length-1])
 				{
 					value.push(price);
-					date.push(today);
+					date.push(new Date());
 
 				}
-				
+
 				
 				
 			  //5ma trend
@@ -330,7 +329,7 @@
  };
 
  
- var layout = {"yaxis":{"title":"Price","showgrid":false,"side":"left"},"yaxis2":{"title":"Price","showgrid":false,"side":"right","overlaying":"y"},"xaxis":{"type":"date","title":"Date","nticks":30,"tickangle":45,"showgrid":false},"title": symbol + ' price',"width":900.0,"height":400.0};
+ var layout = {"yaxis":{"title":"Price","showgrid":false,"side":"left"},"yaxis2":{"title":"Price","showgrid":false,"side":"right","overlaying":"y"},"xaxis":{"type":"date","title":"Date","nticks":30,"tickangle":45,"showgrid":false},"title": symbol + ' price',"width":1000.0,"height":400.0};
 
  var data = [trace1,x10,x20,x50,x100,x200];
 
