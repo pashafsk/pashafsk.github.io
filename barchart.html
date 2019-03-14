@@ -56,7 +56,7 @@
 			var  select = $(":selected").val();
 			console.log(select);
 			 var apiResult = document.getElementById("quoteData"),
-				getQuoteURL = 'https://cors.io?https://query1.finance.yahoo.com/v7/finance/options/'+input+'?date='+ select;
+				getQuoteURL = 'https://cors.io?http://query1.finance.yahoo.com/v7/finance/options/'+input+'?date='+ select;
 				 var html = '<br><b>Options >'+maxValue +' OpenInterest</b></br>';
 				  html += '<table><th>Symbol</th><th>type</th><th>Strike</th><th>openInterest</th><th>volume</th><th>Bid/Ask</th>';
 				$.ajax({
