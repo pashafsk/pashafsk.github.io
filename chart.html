@@ -289,7 +289,11 @@ var trace1 = {
    x: date.slice(date.length-30,date.length),
    type: 'scatter',
    mode:'lines',
-   name:'Price'
+   name:'Price',
+    line: {
+    color: 'rgb(0, 0, 0)',
+    width: 2
+  }
 
  };
   var x5 = {
@@ -297,42 +301,62 @@ var trace1 = {
    x: date.slice(date.length-10,date.length),
    type: 'scatter',
    mode:'lines',
-   name:'5day'
+   name:'5day',
+     line: {
+    color: 'rgb(255,0,255)'
+  }
+
  };
   var x10 = {
    y: [currentMa(10,9),currentMa(10,8),currentMa(10,7),currentMa(10,6),currentMa(10,5),currentMa(10,4),currentMa(10,3),currentMa(10,2),currentMa(10,1),currentMa(10,0)],
    x: date.slice(date.length-10,date.length),
    type: 'scatter',
    mode:'lines',
-   name:'10day'
+   name:'10day',
+    line: {
+    color: 'rgb(0,0,255)'
+  }
  };
   var x20 = {
    y: [currentMa(20,9),currentMa(20,8),currentMa(20,7),currentMa(20,6),currentMa(20,5),currentMa(20,4),currentMa(20,3),currentMa(20,2),currentMa(20,1),currentMa(20,0)],
    x: date.slice(date.length-10,date.length),
    type: 'scatter',
    mode:'lines',
-   name:'20day'
+   name:'20day',
+   line: {
+   color: 'rgb(0,128,0)'
+  }
  };
    var x50 = {
    y: [currentMa(50,9),currentMa(50,8),currentMa(50,7),currentMa(50,6),currentMa(50,5),currentMa(50,4),currentMa(50,3),currentMa(50,2),currentMa(50,1),currentMa(50,0)],
    x: date.slice(date.length-10,date.length),
    type: 'scatter',
    mode:'lines',
-   name: '50day'
+   name: '50day',
+   line: {
+   color: '	rgb(255,0,0)'
+  }
  };
    var x100 = {
    y: [currentMa(100,9),currentMa(100,8),currentMa(100,7),currentMa(100,6),currentMa(100,5),currentMa(100,4),currentMa(100,3),currentMa(100,2),currentMa(100,1),currentMa(100,0)],
    x: date.slice(date.length-10,date.length),
    type: 'scatter',
    mode:'lines',
-   name:'100day'
+   name:'100day',
+   line: {
+   color: 'rgb(139,69,19)'
+  }
  };
    var x200 = {
    y: [currentMa(200,9),currentMa(200,8),currentMa(200,7),currentMa(200,6),currentMa(200,5),currentMa(200,4),currentMa(200,3),currentMa(200,3),currentMa(200,1),currentMa(200,0)],
    x: date.slice(date.length-10,date.length),
    type: 'scatter',
    mode:'lines',
-   name:'200day'
+   name:'200day',
+   line: {
+   color: 'rgb(199,21,133)',
+    dash: 'dot'
+  }
  };
 
  
