@@ -19,7 +19,7 @@
 
 //
 
-chart('amd');
+chart('amzn');
 
 function chart(symbol){
 var chart = 'https://api.iextrading.com/1.0/stock/'+symbol+'/chart/1y';
@@ -36,10 +36,9 @@ $.getJSON(chart, function(data){
   $.each(data,function(index, daily){
    value.push(daily.close);
    date.push(daily.date);
-   close.push(daily.close);
-   high.push(high.close);
-   low.push(low.close);
-   open.push(open.close);
+   high.push(daily.high);
+   low.push(daily.close);
+   open.push(daily.low);
  })
 
 
@@ -63,7 +62,7 @@ console.log();
 
  }
 
- var trace1 = {
+ /*var trace1 = {
   y: value.slice(value.length-20,value.length),
    x: date.slice(date.length-20,date.length),
    type: 'scatter',
@@ -113,6 +112,47 @@ console.log();
  var data = [trace1,x10,x20,x50,x100,x200];
 
  Plotly.newPlot('myDiv', data,layout);
+ */
+
+
+ 
+var trace1 = {
+  
+  x: date.slice(date.length-50,date.length) , 
+  
+  close:value.slice(value.length-50,value.length), 
+  
+  decreasing: {line: {color: '#7F7F7F'}}, 
+  
+  high:high.slice(high.length-50,high.length), 
+  
+  increasing: {line: {color: '#17BECF'}}, 
+  
+  line: {color: 'rgba(31,119,180,1)'}, 
+  
+  low: low.slice(low.length-50,low.length), 
+  
+  open:open.slice(open.length-50,open.length) , 
+  
+  type: 'candlestick', 
+  xaxis: 'x', 
+  yaxis: 'y'
+};
+
+var data = [trace1];
+
+var layout = {
+  dragmode: 'zoom',
+  showlegend: false,
+  xaxis: {
+    rangeslider: {
+     visible: false
+   }
+  }
+};
+Plotly.plot('myDiv', data, layout);
+
+
 })
 }
 </script>

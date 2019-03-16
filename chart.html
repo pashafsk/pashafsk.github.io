@@ -46,6 +46,10 @@
 		var value=[];
 		var weekly=[];
 		var date =[];
+		var low =[];
+		var open = [];
+		var close = [];
+		var high = [];
 		var getData = function(){
 			var input = $('#tickerSymbol').val();
 			var found = false;
@@ -57,8 +61,10 @@
 				async: false, 
 				success: function(data){ 
 					price = data.latestPrice;
-					high = data.high;
-					low = data.low;
+					currenthigh = data.high;
+					currentlow = data.low;
+					currentopen = data.open;
+					currentclose = data.latestPrice;
 				
 				} 
 			});
@@ -76,7 +82,10 @@
 				$.each(data, function(index, daily){
 			  //  console.log(daily.close);
 			  value.push(daily.close);
-				   // console.log(daily.date);
+			  open.push(daily.open);
+			  low.push(daily.low);
+			  high.push(daily.high);
+			  
 				   date.push(daily.date);
 				   var d = new Date(daily.date);
 					//console.log(d +'day is'+ d.getDay());
@@ -88,6 +97,11 @@
 				{
 					value.push(price);
 					date.push(new Date());
+					open.push(currentopen);
+					high.push(currenthigh);
+					close.push(currentclose);
+					low.push(currentlow);
+
 
 				}
 
@@ -201,7 +215,7 @@
 
 						 trend.sort();
 						 var now = new Date();
-						 $('.symbol').html('<br><br>'+input.toUpperCase()+ '('+ low +'-'+ high +')' + ' Last Updated ' + now +  '<br><br>');
+						 $('.symbol').html('<br><br>'+input.toUpperCase()+ '('+ currentlow +'-'+ currenthigh +')' + ' Last Updated ' + now +  '<br><br>');
 
 						 var html = '<table>';
 						 html += '<tr>';
@@ -245,7 +259,7 @@
 						 	$('.notes').append('<br><font color = "red" size = "4">10ma weekly pointing DOWN</font>' + '(' + (y10wma/10).toFixed(2) +')');
 						 }
 
-						 $('.notes').append('<br><font color = "orange" size = "4">Days Range:  ' + low +'-'+ high+'</font>('+Math.abs(high-low).toFixed(2)+')');
+						 $('.notes').append('<br><font color = "orange" size = "4">Days Range:  ' + currentlow +'-'+ currenthigh+'</font>('+Math.abs(high-low).toFixed(2)+')');
 
 						 atrCalc(input,value[value.length-2]);			
 
@@ -285,14 +299,38 @@
 				}
 console.log(currentMa(5,0));
 var trace1 = {
-  y: value.slice(value.length-30,value.length),
-   x: date.slice(date.length-30,date.length),
+  x: date.slice(date.length-50,date.length) , 
+  
+  close:value.slice(value.length-50,value.length), 
+  
+  decreasing: {line: {color: '#7F7F7F'}}, 
+  
+  high:high.slice(high.length-50,high.length), 
+  
+  increasing: {line: {color: '#17BECF'}}, 
+  
+  line: {color: 'rgba(31,119,180,1)'}, 
+  
+  low: low.slice(low.length-50,low.length), 
+  
+  open:open.slice(open.length-50,open.length) , 
+  
+  type: 'candlestick', 
+  xaxis: 'x', 
+  yaxis: 'y',
+  name: 'price'
+  
+
+ };
+ var priceline = {
+   y:value.slice(value.length-50,value.length),
+   x:date.slice(date.length-50,date.length) ,
    type: 'scatter',
    mode:'lines',
-   name:'Price',
-    line: {
-    color: 'rgb(0, 0, 0)',
-    width: 2
+   name:'priceline',
+     line: {
+    color: 'rgb(0,0,0)',
+    width:2
   }
 
  };
@@ -360,9 +398,9 @@ var trace1 = {
  };
 
  
- var layout = {"yaxis":{"title":"Price","showgrid":false,"side":"left"},"yaxis2":{"title":"Price","showgrid":false,"side":"right","overlaying":"y"},"xaxis":{"type":"date","title":"Date","nticks":30,"tickangle":45,"showgrid":false},"title": symbol + ' price',"width":1000.0,"height":400.0};
+ var layout = {"yaxis":{"title":"Price","showgrid":false,"side":"left"},"yaxis2":{"title":"Price","showgrid":false,"side":"right","overlaying":"y"},"xaxis":{"type":"date","title":"Date","nticks":30,"tickangle":45,"showgrid":false, "rangeslider": {"visible": false}},"title": symbol+' price',"width":1200.0,"height":400.0};
 
- var data = [trace1,x5,x10,x20,x50,x100,x200];
+ var data = [trace1,priceline,x5,x10,x20,x50,x100,x200];
 
  Plotly.newPlot('myDiv', data,layout);
 				//end chart 
