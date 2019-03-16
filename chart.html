@@ -9,8 +9,6 @@
 	.trend tr:nth-child(even) {background-color: #f2f2f2;}
 	.ma tr:nth-child(even) {background-color: lightgreen;}
 
-
-
 </style>
 
 </head>
@@ -24,23 +22,17 @@
 <table>
 	<tr>
 		<td><div id="myDiv"></div></td>
-		<td><div class = "notes"></div></td>
 	</tr>
+</table>
+<table>
 	<tr>
 		<td><div class="ma"></div></td>
+		<td><div class = "notes"></div></td>
 		<td><div class="trend"></div></td>
 		
 	</tr>
 
 </table>
-
-
-
-
-
-
-
-
 
 	<script>
 		var value=[];
@@ -398,7 +390,7 @@ var trace1 = {
  };
 
  
- var layout = {"yaxis":{"title":"Price","showgrid":false,"side":"left"},"yaxis2":{"title":"Price","showgrid":false,"side":"right","overlaying":"y"},"xaxis":{"type":"date","title":"Date","nticks":30,"tickangle":45,"showgrid":false, "rangeslider": {"visible": false}},"title": symbol+' price',"width":1200.0,"height":400.0};
+ var layout = {"yaxis":{"title":"Price","showgrid":false,"side":"left"},"yaxis2":{"title":"Price","showgrid":false,"side":"right","overlaying":"y"},"xaxis":{"type":"date","title":"Date","nticks":30,"tickangle":45,"showgrid":false, "rangeslider": {"visible": false}},"title": symbol+' price',"width":900.0,"height":400.0};
 
  var data = [trace1,priceline,x5,x10,x20,x50,x100,x200];
 
