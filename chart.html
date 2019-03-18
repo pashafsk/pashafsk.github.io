@@ -42,6 +42,7 @@
 		var open = [];
 		var close = [];
 		var high = [];
+		var atr;
 		var getData = function(){
 			var input = $('#tickerSymbol').val();
 			var found = false;
@@ -251,7 +252,7 @@
 						 	$('.notes').append('<br><font color = "red" size = "4">10ma weekly pointing DOWN</font>' + '(' + (y10wma/10).toFixed(2) +')');
 						 }
 
-						 $('.notes').append('<br><font color = "orange" size = "4">Days Range:  ' + currentlow +'-'+ currenthigh+'</font>('+Math.abs(high-low).toFixed(2)+')');
+						 $('.notes').append('<br><font color = "orange" size = "4">Days Range:  ' + currentlow +'-'+ currenthigh+'</font>('+Math.abs(currenthigh-currentlow).toFixed(2)+')');
 
 						 atrCalc(input,value[value.length-2]);			
 
@@ -262,7 +263,7 @@
 						 function atrCalc(symbol,previous){
 
 						 	var url = 'https://www.alphavantage.co/query?function=ATR&symbol='+symbol+'&interval=daily&time_period=20&apikey=KTG44DCA9F9HHRL5';
-						 	var atr;
+						 	
 						 	$.getJSON(url, function(data){
 
 						 		var lastRefreshed = data['Meta Data']['3: Last Refreshed'];
@@ -289,6 +290,7 @@
 					return (value.slice(value.length-n-i,value.length-i).reduce(getSum)/n).toFixed(2);
 
 				}
+
 console.log(currentMa(5,0));
 var trace1 = {
   x: date.slice(date.length-50,date.length) , 
