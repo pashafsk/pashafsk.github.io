@@ -107,6 +107,13 @@
 	<div class="index5" ></div>
     <br>
    <p class="updated-timestamp"></p>
+   <select>
+        <option value="100000">Do Not Refresh</option>
+        <option value="15">15 Second</option>
+        <option value="30">30 Second</option>
+        <option value="60">60 second</option>
+    
+   </select><br>
    <a href="./StockChart_dropdown.html" target = "_blank">Research</a>
     <div class="stocks-container"></div>
   
@@ -134,7 +141,7 @@
       ];
 
       const PORTFOLIOS = portfoliosFromQueryParams() || DEFAULT_PORTFOLIOS;
-      const REFRESH_SECONDS = 30;
+      var REFRESH_SECONDS = $(":selected").val();
       const BATCH_SIZE = 100;
       //const BASE_URL = 'https://api.iextrading.com/1.0/stock/market/batch';
       const BASE_URL = 'https://cloud.iexapis.com/beta/stock/market/batch?token=sk_272977cbecfa41f288266569f52b7210';
@@ -150,7 +157,13 @@
       PORTFOLIOS.forEach((p, i) => addPortfolio(p, i === 0));
       symbols = symbols.filter((s, i) => symbols.indexOf(s) === i);
       updateData('addTitle');
+      $("select").change(function(){
+      REFRESH_SECONDS = $(":selected").val();
       setInterval(updateData, REFRESH_SECONDS * 1000);
+      console.log(REFRESH_SECONDS);
+      });
+        
+    
 	  
 	  
 	  
