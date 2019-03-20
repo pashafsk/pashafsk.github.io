@@ -107,8 +107,8 @@
 	<div class="index5" ></div>
     <br>
    <p class="updated-timestamp"></p>
-   <select>
-        <option value="100000">Do Not Refresh</option>
+   <select id = "frequency">
+        <option value="100000">Delayed</option>
         <option value="15">15 Second</option>
         <option value="30">30 Second</option>
         <option value="60">60 second</option>
@@ -119,6 +119,9 @@
   
 
     <script>
+      
+      var getData = function(){
+
       'use strict';
 
       const DEFAULT_PORTFOLIOS = [
@@ -141,10 +144,35 @@
       ];
 
       const PORTFOLIOS = portfoliosFromQueryParams() || DEFAULT_PORTFOLIOS;
-      var REFRESH_SECONDS = $(":selected").val();
+      //$(":selected").val();
       const BATCH_SIZE = 100;
+      
+      var BASE_URL = '';//https://api.iextrading.com/1.0/stock/market/batch?types=quote&symbols=';
+      var REFRESH_SECONDS=10;
+
+      if ($("#frequency option:selected" ).text() == "Delayed"){
+      		 BASE_URL = 'https://api.iextrading.com/1.0/stock/market/batch?types=quote&symbols=';
+      		 REFRESH_SECONDS = 10;
+      		console.log(BASE_URL);
+      		setInterval(updateData, REFRESH_SECONDS * 1000);
+      		console.log($("#frequency option:selected" ).text());
+      		
+
+      }
+      else 
+      {
+
+      	 BASE_URL = 'https://cloud.iexapis.com/beta/stock/market/batch?token=sk_272977cbecfa41f288266569f52b7210&types=quote&symbols=';
+      	 REFRESH_SECONDS = $(":selected").val();
+      		console.log(BASE_URL);
+      		setInterval(updateData, REFRESH_SECONDS * 1000);
+      	
+      }
+
+    
+
       //const BASE_URL = 'https://api.iextrading.com/1.0/stock/market/batch';
-      const BASE_URL = 'https://cloud.iexapis.com/beta/stock/market/batch?token=sk_272977cbecfa41f288266569f52b7210';
+      //const BASE_URL = 'https://cloud.iexapis.com/beta/stock/market/batch?token=sk_272977cbecfa41f288266569f52b7210';
       const FAVICON_SYMBOL = 'SPY';
       const FAVICON_BASE_URL = 'favicon.png';
 
@@ -157,11 +185,9 @@
       PORTFOLIOS.forEach((p, i) => addPortfolio(p, i === 0));
       symbols = symbols.filter((s, i) => symbols.indexOf(s) === i);
       updateData('addTitle');
-      $("select").change(function(){
-      REFRESH_SECONDS = $(":selected").val();
-      setInterval(updateData, REFRESH_SECONDS * 1000);
-      console.log(REFRESH_SECONDS);
-      });
+     
+      
+  
         
     
 	  
@@ -188,8 +214,8 @@
         let tableBodyHtml = portfolio.symbols.map(symbol => {
           symbol = symbol.toUpperCase();
           symbols.push(symbol);
-
-          let html = `
+          let html='';
+           html = `
             <tr data-symbol="${symbol}">
               <td class="stock-symbol"><a href="${symbolUrl(symbol)}" target="_blank">${symbol}</a></td>
 			  <td class="stock-price"></td>
@@ -248,7 +274,10 @@
       function updateDataForBatch(symbols, addTitle) {
         let filters = ['latestPrice', 'change', 'changePercent', 'marketCap','extendedPrice'];
         if (addTitle) filters.push('companyName');
-        let url = `${BASE_URL}&types=quote&symbols=${symbols.join(',')}&filter=${filters.join(',')}`;
+         let url = '';
+         url = `${BASE_URL}${symbols.join(',')}&filter=${filters.join(',')}`;
+
+         console.log(BASE_URL);
 
         fetch(url).then(response => response.json()).then(json => {
           symbols.forEach(symbol => {
@@ -586,7 +615,13 @@
 				});
 			
 	  }
-	  
+}//end function getdata
+
+$("select").change(function(){
+	$('.stocks-container').empty();
+	getData();
+});
+$( document ).ready(getData);	  
 	  
     </script>
   </body>
