@@ -23,18 +23,7 @@
 <table>
 	<tr>
 		<td><div id="myDiv"></div></td>
-		<td>
-		<!-- TradingView Widget BEGIN -->
-	   
-  		<div id="tv"></div>
-  
-  
-  <script type="text/javascript">
- 
-  </script>
-</div>
-<!-- TradingView Widget END -->
-	</td>
+		<td> <div id="tvha"></div></td>
 	</tr>
 </table>
 <table>
@@ -42,6 +31,7 @@
 		<td><div class="ma"></div></td>
 		<td><div class = "notes"></div></td>
 		<td><div class="trend"></div></td>
+		<td> <div id="tvtlb"></div></td>
 		
 	</tr>
 
@@ -418,7 +408,7 @@ var trace1 = {
 			}
 
 		}); 
-//trading view
+//trading view HA then tlb
 
  new TradingView.widget(
   {
@@ -434,7 +424,24 @@ var trace1 = {
   "enable_publishing": false,
   "hide_side_toolbar": true,
   "allow_symbol_change": true,
-  "container_id": "tv"
+  "container_id": "tvha"
+}
+  );
+ new TradingView.widget(
+  {
+  "width": 400,
+  "height": 300,
+  "symbol": input,
+  "interval": "D",
+  "timezone": "America/Chicago",
+  "theme": "Light",
+  "style": "7",
+  "locale": "en",
+  "toolbar_bg": "rgba(255, 255,255, 0)",
+  "enable_publishing": false,
+  "hide_side_toolbar": true,
+  "allow_symbol_change": true,
+  "container_id": "tvtlb"
 }
   );
 
