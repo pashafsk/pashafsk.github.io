@@ -4,6 +4,7 @@
 	<script src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+	<script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
 
 	<style>
 	.trend tr:nth-child(even) {background-color: #f2f2f2;}
@@ -22,6 +23,18 @@
 <table>
 	<tr>
 		<td><div id="myDiv"></div></td>
+		<td>
+		<!-- TradingView Widget BEGIN -->
+	   
+  		<div id="tv"></div>
+  
+  
+  <script type="text/javascript">
+ 
+  </script>
+</div>
+<!-- TradingView Widget END -->
+	</td>
 	</tr>
 </table>
 <table>
@@ -404,7 +417,36 @@ var trace1 = {
 				
 			}
 
-		});        				    
+		}); 
+//trading view
+
+ new TradingView.widget(
+  {
+  "width": 400,
+  "height": 400,
+  "symbol": input,
+  "interval": "D",
+  "timezone": "America/Chicago",
+  "theme": "Light",
+  "style": "8",
+  "locale": "en",
+  "toolbar_bg": "rgba(204, 0, 0, 1)",
+  "enable_publishing": false,
+  "hide_side_toolbar": false,
+  "allow_symbol_change": true,
+  "details": true,
+  "calendar": true,
+  "news": [
+    "stocktwits"
+  ],
+  "container_id": "tv"
+}
+  );
+
+
+//trading view
+
+
     }//getdata
     
     $("input").change(getData);
