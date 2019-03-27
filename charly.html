@@ -2,15 +2,25 @@
  <!-- Include Plotly.js -->
  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+ <script src="https://momentjs.com/downloads/moment.min.js"></script>
  <style>
-    table, th,tr, {
-      border: 1px solid black;
+    table {
+        border-spacing: 0px;
+        border: 1px solid black;
+    }
+    th, td {
+        padding-top: 3px;
+        padding-left: 3px;
+        padding-bottom: 3px;
+        padding-right: 10px;
+        text-align: center;
+        margin-right:5px;
     }
     th{
-    font-weight: bold;
-    font-size: 16;
+        font-weight: bold;
+        font-size: 16;
     }
-  .ind tr:nth-child(even) {background-color: lightblue;}
+    .ind tr:nth-child(even) {background-color: lightgrey;}
 </style>
 </head>
 <body>
@@ -26,7 +36,7 @@ $.getJSON(chart, function(data){
      html += '<th>Date<th>Close</th><th>$change</th><th>%volchange</th><th>tsi</th><th>ATR14</th><th>ATR20</th><th>10Day</th><th>20Day</th><th>50Day</th><th>100Day</th><th>200Day</th>'
   $.each(data,function(index, daily){
      console.log(daily.Date);
-      html+='<tr><td>'+daily.Date+'</td><td>'+daily.Close.toFixed(2)+'</td>';
+      html+='<tr><td>'+moment(daily.Date).format("MM/DD/YYYY")+'</td><td>'+daily.Close.toFixed(2)+'</td>';
       html+= '<td>'+daily.change.toFixed(2)+'</td><td>'+daily.Volchange.toFixed(2)+'</td>';
       html+='<td>'+daily.tsi.toFixed(2)+'</td><td>'+daily.ATR14.toFixed(2)+'</td>';
       html+='<td>'+daily.ATR20.toFixed(2)+'</td><td>'+daily["10sma"].toFixed(2)+'</td>';
