@@ -2,158 +2,57 @@
  <!-- Include Plotly.js -->
  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+ <style>
+    table, th,tr,td {
+      border: 1px solid black;
+    }
+    th{
+    font-weight: bold;
+    font-size: 16;
+    }
+  .ind tr:nth-child(even) {background-color: lightblue;}
+</style>
 </head>
 <body>
-  <div id="myDiv">
+  <div class="ind">
   </div>
   <script>
-//get stock data
 
-//calculate 10 day moving average last value
-// calculate 20 day ma
-// calculate 50 day ma
-//calculate 100 day ma
-//calculate 200 day ma
-//calcualte ATR ( - and +)
-//Render on chart 
-
-//
-
-chart('amzn');
-
-function chart(symbol){
-var chart = 'https://api.iextrading.com/1.0/stock/'+symbol+'/chart/1y';
-
-var value=[];
-var date=[];
-var close=[];
-var high=[];
-var low=[];
-var open=[];
-
-
+function indicators(symbol){
+var chart = 'https://cors.io?https://us-central1-stocks-235104.cloudfunctions.net/tsi?name='+symbol;
+var html='';
 $.getJSON(chart, function(data){
+     html += '<table>';
+     html += '<th>Date<th>Close</th><th>$change</th><th>%volchange</th><th>tsi</th><th>ATR14</th><th>ATR20</th><th>10Day</th><th>20Day</th><th>50Day</th><th>100Day</th><th>200Day</th>'
   $.each(data,function(index, daily){
-   value.push(daily.close);
-   date.push(daily.date);
-   high.push(daily.high);
-   low.push(daily.close);
-   open.push(daily.low);
- })
+     console.log(daily.Date);
+      html+='<tr><td>'+daily.Date+'</td><td>'+daily.Close.toFixed(2)+'</td>';
+      html+= '<td>'+daily.change.toFixed(2)+'</td><td>'+daily.Volchange.toFixed(2)+'</td>';
+      html+='<td>'+daily.tsi.toFixed(2)+'</td><td>'+daily.ATR14.toFixed(2)+'</td>';
+      html+='<td>'+daily.ATR20.toFixed(2)+'</td><td>'+daily["10sma"].toFixed(2)+'</td>';
+      html+='<td>'+daily["20sma"].toFixed(2)+'</td><td>'+daily["50sma"].toFixed(2)+'</td>';
+      html+='<td>'+daily["100sma"].toFixed(2)+'</td><td>'+daily["200sma"].toFixed(2)+'</td></tr>';
+      
+      console.log(daily.Date.toString)
+    });
+  html +='</table>';
 
 
-  ma10 = currentMa(10);
-  ma20 = currentMa(20);
-  ma50 = currentMa(50);
-  ma100 = currentMa(100);
-  ma200 = currentMa(200);
-  console.log(ma10,ma20,ma50,ma100);
+$('.ind').html(html);
+});
 
-  function currentMa(n){
-    return (value.slice(value.length-n,value.length).reduce(getSum)/n).toFixed(2);
-
-  }
-
-console.log();
-
-  function getSum(total, num) {
-   total = total+num;
-   return total;
-
- }
-
- /*var trace1 = {
-  y: value.slice(value.length-20,value.length),
-   x: date.slice(date.length-20,date.length),
-   type: 'scatter',
-   mode:'lines',
-   name:'Price'
-
- };
-  var x10 = {
-   y: [ma10,ma10,ma10,ma10,ma10],
-   x: date.slice(date.length-5,date.length),
-   type: 'scatter',
-   mode:'markers',
-   name:'10day'
- };
-  var x20 = {
-   y: [ma20,ma20,ma20,ma20,ma20],
-   x: date.slice(date.length-5,date.length),
-   type: 'scatter',
-   mode:'markers',
-   name:'20day'
- };
-   var x50 = {
-   y: [ma50,ma50,ma50,ma50,ma50],
-   x: date.slice(date.length-5,date.length),
-   type: 'scatter',
-   mode:'lines',
-   name: '50day'
- };
-   var x100 = {
-   y: [ma100,ma100,ma100,ma100,ma100],
-   x: date.slice(date.length-5,date.length),
-   type: 'scatter',
-   mode:'markers',
-   name:'100day'
- };
-   var x200 = {
-   y: [ma200,ma200,ma200,ma200,ma200],
-   x: date.slice(date.length-5,date.length),
-   type: 'scatter',
-   mode:'markers',
-   name:'200day'
- };
-
- 
- var layout = {"yaxis":{"title":"Price","showgrid":false,"side":"left"},"yaxis2":{"title":"Price","showgrid":false,"side":"right","overlaying":"y"},"xaxis":{"type":"date","title":"Date","nticks":30,"tickangle":45,"showgrid":false},"title": symbol + ' price',"width":800.0,"height":600.0};
-
- var data = [trace1,x10,x20,x50,x100,x200];
-
- Plotly.newPlot('myDiv', data,layout);
- */
-
-
- 
-var trace1 = {
-  
-  x: date.slice(date.length-50,date.length) , 
-  
-  close:value.slice(value.length-50,value.length), 
-  
-  decreasing: {line: {color: '#7F7F7F'}}, 
-  
-  high:high.slice(high.length-50,high.length), 
-  
-  increasing: {line: {color: '#17BECF'}}, 
-  
-  line: {color: 'rgba(31,119,180,1)'}, 
-  
-  low: low.slice(low.length-50,low.length), 
-  
-  open:open.slice(open.length-50,open.length) , 
-  
-  type: 'candlestick', 
-  xaxis: 'x', 
-  yaxis: 'y'
-};
-
-var data = [trace1];
-
-var layout = {
-  dragmode: 'zoom',
-  showlegend: false,
-  xaxis: {
-    rangeslider: {
-     visible: false
-   }
-  }
-};
-Plotly.plot('myDiv', data, layout);
-
-
-})
 }
+
+    $(function() {
+      var urlParams = new URLSearchParams(window.location.search);
+        //console.log(urlParams.toString());
+        var ticker = urlParams.get('tickerSymbol');
+        //console.log(ticker);
+        $('#tickerSymbol').val(ticker);
+        //console.log($('#tickerSymbol').val());
+        indicators(ticker);
+    });
+   
+
 </script>
 </body>
