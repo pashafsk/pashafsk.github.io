@@ -20,36 +20,48 @@
         font-weight: bold;
         font-size: 16;
     }
-    .ind tr:nth-child(even) {background-color: lightgrey;}
+     tr:nth-child(even) {background-color: lightgrey;}
 </style>
 </head>
 <body>
   <div class="ind">
   </div>
+  <div class="tlb">
+  </div>
   <script>
 
 function indicators(symbol){
 var chart = 'https://cors.io?https://us-central1-stocks-235104.cloudfunctions.net/tsi?name='+symbol;
+var tlb = 'https://cors.io?https://us-central1-stocks-235104.cloudfunctions.net/tilb?name='+symbol;
 var html='';
+var tlbhtml='';
 $.getJSON(chart, function(data){
      html += '<table>';
      html += '<th>Date<th>Close</th><th>$change</th><th>%volchange</th><th>tsi</th><th>ATR14</th><th>ATR20</th><th>10Day</th><th>20Day</th><th>50Day</th><th>100Day</th><th>200Day</th>'
   $.each(data,function(index, daily){
-     console.log(daily.Date);
       html+='<tr><td>'+moment(daily.Date).format("MM/DD/YYYY")+'</td><td>'+daily.Close.toFixed(2)+'</td>';
       html+= '<td>'+daily.change.toFixed(2)+'</td><td>'+daily.Volchange.toFixed(2)+'</td>';
       html+='<td>'+daily.tsi.toFixed(2)+'</td><td>'+daily.ATR14.toFixed(2)+'</td>';
       html+='<td>'+daily.ATR20.toFixed(2)+'</td><td>'+daily["10sma"].toFixed(2)+'</td>';
       html+='<td>'+daily["20sma"].toFixed(2)+'</td><td>'+daily["50sma"].toFixed(2)+'</td>';
       html+='<td>'+daily["100sma"].toFixed(2)+'</td><td>'+daily["200sma"].toFixed(2)+'</td></tr>';
-      
-      console.log(daily.Date.toString)
     });
   html +='</table>';
 
 
 $('.ind').html(html);
 });
+$.getJSON(tlb, function(data){
+     tlbhtml += '<br><br><table>';
+     tlbhtml += '<th>Date</th><th>High</th><th>Close</th><th>uptrend</th>'
+  $.each(data,function(index, three){
+      tlbhtml+='<tr><td>'+moment(three.date).format("MM/DD/YYYY")+'</td><td>'+three.high.toFixed(2)+'</td><td>'+three.close.toFixed(2)+'</td><td>'
+      +three.uptrend+'</td></tr>';   
+    });
+  tlbhtml +='</table>';
+$('.tlb').html(tlbhtml);
+});
+
 
 }
 
