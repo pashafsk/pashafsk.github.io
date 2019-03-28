@@ -55,7 +55,7 @@ $.getJSON(tlb, function(data){
      tlbhtml += '<br><br><table>';
      tlbhtml += '<th>Date</th><th>High</th><th>Close</th><th>uptrend</th>'
   $.each(data,function(index, three){
-      tlbhtml+='<tr><td>'+moment(three.date).format("MM/DD/YYYY")+'</td><td>'+three.high.toFixed(2)+'</td><td>'+three.close.toFixed(2)+'</td><td>'
+      tlbhtml+='<tr><td>'+moment(three.date).format("MM/DD/YYYY")+'</td><td>'+three.high.toFixed(2)+'</td><td>'+three.low.toFixed(2)+'</td><td>'
       +three.uptrend+'</td></tr>';   
     });
   tlbhtml +='</table>';
