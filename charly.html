@@ -21,6 +21,9 @@
         font-size: 16;
     }
      tr:nth-child(even) {background-color: lightgrey;}
+    tr:hover {
+        background-color: yellow;
+    }
 </style>
 </head>
 <body>
@@ -51,7 +54,7 @@ $.getJSON(chart, function(data){
 
 $('.ind').html(html);
 });
-/*$.getJSON(tlb, function(data){
+$.getJSON(tlb, function(data){
      tlbhtml += '<br><br><table>';
      tlbhtml += '<th>Date</th><th>High</th><th>Low</th><th>Uptrend</th>'
   $.each(data,function(index, three){
@@ -60,7 +63,7 @@ $('.ind').html(html);
     });
   tlbhtml +='</table>';
 $('.tlb').html(tlbhtml);
-});*/
+});
 
 
 }
