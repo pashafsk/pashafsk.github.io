@@ -3,6 +3,7 @@
  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
  <script src="https://momentjs.com/downloads/moment.min.js"></script>
+ <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
  <style>
     table {
         border-spacing: 0px;
@@ -34,6 +35,7 @@ background: green;
   </div>
   <div class="tlb">
   </div>
+  <div id="myDiv"></div>
   <script>
 
 function indicators(symbol){
@@ -41,10 +43,33 @@ var chart = 'https://cors.io?https://us-central1-stocks-235104.cloudfunctions.ne
 var tlb = 'https://cors.io?https://us-central1-stocks-235104.cloudfunctions.net/tilb?name='+symbol;
 var html='';
 var tlbhtml='';
+var open=[];
+var high=[];
+var low=[];
+var close=[];
+var ma10=[];
+var ma20=[];
+var ma50=[];
+var ma100=[];
+var ma200=[];
+var date=[];
 $.getJSON(chart, function(data){
      html += '<table>';
      html += '<th>Date</th><th>Close</th><th>Macd_diff</th><th>$change</th><th>%volchange</th><th>tsi</th><th>ATR14</th><th>ATR20</th><th>10Day</th><th>20Day</th><th>50Day</th><th>100Day</th><th>200Day</th>'
   $.each(data,function(index, daily){
+      open.push(daily.Open);
+      high.push(daily.High);
+      low.push(daily.Low);
+      close.push(daily.Close);
+      ma10.push(daily["10sma"].toFixed(2));
+      ma20.push(daily["20sma"].toFixed(2));
+      ma50.push(daily["50sma"].toFixed(2));
+      ma100.push(daily["100sma"].toFixed(2));
+      ma200.push(daily["200sma"].toFixed(2));
+      //date.push(moment(daily.Date).format("MM/DD/YYYY"));
+      date.push(daily.Date);
+
+
       html+='<tr><td>'+moment(daily.Date).format("MM/DD/YYYY")+'</td><td>'+daily.Close.toFixed(2)+'</td>';
       html+= '<td>'+daily.macd_diff.toFixed(2)+'</td><td>'+daily.change.toFixed(2)+'</td><td>'+daily.Volchange.toFixed(2)+'</td>';
       html+='<td>'+daily.tsi.toFixed(2)+'</td><td>'+daily.ATR14.toFixed(2)+'</td>';
@@ -53,6 +78,8 @@ $.getJSON(chart, function(data){
       html+='<td>'+daily["100sma"].toFixed(2)+'</td><td>'+daily["200sma"].toFixed(2)+'</td></tr>';
     });
   html +='</table>';
+  
+  plot(open,high,low,close,date,ma10,ma20,ma50,ma100,ma200,symbol);
 
 
 $('.ind').html(html);
@@ -67,9 +94,114 @@ $.getJSON(tlb, function(data){
   tlbhtml +='</table>';
 $('.tlb').html(tlbhtml);
 });
-
-
 }
+function plot(open1,high1,low1,close1,date1,ma10_1,ma20_1,ma50_1,ma100_1,ma200_1,symbol){
+//plotly
+
+
+var trace1 = {
+  x: date1,
+  
+  close:close1, 
+  
+  decreasing: {line: {color: '#7F7F7F'}}, 
+  
+  high:high1, 
+  
+  increasing: {line: {color: '#17BECF'}}, 
+  
+  line: {color: 'rgba(31,119,180,1)'}, 
+  
+  low: low1, 
+  
+  open:open1, 
+  
+  type: 'candlestick', 
+  xaxis: 'x', 
+  yaxis: 'y',
+  name: 'price'
+  
+
+ };
+ var priceline = {
+   y:close1,
+   x:date1 ,
+   type: 'scatter',
+   mode:'lines',
+   name:'priceline',
+     line: {
+    color: 'rgb(0,0,0)',
+    width:2
+  }
+
+ };
+
+  var x10 = {
+   y: ma10_1,
+   x: date1,
+   type: 'scatter',
+   mode:'lines',
+   name:'10day',
+    line: {
+    color: 'rgb(0,0,255)'
+  }
+ };
+  var x20 = {
+   y: ma20_1,
+   x: date1,
+   type: 'scatter',
+   mode:'lines',
+   name:'20day',
+   line: {
+   color: 'rgb(0,128,0)'
+  }
+ };
+   var x50 = {
+   y: ma50_1,
+   x: date1,
+   type: 'scatter',
+   mode:'lines',
+   name: '50day',
+   line: {
+   color: ' rgb(255,0,0)'
+  }
+ };
+   var x100 = {
+   y: ma100_1,
+   x: date1,
+   type: 'scatter',
+   mode:'lines',
+   name:'100day',
+   line: {
+   color: 'rgb(139,69,19)'
+  }
+ };
+   var x200 = {
+   y: ma200_1,
+   x: date1,
+   type: 'scatter',
+   mode:'lines',
+   name:'200day',
+   line: {
+   color: 'rgb(199,21,133)',
+    dash: 'dot'
+  }
+ };
+
+ 
+ var layout = {"yaxis":{"title":"Price","showgrid":false,"side":"left"},"yaxis2":{"title":"Price","showgrid":false,"side":"right","overlaying":"y"},"xaxis":{"type":"date","title":"Date","nticks":30,"tickangle":45,"showgrid":false, "rangeslider": {"visible": false}},"title": symbol+' price',"width":900.0,"height":400.0};
+
+ var data = [trace1,priceline,x10,x20,x50,x100,x200];
+
+ Plotly.newPlot('myDiv', data,layout);
+        //end chart 
+        
+}
+//end plotly
+
+
+
+
 
     $(function() {
       var urlParams = new URLSearchParams(window.location.search);
