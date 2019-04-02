@@ -47,6 +47,7 @@ var open=[];
 var high=[];
 var low=[];
 var close=[];
+var ma5=[];
 var ma10=[];
 var ma20=[];
 var ma50=[];
@@ -61,6 +62,7 @@ $.getJSON(chart, function(data){
       high.push(daily.High);
       low.push(daily.Low);
       close.push(daily.Close);
+      ma5.push(daily["5sma"].toFixed(2));
       ma10.push(daily["10sma"].toFixed(2));
       ma20.push(daily["20sma"].toFixed(2));
       ma50.push(daily["50sma"].toFixed(2));
@@ -79,7 +81,7 @@ $.getJSON(chart, function(data){
     });
   html +='</table>';
   
-  plot(open,high,low,close,date,ma10,ma20,ma50,ma100,ma200,symbol);
+  plot(open,high,low,close,date,ma5,ma10,ma20,ma50,ma100,ma200,symbol);
 
 
 $('.ind').html(html);
@@ -95,7 +97,7 @@ $.getJSON(tlb, function(data){
 $('.tlb').html(tlbhtml);
 });
 }
-function plot(open1,high1,low1,close1,date1,ma10_1,ma20_1,ma50_1,ma100_1,ma200_1,symbol){
+function plot(open1,high1,low1,close1,date1,ma5_1,ma10_1,ma20_1,ma50_1,ma100_1,ma200_1,symbol){
 //plotly
 
 
@@ -134,6 +136,16 @@ var trace1 = {
     width:2
   }
 
+ };
+ var x5 = {
+   y: ma5_1,
+   x: date1,
+   type: 'scatter',
+   mode:'lines',
+   name:'5day',
+    line: {
+    color: 'rgb(255,105,180)'
+  }
  };
 
   var x10 = {
@@ -191,7 +203,7 @@ var trace1 = {
  
  var layout = {"yaxis":{"title":"Price","showgrid":false,"side":"left"},"yaxis2":{"title":"Price","showgrid":false,"side":"right","overlaying":"y"},"xaxis":{"type":"date","title":"Date","nticks":30,"tickangle":45,"showgrid":false, "rangeslider": {"visible": false}},"title": symbol+' price',"width":900.0,"height":400.0};
 
- var data = [trace1,priceline,x10,x20,x50,x100,x200];
+ var data = [trace1,priceline,x5,x10,x20,x50,x100,x200];
 
  Plotly.newPlot('myDiv', data,layout);
         //end chart 
