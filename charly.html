@@ -56,7 +56,7 @@ var ma200=[];
 var date=[];
 $.getJSON(chart, function(data){
      html += '<table>';
-     html += '<th>Date</th><th>Close</th><th>Macd_diff</th><th>$change</th><th>%volchange</th><th>tsi</th><th>ATR14</th><th>ATR20</th><th>5Day</th><th>10Day</th><th>20Day</th><th>50Day</th><th>100Day</th><th>200Day</th>'
+     html += '<th>Date</th><th>Close</th><th>Macd_diff</th><th>$change</th><th>%volchange</th><th>tsi</th><th>ATR1</th><th>ATR14</th><th>ATR20</th><th>5Day</th><th>10Day</th><th>20Day</th><th>50Day</th><th>100Day</th><th>200Day</th>'
   $.each(data,function(index, daily){
       open.push(daily.Open);
       high.push(daily.High);
@@ -74,7 +74,7 @@ $.getJSON(chart, function(data){
 
       html+='<tr><td>'+moment(daily.Date).format("MM/DD/YYYY")+'</td><td>'+daily.Close.toFixed(2)+'</td>';
       html+= '<td>'+daily.macd_diff.toFixed(2)+'</td><td>'+daily.change.toFixed(2)+'</td><td>'+daily.Volchange.toFixed(2)+'</td>';
-      html+='<td>'+daily.tsi.toFixed(2)+'</td><td>'+daily.ATR14.toFixed(2)+'</td>';
+      html+='<td>'+daily.tsi.toFixed(2)+'</td><td>'+daily.ATR1.toFixed(2)+'</td>'+'<td>'+daily.ATR14.toFixed(2)+'</td>';
       html+='<td>'+daily.ATR20.toFixed(2)+'</td><td>'+daily["5sma"].toFixed(2)+'</td><td>'+daily["10sma"].toFixed(2)+'</td>';
       html+='<td>'+daily["20sma"].toFixed(2)+'</td><td>'+daily["50sma"].toFixed(2)+'</td>';
       html+='<td>'+daily["100sma"].toFixed(2)+'</td><td>'+daily["200sma"].toFixed(2)+'</td></tr>';
