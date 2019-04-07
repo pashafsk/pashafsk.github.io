@@ -28,14 +28,15 @@
 td:hover {
 background: green;
 }
+#myDiv,.tlb{
+  float:left;
+}
 </style>
 </head>
 <body>
-  <div class="ind">
-  </div>
-  <div class="tlb">
-  </div>
+  <div class="tlb"></div>
   <div id="myDiv"></div>
+  <div class="ind"></div>
   <script>
 
 function indicators(symbol){
@@ -56,7 +57,7 @@ var ma200=[];
 var date=[];
 $.getJSON(chart, function(data){
      html += '<table>';
-     html += '<th>Date</th><th>Close</th><th>Macd_diff</th><th>$change</th><th>%volchange</th><th>tsi</th><th>ATR1</th><th>ATR14</th><th>ATR20</th><th>5Day</th><th>10Day</th><th>20Day</th><th>50Day</th><th>100Day</th><th>200Day</th>'
+     html += '<th>Date</th><th>Close</th><th>$change</th><th>%volchange</th><th>ATR1</th><th>ATR14</th><th>ATR20</th></tr>'
   $.each(data,function(index, daily){
       open.push(daily.Open);
       high.push(daily.High);
@@ -72,12 +73,10 @@ $.getJSON(chart, function(data){
       date.push(daily.Date);
 
 
-      html+='<tr><td>'+moment(daily.Date).format("MM/DD/YYYY")+'</td><td>'+daily.Close.toFixed(2)+'</td>';
-      html+= '<td>'+daily.macd_diff.toFixed(2)+'</td><td>'+daily.change.toFixed(2)+'</td><td>'+daily.Volchange.toFixed(2)+'</td>';
-      html+='<td>'+daily.tsi.toFixed(2)+'</td><td>'+daily.ATR1.toFixed(2)+'</td>'+'<td>'+daily.ATR14.toFixed(2)+'</td>';
-      html+='<td>'+daily.ATR20.toFixed(2)+'</td><td>'+daily["5sma"].toFixed(2)+'</td><td>'+daily["10sma"].toFixed(2)+'</td>';
-      html+='<td>'+daily["20sma"].toFixed(2)+'</td><td>'+daily["50sma"].toFixed(2)+'</td>';
-      html+='<td>'+daily["100sma"].toFixed(2)+'</td><td>'+daily["200sma"].toFixed(2)+'</td></tr>';
+      html+='<tr><td>'+moment.utc(daily.Date).format("MM/DD/YYYY")+'</td><td>'+daily.Close.toFixed(2)+'</td>';
+      html+='<td>'+daily.change.toFixed(2)+'</td><td>'+daily.Volchange.toFixed(2)+'</td>';
+      html+='<td>'+daily.ATR1.toFixed(2)+'</td>'+'<td>'+daily.ATR14.toFixed(2)+'</td>';
+      html+='<td>'+daily.ATR20.toFixed(2)+'</td><td></tr>'
     });
   html +='</table>';
   
@@ -90,7 +89,7 @@ $.getJSON(tlb, function(data){
      tlbhtml += '<br><br><table>';
      tlbhtml += '<th>Date</th><th>High</th><th>Low</th><th>Uptrend</th>'
   $.each(data,function(index, three){
-      tlbhtml+='<tr><td>'+moment(three.date).format("MM/DD/YYYY")+'</td><td>'+three.high.toFixed(2)+'</td><td>'+three.low.toFixed(2)+'</td><td>'
+      tlbhtml+='<tr><td>'+moment.utc(three.date).format("MM/DD/YYYY")+'</td><td>'+three.high.toFixed(2)+'</td><td>'+three.low.toFixed(2)+'</td><td>'
       +three.uptrend+'</td></tr>';   
     });
   tlbhtml +='</table>';
@@ -201,7 +200,7 @@ var trace1 = {
  };
 
  
- var layout = {"yaxis":{"title":"Price","showgrid":false,"side":"left"},"yaxis2":{"title":"Price","showgrid":false,"side":"right","overlaying":"y"},"xaxis":{"type":"date","title":"Date","nticks":30,"tickangle":45,"showgrid":false, "rangeslider": {"visible": false}},"title": symbol+' price',"width":900.0,"height":400.0};
+ var layout = {"yaxis":{"title":"Price","showgrid":false,"side":"left"},"yaxis2":{"title":"Price","showgrid":false,"side":"right","overlaying":"y"},"xaxis":{"type":"date","title":"Date","nticks":30,"tickangle":45,"showgrid":false, "rangeslider": {"visible": false}},"title": symbol+' price',"width":1200.0,"height":600.0};
 
  var data = [trace1,priceline,x5,x10,x20,x50,x100,x200];
 
