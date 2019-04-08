@@ -28,22 +28,30 @@
 td:hover {
 background: green;
 }
+
 #myDiv,.tlb{
   float:left;
 }
+
 </style>
 </head>
 <body>
-  <div class="tlb"></div>
-  <div id="myDiv"></div>
-  <div class="ind"></div>
-  <script>
+    <div class="tlb"></div>
+    <div id="myDiv"></div>
+    <div class="tlbhrly"style="width: auto; float:left; height:200px; margin:10px"></div>
+    <div class="ind" style="width: auto; float:left; height:200px; margin:10px"></div>
+
+  
+  
+<script>
 
 function indicators(symbol){
 var chart = 'https://cors.io?https://us-central1-stocks-235104.cloudfunctions.net/tsi?name='+symbol;
 var tlb = 'https://cors.io?https://us-central1-stocks-235104.cloudfunctions.net/tilb?name='+symbol;
+var tlbhrly ='https://cors.io?https://us-central1-stocks-235104.cloudfunctions.net/tlbhrly?name='+symbol;
 var html='';
 var tlbhtml='';
+var tlbhrlyhtml='';
 var open=[];
 var high=[];
 var low=[];
@@ -95,6 +103,22 @@ $.getJSON(tlb, function(data){
   tlbhtml +='</table>';
 $('.tlb').html(tlbhtml);
 });
+
+//tlbhrly
+$.getJSON(tlbhrly, function(data){
+     tlbhrlyhtml += '<br><br><table><th>Date</th><th>High</th><th>Low</th><th>Uptrend</th>'
+     console.log(data);
+  $.each(data,function(index, threehrly){
+      tlbhrlyhtml+='<tr><td>'+threehrly.date+'</td><td>'+threehrly.high+'</td><td>'+threehrly.low+'</td><td>'+threehrly.uptrend+'</td></tr>';   
+    });
+  tlbhrlyhtml +='</table>';
+$('.tlbhrly').html(tlbhrlyhtml);
+});
+
+
+//tlbhrly
+
+
 }
 function plot(open1,high1,low1,close1,date1,ma5_1,ma10_1,ma20_1,ma50_1,ma100_1,ma200_1,symbol){
 //plotly
