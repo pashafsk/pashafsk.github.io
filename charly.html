@@ -36,10 +36,14 @@ background: green;
 </style>
 </head>
 <body>
-    <div class="tlb"></div>
     <div id="myDiv"></div>
-    <div class="tlbhrly"style="width: auto; float:left; height:200px; margin:10px"></div>
-    <div class="ind" style="width: auto; float:right; height:200px; margin:10px"></div>
+   <div>
+    <div class="tlb" style="width: auto; float:left; height:200px; margin:10px"></div>
+    <div class="tlbhrly" style="width: auto; float:left; height:200px; margin:10px"></div>
+    <div class="tlb15" style="width: auto; float:left; height:200px; margin:10px"></div>
+    <div class="ind" style="width: 300px; float:left; height:200px; margin:10px"></div>
+   </div>
+   <br><br>
 
   
   
@@ -48,10 +52,12 @@ background: green;
 function indicators(symbol){
 var chart = 'https://cors.io?https://us-central1-stocks-235104.cloudfunctions.net/tsi?name='+symbol;
 var tlb = 'https://cors.io?https://us-central1-stocks-235104.cloudfunctions.net/tilb?name='+symbol;
-var tlbhrly ='https://cors.io?https://us-central1-stocks-235104.cloudfunctions.net/tlbhrly?name='+symbol;
+var tlbhrly ='https://cors.io?https://us-central1-stocks-235104.cloudfunctions.net/tlbhrly?name='+symbol+'&timeperiod=60min';
+var tlb15 ='https://cors.io?https://us-central1-stocks-235104.cloudfunctions.net/tlbhrly?name='+symbol+'&timeperiod=15min';
 var html='';
 var tlbhtml='';
 var tlbhrlyhtml='';
+var tlb15html='';
 var open=[];
 var high=[];
 var low=[];
@@ -95,7 +101,7 @@ $('.ind').html(html);
 });
 $.getJSON(tlb, function(data){
      tlbhtml += '<br><br><table>';
-     tlbhtml += '<th>Date</th><th>High</th><th>Low</th><th>Uptrend</th>'
+     tlbhtml += '<th>Date(daily)</th><th>High</th><th>Low</th><th>Uptrend</th>'
   $.each(data,function(index, three){
       tlbhtml+='<tr><td>'+moment.utc(three.date).format("MM/DD/YYYY")+'</td><td>'+three.high.toFixed(2)+'</td><td>'+three.low.toFixed(2)+'</td><td>'
       +three.uptrend+'</td></tr>';   
@@ -106,7 +112,7 @@ $('.tlb').html(tlbhtml);
 
 //tlbhrly
 $.getJSON(tlbhrly, function(data){
-     tlbhrlyhtml += '<br><br><table><th>Date</th><th>High</th><th>Low</th><th>Uptrend</th>'
+     tlbhrlyhtml += '<br><br><table><th>Date(hrly)</th><th>High</th><th>Low</th><th>Uptrend</th>'
      console.log(data);
   $.each(data,function(index, threehrly){
       tlbhrlyhtml+='<tr><td>'+threehrly.date+'</td><td>'+threehrly.high+'</td><td>'+threehrly.low+'</td><td>'+threehrly.uptrend+'</td></tr>';   
@@ -118,6 +124,19 @@ $('.tlbhrly').html(tlbhrlyhtml);
 
 //tlbhrly
 
+//tlb15
+$.getJSON(tlb15, function(data){
+     tlb15html += '<br><br><table><th>Date(15)</th><th>High</th><th>Low</th><th>Uptrend</th>'
+     console.log(data);
+  $.each(data,function(index, threehrly){
+      tlb15html+='<tr><td>'+threehrly.date+'</td><td>'+threehrly.high+'</td><td>'+threehrly.low+'</td><td>'+threehrly.uptrend+'</td></tr>';   
+    });
+  tlbhrlyhtml +='</table>';
+$('.tlb15').html(tlb15html);
+});
+
+
+//tlb15
 
 }
 function plot(open1,high1,low1,close1,date1,ma5_1,ma10_1,ma20_1,ma50_1,ma100_1,ma200_1,symbol){
@@ -224,7 +243,7 @@ var trace1 = {
  };
 
  
- var layout = {"yaxis":{"title":"Price","showgrid":false,"side":"left"},"yaxis2":{"title":"Price","showgrid":false,"side":"right","overlaying":"y"},"xaxis":{"type":"date","title":"Date","nticks":30,"tickangle":45,"showgrid":false, "rangeslider": {"visible": false}},"title": symbol+' price',"width":1200.0,"height":600.0};
+ var layout = {"yaxis":{"title":"Price","showgrid":false,"side":"left"},"yaxis2":{"title":"Price","showgrid":false,"side":"right","overlaying":"y"},"xaxis":{"type":"date","title":"Date","nticks":30,"tickangle":45,"showgrid":false, "rangeslider": {"visible": false}},"title": symbol+' price',"width":1400.0,"height":400.0};
 
  var data = [trace1,priceline,x5,x10,x20,x50,x100,x200];
 
