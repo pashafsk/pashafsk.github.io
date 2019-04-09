@@ -29,18 +29,22 @@ td:hover {
 background: green;
 }
 
-#myDiv,.tlb{
-  float:left;
+#wrapper {
+    width: 500px;
+    border: 1px solid black;
+    overflow: hidden; /* add this to contain floated children */
 }
+ 
 
 </style>
 </head>
 <body>
     <div id="myDiv"></div>
-    <div class="tlb" style="width: 200px; float:left; height:200px; margin:10px"></div>
-    <div class="tlbhrly" style="width: 200px; float:left; height:200px; margin:10px"></div>
-    <div class="tlb15" style="width: 200px; float:right; height:200px; margin:10px"></div>
-   <br><br>
+  <div id = "wraper">
+    <div class="tlb" style="width: auto; float:left; height:200px; margin:10px"></div>
+    <div class="tlbhrly" style="width: auto; float:left; height:200px; margin:10px"></div>
+    <div class="tlb15" style="width: auto; float:left; height:200px; margin:10px"></div>
+  </div>
 
   
   
