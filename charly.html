@@ -83,7 +83,13 @@ $.getJSON(chart, function(data){
       ma100.push(daily["100sma"].toFixed(2));
       ma200.push(daily["200sma"].toFixed(2));
       //date.push(moment(daily.Date).format("MM/DD/YYYY"));
-      date.push(daily.Date);
+      if (symbol =='spx') {
+        date.push(daily.index);
+      }
+      else{
+        date.push(daily.Date)
+      }
+      
 
 
       html+='<tr><td>'+moment.utc(daily.Date).format("MM/DD/YYYY")+'</td><td>'+daily.Close.toFixed(2)+'</td>';
@@ -112,7 +118,6 @@ $('.tlb').html(tlbhtml);
 //tlbhrly
 $.getJSON(tlbhrly, function(data){
      tlbhrlyhtml += '<br><br><table><th>Date(hrly)</th><th>High</th><th>Low</th><th>Uptrend</th>'
-     console.log(data);
   $.each(data,function(index, threehrly){
       tlbhrlyhtml+='<tr><td>'+threehrly.date+'</td><td>'+threehrly.high+'</td><td>'+threehrly.low+'</td><td>'+threehrly.uptrend+'</td></tr>';   
     });
@@ -126,7 +131,6 @@ $('.tlbhrly').html(tlbhrlyhtml);
 //tlb15
 $.getJSON(tlb15, function(data){
      tlb15html += '<br><br><table><th>Date(15)</th><th>High</th><th>Low</th><th>Uptrend</th>'
-     console.log(data);
   $.each(data,function(index, threehrly){
       tlb15html+='<tr><td>'+threehrly.date+'</td><td>'+threehrly.high+'</td><td>'+threehrly.low+'</td><td>'+threehrly.uptrend+'</td></tr>';   
     });
