@@ -83,7 +83,7 @@ $.getJSON(chart, function(data){
       ma100.push(daily["100sma"].toFixed(2));
       ma200.push(daily["200sma"].toFixed(2));
       //date.push(moment(daily.Date).format("MM/DD/YYYY"));
-      if (symbol =='spx') {
+      if (symbol.toLowerCase() =='spx') {
         date.push(daily.index);
       }
       else{
