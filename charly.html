@@ -38,6 +38,7 @@ background: green;
 </head>
 <body>
     <div id="myDiv"></div>
+    <div id="tlbdaily" style="width: 900px; float:left; margin:10px"></div>
     <div id="tlbdraw" style="width: auto; float:left; margin:10px"></div>
     <div id="tlb15draw" style="width: auto; float:left; margin:10px"></div>
   <div id = "wrapper">
@@ -118,28 +119,38 @@ $.getJSON(tlb, function(data){
      tlbhtml += '<th>Date(daily)</th><th>High</th><th>Low</th><th>Uptrend</th>'
   $.each(data,function(index, three){
       tlbhtml+='<tr><td>'+moment.utc(three.date).format("MM/DD/YYYY")+'</td><td>'+three.high.toFixed(2)+'</td><td>'+three.low.toFixed(2)+'</td><td>'
-      +three.uptrend+'</td></tr>';   
-
+      +three.uptrend+'</td></tr>';  
+      hightlb.push(three.high);
+      lowtlb.push(three.low);
+      opentlb.push(three.low);
+      closetlb.push(three.high);
+      datetlb.push(moment.utc(three.date).format("MM/DD"));  
     });
   tlbhtml +='</table>';
 $('.tlb').html(tlbhtml);
+drawtlb(opentlb15,hightlb15,lowtlb15,closetlb15,datetlb15,'Daily TLB','tlbdaily');
 
 });
+var opentlbh = [];
+var closetlbh = [];
+var hightlbh = [];
+var lowtlbh = [];
+var datetlbh = [];
 
 //tlbhrly
 $.getJSON(tlbhrly, function(data){
      tlbhrlyhtml += '<br><br><table><th>Date(hrly)</th><th>High</th><th>Low</th><th>Uptrend</th>'
   $.each(data,function(index, threehrly){
       tlbhrlyhtml+='<tr><td>'+threehrly.date+'</td><td>'+threehrly.high+'</td><td>'+threehrly.low+'</td><td>'+threehrly.uptrend+'</td></tr>'; 
-      opentlb.push(threehrly.open);
-      lowtlb.push(threehrly.low);
-      hightlb.push(threehrly.high);
-      closetlb.push(threehrly.close);
-      datetlb.push(moment.utc(threehrly.date).format("MM/DD HH:mm "));  
+      opentlbh.push(threehrly.open);
+      lowtlbh.push(threehrly.low);
+      hightlbh.push(threehrly.high);
+      closetlbh.push(threehrly.close);
+      datetlbh.push(moment.utc(threehrly.date).format("MM/DD HH:mm "));  
     });
   tlbhrlyhtml +='</table>';
 $('.tlbhrly').html(tlbhrlyhtml);
-drawtlb(opentlb,hightlb,lowtlb,closetlb,datetlb,'HRLY TLB','tlbdraw');
+drawtlb(opentlbh,hightlbh,lowtlbh,closetlbh,datetlbh,'HRLY TLB','tlbdraw');
 });
 
 
@@ -286,6 +297,12 @@ var trace1 = {
 //end plotly
 
 function drawtlb(open,high,low,close,date,name,div){
+  if (name =='Daily TLB'){
+    width = 1400;
+  }
+  else {
+    width = 700;
+  }
   var trace1 = {
   x: date,
   
@@ -308,7 +325,7 @@ function drawtlb(open,high,low,close,date,name,div){
   yaxis: 'y',
   name: 'price'
  };
-  var layout = {"yaxis":{"title":"Price","showgrid":false,"side":"left"},"yaxis2":{"title":"Price","showgrid":false,"side":"right","overlaying":"y"},"xaxis":{"type":"category","title":"Date","nticks":30,"tickangle":45,"showgrid":false, "rangeslider": {"visible": false}},"title": name+' price',"width":700.0,"height":400.0};
+  var layout = {"yaxis":{"title":"Price","showgrid":false,"side":"left"},"yaxis2":{"title":"Price","showgrid":false,"side":"right","overlaying":"y"},"xaxis":{"type":"category","title":"Date","nticks":30,"tickangle":45,"showgrid":false, "rangeslider": {"visible": false}},"title": name+' price',"width":width,"height":400.0};
 
  var data = [trace1];
 
