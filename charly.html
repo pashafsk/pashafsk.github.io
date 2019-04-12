@@ -38,6 +38,8 @@ background: green;
 </head>
 <body>
     <div id="myDiv"></div>
+    <div id="tlbdraw" style="width: auto; float:left; margin:10px"></div>
+    <div id="tlb15draw" style="width: auto; float:left; margin:10px"></div>
   <div id = "wrapper">
     <div class="tlb" style="width: auto; float:left; height:200px; margin:10px"></div>
     <div class="tlbhrly" style="width: auto; float:left; height:200px; margin:10px"></div>
@@ -84,10 +86,10 @@ $.getJSON(chart, function(data){
       ma200.push(daily["200sma"].toFixed(2));
       //date.push(moment(daily.Date).format("MM/DD/YYYY"));
       if (symbol.toLowerCase() =='spx') {
-        date.push(daily.index);
+        date.push(moment.utc(daily.index).format("MM/DD"));
       }
       else{
-        date.push(daily.Date)
+        date.push(moment.utc(daily.Date).format("MM/DD"))
       }
       
 
@@ -104,38 +106,65 @@ $.getJSON(chart, function(data){
 
 $('.ind').html(html);
 });
+var opentlb = [];
+var closetlb = [];
+var hightlb = [];
+var lowtlb = [];
+var datetlb = [];
+
+
 $.getJSON(tlb, function(data){
      tlbhtml += '<br><br><table>';
      tlbhtml += '<th>Date(daily)</th><th>High</th><th>Low</th><th>Uptrend</th>'
   $.each(data,function(index, three){
       tlbhtml+='<tr><td>'+moment.utc(three.date).format("MM/DD/YYYY")+'</td><td>'+three.high.toFixed(2)+'</td><td>'+three.low.toFixed(2)+'</td><td>'
       +three.uptrend+'</td></tr>';   
+
     });
   tlbhtml +='</table>';
 $('.tlb').html(tlbhtml);
+
 });
 
 //tlbhrly
 $.getJSON(tlbhrly, function(data){
      tlbhrlyhtml += '<br><br><table><th>Date(hrly)</th><th>High</th><th>Low</th><th>Uptrend</th>'
   $.each(data,function(index, threehrly){
-      tlbhrlyhtml+='<tr><td>'+threehrly.date+'</td><td>'+threehrly.high+'</td><td>'+threehrly.low+'</td><td>'+threehrly.uptrend+'</td></tr>';   
+      tlbhrlyhtml+='<tr><td>'+threehrly.date+'</td><td>'+threehrly.high+'</td><td>'+threehrly.low+'</td><td>'+threehrly.uptrend+'</td></tr>'; 
+      opentlb.push(threehrly.open);
+      lowtlb.push(threehrly.low);
+      hightlb.push(threehrly.high);
+      closetlb.push(threehrly.close);
+      datetlb.push(moment.utc(threehrly.date).format("MM/DD HH:mm "));  
     });
   tlbhrlyhtml +='</table>';
 $('.tlbhrly').html(tlbhrlyhtml);
+drawtlb(opentlb,hightlb,lowtlb,closetlb,datetlb,'HRLY TLB','tlbdraw');
 });
 
 
 //tlbhrly
 
 //tlb15
+var opentlb15 = [];
+var closetlb15 = [];
+var hightlb15 = [];
+var lowtlb15 = [];
+var datetlb15 = [];
+
 $.getJSON(tlb15, function(data){
      tlb15html += '<br><br><table><th>Date(15)</th><th>High</th><th>Low</th><th>Uptrend</th>'
-  $.each(data,function(index, threehrly){
-      tlb15html+='<tr><td>'+threehrly.date+'</td><td>'+threehrly.high+'</td><td>'+threehrly.low+'</td><td>'+threehrly.uptrend+'</td></tr>';   
+  $.each(data,function(index, three15){
+      tlb15html+='<tr><td>'+three15.date+'</td><td>'+three15.high+'</td><td>'+three15.low+'</td><td>'+three15.uptrend+'</td></tr>';  
+      opentlb15.push(three15.open);
+      lowtlb15.push(three15.low);
+      hightlb15.push(three15.high);
+      closetlb15.push(three15.close);
+      datetlb15.push(moment.utc(three15.date).format("MM/DD HH:mm"));  
     });
   tlbhrlyhtml +='</table>';
 $('.tlb15').html(tlb15html);
+drawtlb(opentlb15,hightlb15,lowtlb15,closetlb15,datetlb15,'15min TLB','tlb15draw');
 });
 
 
@@ -246,7 +275,7 @@ var trace1 = {
  };
 
  
- var layout = {"yaxis":{"title":"Price","showgrid":false,"side":"left"},"yaxis2":{"title":"Price","showgrid":false,"side":"right","overlaying":"y"},"xaxis":{"type":"date","title":"Date","nticks":30,"tickangle":45,"showgrid":false, "rangeslider": {"visible": false}},"title": symbol+' price',"width":1400.0,"height":400.0};
+ var layout = {"yaxis":{"title":"Price","showgrid":false,"side":"left"},"yaxis2":{"title":"Price","showgrid":false,"side":"right","overlaying":"y"},"xaxis":{"type":"category","title":"Date","nticks":30,"tickangle":45,"showgrid":false, "rangeslider": {"visible": false}},"title": symbol+' price',"width":1400.0,"height":400.0};
 
  var data = [trace1,priceline,x5,x10,x20,x50,x100,x200];
 
@@ -255,6 +284,36 @@ var trace1 = {
         
 }
 //end plotly
+
+function drawtlb(open,high,low,close,date,name,div){
+  var trace1 = {
+  x: date,
+  
+  close:close, 
+  
+  decreasing: {line: {color: '#7F7F7F'}}, 
+  
+  high:high, 
+  
+  increasing: {line: {color: '#17BECF'}}, 
+  
+  line: {color: 'rgba(31,119,180,1)'}, 
+  
+  low: low, 
+  
+  open:open, 
+  
+  type: 'candlestick', 
+  xaxis: 'x', 
+  yaxis: 'y',
+  name: 'price'
+ };
+  var layout = {"yaxis":{"title":"Price","showgrid":false,"side":"left"},"yaxis2":{"title":"Price","showgrid":false,"side":"right","overlaying":"y"},"xaxis":{"type":"category","title":"Date","nticks":30,"tickangle":45,"showgrid":false, "rangeslider": {"visible": false}},"title": name+' price',"width":600.0,"height":400.0};
+
+ var data = [trace1];
+
+ Plotly.newPlot(div, data,layout);
+}
 
 
 
