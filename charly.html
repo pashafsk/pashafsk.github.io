@@ -123,12 +123,12 @@ $.getJSON(tlb, function(data){
       hightlb.push(three.high);
       lowtlb.push(three.low);
       if (three.uptrend =='true'){
-         opentlb.push(three.low);
+         opentlb.push(hightlb[hightlb.length-1]);
          closetlb.push(three.high);
         }
       else
       {
-         opentlb.push(three.high);
+         opentlb.push(lowtlb[lowtlb.length-1]);
          closetlb.push(three.low);
       }
 
