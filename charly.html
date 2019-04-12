@@ -122,8 +122,16 @@ $.getJSON(tlb, function(data){
       +three.uptrend+'</td></tr>';  
       hightlb.push(three.high);
       lowtlb.push(three.low);
-      opentlb.push(three.low);
-      closetlb.push(three.high);
+      if (three.uptrend =='true'){
+         opentlb.push(three.low);
+         closetlb.push(three.high);
+        }
+      else
+      {
+         opentlb.push(three.high);
+         closetlb.push(three.low);
+      }
+
       datetlb.push(moment.utc(three.date).format("MM/DD"));  
     });
   tlbhtml +='</table>';
