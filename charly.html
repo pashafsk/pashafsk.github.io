@@ -37,6 +37,7 @@ background: green;
 </style>
 </head>
 <body>
+    <div id = "candlestick"></div>
     <div id="myDiv"></div>
     <div id="tlbdaily" style="width: 900px; float:left; margin:10px"></div>
     <div id="tlbdraw" style="width: auto; float:left; margin:10px"></div>
@@ -72,9 +73,11 @@ var ma50=[];
 var ma100=[];
 var ma200=[];
 var date=[];
+$('.candlestick').html("<img src=http://c.stockcharts.com/c-sc/sc?s=_jpm&p=D&b=5&g=1&i=p6792933477c&r=1547917550508>")
 $.getJSON(chart, function(data){
      html += '<table>';
      html += '<th>Date</th><th>Close</th><th>$change</th><th>%volchange</th><th>ATR1</th><th>ATR14</th><th>ATR20</th></tr>'
+
   $.each(data,function(index, daily){
       open.push(daily.Open);
       high.push(daily.High);
