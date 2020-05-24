@@ -225,6 +225,7 @@
               <td class="stock-mkt-cap"></td>
 			  <td class="stock-ah"></td>
 			  <td class="pnf"><a href="${symbolMA(symbol)}" target="_blank">${symbol}</a></td>
+			  <td class="pnf"><a href="${symbolUrlfinwiz(symbol)}" target="_blank">Fin</a></td>
 			  <td class="pnf"><a href="${symbolUrlPnfTR(symbol)}" target="_blank"> T</a></td>
 			  <td class="pnf"><a href="${symbolUrlPnf1(symbol)}" target="_blank"> 1</a></td>
 			  <td class="pnf"><a href="${symbolUrlPnfATR(symbol)}" target="_blank"> ATR</a></td>
@@ -415,6 +416,14 @@
 		return `./barchart.html?tickerSymbol=${symbol}`;
 		
       }
+       function symbolUrlfinwiz(symbol) {
+        
+		//return `https://www.cnbc.com/quotes/?symbol=${symbol}`;
+		
+		return `https://finviz.com/chart.ashx?t=${symbol}&ty=c&ta=1&p=d&s=l`;
+		
+      }
+
 	  //
 
       function formatQuote(value) {
