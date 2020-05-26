@@ -414,7 +414,8 @@
         
 		//return `https://www.cnbc.com/quotes/?symbol=${symbol}`;
 		
-		return `./barchart.html?tickerSymbol=${symbol}`;
+		//return `./barchart.html?tickerSymbol=${symbol}`;
+		return `https://us-central1-stocks-235104.cloudfunctions.net/stock?name=${symbol}`;
 		
       }
        function symbolUrlfinwiz(symbol) {
