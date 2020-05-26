@@ -27,7 +27,7 @@
       .stocks-container {
         margin-bottom: 1.5em;
         width: 100%;
-        max-width: 600px;
+        max-width: 700px;
       }
       .stocks-container a { text-decoration: none; }
       table {
@@ -275,7 +275,7 @@
       }
 
       function updateDataForBatch(symbols, addTitle) {
-        let filters = ['latestPrice', 'change', 'changePercent', 'marketCap','extendedPrice'];
+        let filters = ['latestPrice', 'change', 'changePercent', 'marketCap','extendedPrice','open','high','low','previousClose'];
         if (addTitle) filters.push('companyName');
          let url = '';
          url = `${BASE_URL}${symbols.join(',')}&filter=${filters.join(',')}`;
@@ -288,7 +288,12 @@
             if (typeof(data) === 'undefined') return;
 
             let formattedPrice = formatQuote(data.quote.latestPrice);
-			let ahPrice = formatQuote(data.quote.extendedPrice);
+			//let ahPrice = formatQuote(data.quote.extendedPrice);
+			
+				let ahPrice = formatQuote(data.quote.latestPrice-data.quote.previousClose)
+				let ahPrice1 = formatQuote(data.quote.high-data.quote.low)
+			
+			
             let formattedChange = data.quote.change.toLocaleString('en', {'minimumFractionDigits': 2});
             let formattedChangePercent = (data.quote.changePercent * 100).toFixed(1) + '%';
             let formattedMarketCap = formatMarketCap(data.quote.marketCap);
@@ -300,7 +305,7 @@
               e.setAttribute('style', `background-color: rgba(${rgbColor}, ${rgbOpacity})`);
             });
 			  document.querySelectorAll(`[data-symbol="${symbol}"] .stock-ah`).forEach(e => {
-              e.innerHTML = ahPrice;
+              e.innerHTML = '('+ ahPrice.toFixed(2)+')'+'('+ ahPrice1.toFixed(2)+')';
               e.setAttribute('style', `background-color: rgba(${rgbColor}, ${rgbOpacity})`);
             });
 
