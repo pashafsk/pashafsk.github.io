@@ -27,7 +27,7 @@
       .stocks-container {
         margin-bottom: 1.5em;
         width: 100%;
-        max-width: 700px;
+        max-width: 1000px;
       }
       .stocks-container a { text-decoration: none; }
       table {
@@ -41,6 +41,12 @@
       }
 	    .stock-ah {
         width: 12%;
+		text-align: right;
+		text-decoration:underline;
+        padding: 2px 4px 2px 0px;
+      }
+      .stock-hl {
+        width: 20%;
 		text-align: right;
 		text-decoration:underline;
         padding: 2px 4px 2px 0px;
@@ -207,7 +213,7 @@
 				<th class="stock-change">Change</th>
                 <th class="stock-change-pct">Change%</th>
                 <th class="stock-mkt-cap">Mkt Cap</th>
-				<th class="stock-ah">AfHr</th>
+				<th class="stock-hl">AfHr</th>
               </tr>
             </thead>
           `
@@ -286,8 +292,7 @@
           symbols.forEach(symbol => {
             let data = json[symbol];
             if (typeof(data) === 'undefined') return;
-
-            let formattedPrice = formatQuote(data.quote.latestPrice);
+                let formattedPrice = formatQuote(data.quote.latestPrice);
 			//let ahPrice = formatQuote(data.quote.extendedPrice);
 			  
 				let ahPrice = formatQuote(data.quote.latestPrice-data.quote.previousClose)
