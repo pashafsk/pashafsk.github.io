@@ -240,6 +240,7 @@
 			  <td class="pnf"><a href="${symbolUrlKagi(symbol)}" target="_blank"> Kagi</a></td>
 			  <td class="pnf"><a href="${symbolUrlBB(symbol)}" target="_blank">BB</a></td>
 			  <td class="pnf"><a href="${symbolUrlOption(symbol)}" target="_blank">Options</a></td>
+			  <td class="pnf"><a href="${symbolUrlidea(symbol)}" target="_blank">ideas</a></td>
             </tr>
           `
 
@@ -426,6 +427,16 @@
 		//return `./barchart.html?tickerSymbol=${symbol}`;
 		//return `https://us-central1-stocks-235104.cloudfunctions.net/stock?name=${symbol}`;
 		return `http://shortvolumes.com/?t=${symbol}`
+		
+      }
+      	 function symbolUrlidea(symbol) {
+        
+		//return `https://www.cnbc.com/quotes/?symbol=${symbol}`;
+		
+		//return `./barchart.html?tickerSymbol=${symbol}`;
+		//return `https://us-central1-stocks-235104.cloudfunctions.net/stock?name=${symbol}`;
+		//return `http://shortvolumes.com/?t=${symbol}`
+		return `https://www.tradingview.com/symbols/NASDAQ-${symbol}/ideas/`
 		
       }
        function symbolUrlfinwiz(symbol) {
